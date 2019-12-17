@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/30 19:41:31 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/10/09 20:41:10 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/12/17 20:02:21 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,17 @@ static size_t	get_size(char **tab)
 	return (size + 2);
 }
 
+char			**fresh_tab(char *new_entry)
+{
+	char	**new_tab;
+
+	if (!(new_tab = malloc(sizeof(new_tab) * 2)))
+		exit(EXIT_FAILURE);
+	if (!(new_tab[0] = ft_strdup(new_entry)))
+		exit(EXIT_FAILURE);
+	new_tab[1] = NULL;
+	return (new_tab);
+}
 char			**ft_realloc_tab(char **old_tab, char *new_entry)
 {
 	char	**new_tab;
@@ -36,6 +47,8 @@ char			**ft_realloc_tab(char **old_tab, char *new_entry)
 
 	if (!new_entry)
 		return (NULL);
+	if (!old_tab)
+		return (fresh_tab(new_entry));
 	if (!(new_tab = malloc(sizeof(new_tab) * get_size(old_tab))))
 		exit(EXIT_FAILURE);
 	roam_n = new_tab;
