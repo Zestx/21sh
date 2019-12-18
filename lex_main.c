@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:14:02 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 18:31:12 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:45:43 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,17 @@ t_tokens	*tokenize_input(char *input)
 		}
 		else if (ft_issquote(*ptr))
 		{
-			toks = add_token_node(toks, get_full_squote(ptr), 2);
+			toks = add_token_node(toks, get_full_squote(ptr), SQT);
 			ptr = ptr + ft_strlen(get_full_squote(ptr)) + 2;
 		}
 		else if (ft_isdquote(*ptr))
 		{
-			toks = add_token_node(toks, get_full_dquote(ptr), 3);
+			toks = add_token_node(toks, get_full_dquote(ptr), DQT);
 			ptr = ptr + ft_strlen(get_full_dquote(ptr)) + 2;
 		}
 		else
 		{
-			toks = add_token_node(toks, get_full_nword(ptr), 1);
+			toks = add_token_node(toks, get_full_nword(ptr), REG);
 			ptr = ptr + ft_strlen(get_full_nword(ptr));
 		}
 	return (toks);
