@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21sh.h                                             :+:      :+:    :+:   */
+/*   tools.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 17:41:25 by qbackaer         ###   ########.fr       */
+/*   Created: 2019/12/18 16:30:58 by qbackaer          #+#    #+#             */
+/*   Updated: 2019/12/18 16:59:12 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include "libft/libft.h"
+#include "21sh.h"
 
-/*
-** 21sh.c
-*/
+int		ft_issquote(char c) 
+{
+	return (c == '\'');
+}
 
-/*
-** lex_main.c
-*/
-char	**tokenize_input(char *input);
-char	*get_full_nword(char *start);
-char	*get_full_dquote(char *start);
-char	*get_full_squote(char *start);
+int		ft_isdquote(char c) 
+{
+	return (c == '\"');
+}
 
-/* 
-** lex_tools.c
-*/
-int		ft_issquote(char c);
-int		ft_isdquote(char c);
-int		ft_isbquote(char c);
+int		ft_isbquote(char c)
+{
+	return (c == '\\');
+}

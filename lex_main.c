@@ -6,14 +6,11 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:14:02 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/17 20:28:42 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/12/18 17:44:44 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
-
-int		ft_issquote(char c) {return (c == '\'');}
-int		ft_isdquote(char c) {return (c == '\"');}
 
 char	*get_full_squote(char *start)
 {
@@ -31,10 +28,22 @@ char	*get_full_dquote(char *start)
 {
 	char	*full_quote;
 	char	*end;
+	int		i;
 
 	end = start + 1;
-	while (*end != '\"' && *end - 1 != '\\' && *end)
-		end++;
+	while (*end)
+	{
+		i = 0;
+		while (*end && ft_isbquote(*end))
+		{
+			end++;
+			i++;
+		}
+		if (!(i % 2) && ft_isdquote(*end))
+			break;
+		if (*end)
+			end++;
+	}
 	full_quote = strndup(start + 1, end - start - 1);
 	return (full_quote);
 }
@@ -50,7 +59,6 @@ char	*get_full_nword(char *start)
 		end++;
 	full_word = strndup(start, end - start);
 	return (full_word);
-
 }
 
 char	**tokenize_input(char *input)
@@ -87,20 +95,4 @@ char	**tokenize_input(char *input)
 		tokens = ft_realloc_tab(tokens, curr_token);
 	}
 	return (tokens);
-}
-
-int		main(void)
-{
-	char	str[] = "Hi Im Quentin and \"This is full quote!\", the double type";
-	char	**toks;
-	char	**roam;
-
-	toks = tokenize_input(str);
-	roam = toks;
-	while (*roam)
-	{
-		printf("> %s\n", *roam);
-		roam++;
-	}
-	return (0);
 }

@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   21sh.h                                             :+:      :+:    :+:   */
+/*   21sh.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 17:41:25 by qbackaer         ###   ########.fr       */
+/*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
+/*   Updated: 2019/12/18 16:49:59 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include "libft/libft.h"
+#include "21sh.h"
 
-/*
-** 21sh.c
-*/
+int		main(void)
+{
+	char	**toks;
+	char	**roam;
+	char	*input;
 
-/*
-** lex_main.c
-*/
-char	**tokenize_input(char *input);
-char	*get_full_nword(char *start);
-char	*get_full_dquote(char *start);
-char	*get_full_squote(char *start);
-
-/* 
-** lex_tools.c
-*/
-int		ft_issquote(char c);
-int		ft_isdquote(char c);
-int		ft_isbquote(char c);
+	if (get_next_line(0, &input) < 0 || ft_strlen(input) < 2)
+		return (-1);
+	toks = tokenize_input(input);
+	roam = toks;
+	while (*roam)
+	{
+		printf("> %s\n", *roam);
+		roam++;
+	}
+	return (0);
+}

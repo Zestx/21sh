@@ -6,7 +6,7 @@
 #    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:44:40 by qbackaer          #+#    #+#              #
-#    Updated: 2019/11/28 19:28:33 by qbackaer         ###   ########.fr        #
+#    Updated: 2019/12/18 16:41:16 by qbackaer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,18 +14,18 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 NAME = 21sh
 INCLUDES = 21sh.h
-SRCS = parse.c 
-OBJS = parse.o
+SRCS = 21sh.c lex_main.c lex_tools.c 
+OBJS = 21sh.o lex_main.o lex_tools.o
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C ./libft
+	rm -rf ./libft/*.o
 	$(CC) $(CFLAGS) $^ -I. ./libft/libft.a -o $(NAME)
 	rm -rf *.o
 
 $(OBJS): $(SRCS)
-	echo SRCS
 	$(CC) $(CFLAGS) -I. -c $^
 
 clean:
