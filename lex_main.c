@@ -6,13 +6,13 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:14:02 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 17:44:44 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:31:12 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "21sh.h"
 
-char	*get_full_squote(char *start)
+char		*get_full_squote(char *start)
 {
 	char	*full_quote;
 	char	*end;
@@ -24,7 +24,7 @@ char	*get_full_squote(char *start)
 	return (full_quote);
 }
 
-char	*get_full_dquote(char *start)
+char		*get_full_dquote(char *start)
 {
 	char	*full_quote;
 	char	*end;
@@ -48,7 +48,7 @@ char	*get_full_dquote(char *start)
 	return (full_quote);
 }
 
-char	*get_full_nword(char *start)
+char		*get_full_nword(char *start)
 {
 	char	*full_word;
 	char	*end;
@@ -61,17 +61,14 @@ char	*get_full_nword(char *start)
 	return (full_word);
 }
 
-char	**tokenize_input(char *input)
+t_tokens	*tokenize_input(char *input)
 {
-	char	*ptr;
-	char	*curr_token;
-	char	**tokens;
+	char		*ptr;
+	t_tokens	*toks;
 
-	tokens = NULL;
+	toks = NULL;
 	ptr = input;
 	while (ptr < input + ft_strlen(input))
-	{
-		curr_token = NULL;
 		if (ft_isspacer(*ptr))
 		{
 			ptr++;
@@ -79,20 +76,18 @@ char	**tokenize_input(char *input)
 		}
 		else if (ft_issquote(*ptr))
 		{
-			curr_token = get_full_squote(ptr);
-			ptr = ptr + ft_strlen(curr_token) + 2;
+			toks = add_token_node(toks, get_full_squote(ptr), 2);
+			ptr = ptr + ft_strlen(get_full_squote(ptr)) + 2;
 		}
 		else if (ft_isdquote(*ptr))
 		{
-			curr_token = get_full_dquote(ptr);
-			ptr = ptr + ft_strlen(curr_token) + 2;
+			toks = add_token_node(toks, get_full_dquote(ptr), 3);
+			ptr = ptr + ft_strlen(get_full_dquote(ptr)) + 2;
 		}
 		else
 		{
-			curr_token = get_full_nword(ptr);
-			ptr = ptr + ft_strlen(curr_token);
+			toks = add_token_node(toks, get_full_nword(ptr), 1);
+			ptr = ptr + ft_strlen(get_full_nword(ptr));
 		}
-		tokens = ft_realloc_tab(tokens, curr_token);
-	}
-	return (tokens);
+	return (toks);
 }
