@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 18:34:42 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:27:37 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int		main(void)
 		return (-1);
 	toks = tokenize_input(input);
 	roam = toks;
-	printf("Number of tokens: [%zu]\n", count_nodes(toks));
 	while (roam)
 	{
 		printf("> %s\n", roam->string);

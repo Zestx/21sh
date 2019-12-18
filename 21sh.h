@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 18:33:44 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:27:28 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 # define REG 1
 # define SQT 2
 # define DQT 3
+# define PIP 4
+# define FSR 5
+# define FDR 6
+# define BSR 7
+# define BDR 8
+# define SCL 9
 
 # include <stdio.h>
 # include <stdlib.h>

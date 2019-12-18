@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:14:02 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 18:45:43 by qbackaer         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:32:01 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ char		*get_full_nword(char *start)
 
 	end = start + 1;
 	while (!ft_isspacer(*end) && !ft_issquote(*end)
-			&& !ft_isdquote(*end) && *end)
+			&& !ft_isdquote(*end) && *end != '|'
+			&& *end != '>' && *end != '<' && *end)
 		end++;
 	full_word = strndup(start, end - start);
 	return (full_word);
@@ -83,6 +84,31 @@ t_tokens	*tokenize_input(char *input)
 		{
 			toks = add_token_node(toks, get_full_dquote(ptr), DQT);
 			ptr = ptr + ft_strlen(get_full_dquote(ptr)) + 2;
+		}
+		else if (*ptr == '|')
+		{
+			toks = add_token_node(toks, "|", PIP);
+			ptr++;
+		}
+		else if (*ptr == '>' && *(ptr + 1) == '>')
+		{
+			toks = add_token_node(toks, ">>", FDR);
+			ptr += 2;
+		}
+		else if (*ptr == '>')
+		{
+			toks = add_token_node(toks, ">", FSR);
+			ptr++;
+		}
+		else if (*ptr == '<' && *(ptr + 1) == '<')
+		{
+			toks = add_token_node(toks, "<<", BDR);
+			ptr += 2;
+		}
+		else if (*ptr == '<')
+		{
+			toks = add_token_node(toks, "<", BSR);
+			ptr++;
 		}
 		else
 		{
