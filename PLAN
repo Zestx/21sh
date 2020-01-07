@@ -1,0 +1,21 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    PLAN                                               :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/01/07 17:05:57 by qbackaer          #+#    #+#              #
+#    Updated: 2020/01/07 17:12:02 by qbackaer         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+1. Input Management
+	- Getting user inputs
+	- Termcaps mamagements
+	- Signals
+
+2. Lexing / Parsing
+	- Separating input into tokens (commands, quotes, pipes, redirections..)
+	- Expanding variables, ...
+	- Creating a "chain" for pipes and redirections

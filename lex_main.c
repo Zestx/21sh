@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:14:02 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 19:32:01 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/07 15:50:43 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,11 @@ char		*get_full_dquote(char *start)
 {
 	char	*full_quote;
 	char	*end;
-	int		i;
 
 	end = start + 1;
 	while (*end)
 	{
-		i = 0;
-		while (*end && ft_isbquote(*end))
-		{
-			end++;
-			i++;
-		}
-		if (!(i % 2) && ft_isdquote(*end))
+		if (ft_isdquote(*end))
 			break;
 		if (*end)
 			end++;
@@ -48,7 +41,7 @@ char		*get_full_dquote(char *start)
 	return (full_quote);
 }
 
-char		*get_full_nword(char *start)
+char		*get_full_rword(char *start)
 {
 	char	*full_word;
 	char	*end;
@@ -70,6 +63,7 @@ t_tokens	*tokenize_input(char *input)
 	toks = NULL;
 	ptr = input;
 	while (ptr < input + ft_strlen(input))
+	{
 		if (ft_isspacer(*ptr))
 		{
 			ptr++;
@@ -112,8 +106,9 @@ t_tokens	*tokenize_input(char *input)
 		}
 		else
 		{
-			toks = add_token_node(toks, get_full_nword(ptr), REG);
+			toks = add_token_node(toks, get_full_rword(ptr), REG);
 			ptr = ptr + ft_strlen(get_full_nword(ptr));
 		}
+	}
 	return (toks);
 }
