@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:14:02 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/07 15:50:43 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:35:31 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,11 @@ char		*get_full_rword(char *start)
 		end++;
 	full_word = strndup(start, end - start);
 	return (full_word);
+}
+
+int			is_splitter(char c) 
+{
+	return (c == '|' || c== '>' || c == '<');
 }
 
 t_tokens	*tokenize_input(char *input)
@@ -107,7 +112,7 @@ t_tokens	*tokenize_input(char *input)
 		else
 		{
 			toks = add_token_node(toks, get_full_rword(ptr), REG);
-			ptr = ptr + ft_strlen(get_full_nword(ptr));
+			ptr = ptr + ft_strlen(get_full_rword(ptr));
 		}
 	}
 	return (toks);

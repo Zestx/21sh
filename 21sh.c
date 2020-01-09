@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/06 17:29:06 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:41:38 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,20 @@ int		display_args(t_tokens *args)
 	return (1);
 }
 
+
 int		main(void)
 {
 	t_tokens	*toks;
 	char		*input;
 
-	if (get_next_line(0, &input) < 0 || ft_strlen(input) < 2)
-		return (-1);
-	toks = tokenize_input(input);
-	display_args(toks);
+	title();
+	while (1)
+	{
+		prompt();
+		if (get_next_line(0, &input) < 0 || ft_strlen(input) < 2)
+			return (-1);
+		toks = tokenize_input(input);
+		display_args(toks);
+	}
 	return (0);
 }

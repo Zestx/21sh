@@ -6,7 +6,7 @@
 #    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:44:40 by qbackaer          #+#    #+#              #
-#    Updated: 2019/12/18 18:23:56 by qbackaer         ###   ########.fr        #
+#    Updated: 2020/01/09 15:32:34 by qbackaer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,8 +14,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 NAME = 21sh
 INCLUDES = 21sh.h
-SRCS = 21sh.c lex_main.c lex_tools.c lex_ll.c 
-OBJS = 21sh.o lex_main.o lex_tools.o lex_ll.o
+SRCS = 21sh.c display.c lex_main.c lex_tools.c lex_ll.c 
+OBJS = 21sh.o display.o lex_main.o lex_tools.o lex_ll.o
 
 all: $(NAME)
 

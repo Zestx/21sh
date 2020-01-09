@@ -6,7 +6,7 @@
 #    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/07 17:05:57 by qbackaer          #+#    #+#              #
-#    Updated: 2020/01/07 17:12:02 by qbackaer         ###   ########.fr        #
+#    Updated: 2020/01/07 17:43:36 by qbackaer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,3 +19,6 @@
 	- Separating input into tokens (commands, quotes, pipes, redirections..)
 	- Expanding variables, ...
 	- Creating a "chain" for pipes and redirections
+
+3. Execution
+	- Creating pipelines with the chains to execute the programs
