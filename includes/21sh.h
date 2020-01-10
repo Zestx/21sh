@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 15:03:37 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/10 18:28:12 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # include <string.h>
 # include <unistd.h>
 # include <limits.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 
 typedef struct	s_tokens
 {
@@ -43,9 +43,14 @@ typedef struct	s_tokens
 }				t_tokens;
 
 /*
-** getinput.c
+** input.c
 */
-char		*get_input(int is_rec);
+char		*get_input(void);
+
+/*
+** input_tools.c
+*/
+char		*trim_newlines(char *input);
 
 /*
 ** display.c

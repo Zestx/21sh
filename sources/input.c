@@ -6,35 +6,66 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 16:28:14 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/10 18:51:39 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-static int	are_quotes_closed(char *str)
+static char	*is_quote_closed(char *start)
 {
-	char *ptr;
+	char	*end;
+	int		bs_c;
+
+	end = start + 1;
+	while (*end)
+	{
+		bs_c = 0;
+		while (*end == '\\')
+		{
+			bs_c++;
+			end++;
+		}
+		if (*end == *start && (bs_c % 2 == 0 || *start != '\"'))
+			return (end);
+		end++;
+	}
+	return (NULL);
+}
+
+static int	check_quotes(char *str)
+{
+	char	*ptr;
+	int		bs_c;
 
 	ptr = str;
 	while (*ptr)
 	{
-		if (*ptr == '\"' || *ptr == '\'')
-			//check if closed. if it is, jump to the end of it.
-			//if it's not, return 0.
+		bs_c = 0;
+		while (*ptr == '\\')
+		{
+			bs_c++;
+			ptr++;
+		}
+		if ((*ptr == '\"' && bs_c % 2 == 0) || *ptr == '\'')
+		{
+			if (!is_quote_closed(ptr))
+				return (0);
+			else
+				ptr = is_quote_closed(ptr);
+		}
 		ptr++;
 	}
+	return (1);
 }
 
-static int	is_input_closed(char *str)
+static int	is_input_done(char *str)
 {
-	//check for unclosed quotes
-	if (!are_quotes_closed(str))
+	if (!check_quotes(str))
 		return (0);
-	//check for unfinished pipe
-	//	return (0);
-	//check for backslash at the end
-	//	return (0);
+	if (str[ft_strlen(str) - 1] == '\\')
+		return (0);
+	// need to also check for unfinished pipe or redirection
 	return (1);
 }
 
@@ -54,20 +85,18 @@ char		*get_input(void)
 {
 	char	*input;
 	char	*temp;
-	char	*chr;
 
 	if (get_next_line(0, &input) < 0)
 		exit(EXIT_FAILURE);
+	//input = trim_newlines(input);
 	if (input && ft_strlen(input) && !syntax_check(input))
 	{
 		free(input);
 		return(NULL);
 	}
-	//while the input is not finished (unclosed quote, unfinished pipe, etc..)
-	//the user is prompted to complete it.
-	while (!is_input_closed(input))
+	while (!is_input_done(input))
 	{
-		ft_putstr("\ ");
+		ft_putstr("\\ ");
 		if (get_next_line(0, &temp) < 0)
 			exit(EXIT_FAILURE);
 		input = ft_strjoin(input, temp);

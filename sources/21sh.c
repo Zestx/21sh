@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 14:51:05 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:54:41 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,13 @@ char		**get_env(char **environ)
 
 static int	prompt_loop(void)
 {
-	char	**cmds_list;
+	char	*cmds;
 
 	while (1)
 	{
 		prompt();
-		cmds_list = get_input();
+		cmds = get_input();
+		printf("%s", cmds);
 	}
 	return (1);
 }
