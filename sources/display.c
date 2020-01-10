@@ -6,11 +6,11 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:31:29 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/09 15:39:56 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/09 17:31:25 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "../includes/21sh.h"
 
 static void		prompt_path(void)
 {
@@ -31,6 +31,23 @@ static void		prompt_path(void)
 			ft_putstr(MAG);
 			ft_putchar(cwd_buff[i++]);
 		}
+	}
+}
+
+void			printenv(char **env)
+{
+	char	**roam;
+
+	if (!env)
+	{
+		ft_putendl_fd("21sh: error: empty environement.", 2);
+		return ;
+	}
+	roam = env;
+	while (*roam)
+	{
+		ft_putendl(*roam);
+		roam++;
 	}
 }
 

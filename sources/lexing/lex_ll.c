@@ -6,11 +6,11 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:49:43 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/12/18 19:27:20 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:06:10 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "../../includes/21sh.h"
 
 //create a new token node and add it to the Tokens list.
 t_tokens	*add_token_node(t_tokens *list, char *str, int tp)

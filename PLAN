@@ -6,16 +6,18 @@
 #    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/07 17:05:57 by qbackaer          #+#    #+#              #
-#    Updated: 2020/01/07 17:43:36 by qbackaer         ###   ########.fr        #
+#    Updated: 2020/01/09 16:00:57 by qbackaer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 1. Input Management
 	- Getting user inputs
-	- Termcaps mamagements
+	- Termcaps managements
 	- Signals
 
 2. Lexing / Parsing
+	- Check if input is empty or only whitespace. If that's the case, continue on new prompt.
+	- Check if input is unfinished. If that's the case, ask for input again to complete it.
 	- Separating input into tokens (commands, quotes, pipes, redirections..)
 	- Expanding variables, ...
 	- Creating a "chain" for pipes and redirections

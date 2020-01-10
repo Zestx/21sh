@@ -6,11 +6,11 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:14:02 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/09 15:35:31 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:28:18 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "21sh.h"
+#include "../../includes/21sh.h"
 
 char		*get_full_squote(char *start)
 {

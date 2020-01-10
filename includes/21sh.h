@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/09 15:35:08 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:03:37 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,16 @@ typedef struct	s_tokens
 }				t_tokens;
 
 /*
+** getinput.c
+*/
+char		*get_input(int is_rec);
+
+/*
 ** display.c
 */
 void		title(void);
 void		prompt(void);
+void		printenv(char **env);
 
 /*
 ** lex_main.c
