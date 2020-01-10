@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 18:51:39 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/10 20:37:50 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int	check_quotes(char *str)
 
 static int	is_input_done(char *str)
 {
+	str = trim_newlines(str);
 	if (!check_quotes(str))
 		return (0);
 	if (str[ft_strlen(str) - 1] == '\\')
@@ -88,7 +89,7 @@ char		*get_input(void)
 
 	if (get_next_line(0, &input) < 0)
 		exit(EXIT_FAILURE);
-	//input = trim_newlines(input);
+	input = trim_newlines(input);
 	if (input && ft_strlen(input) && !syntax_check(input))
 	{
 		free(input);
@@ -99,6 +100,7 @@ char		*get_input(void)
 		ft_putstr("\\ ");
 		if (get_next_line(0, &temp) < 0)
 			exit(EXIT_FAILURE);
+		input = trim_newlines(input);
 		input = ft_strjoin(input, temp);
 		free(temp);
 	}

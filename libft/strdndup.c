@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   input_tools.c                                      :+:      :+:    :+:   */
+/*   strdndup.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 18:16:45 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 20:20:08 by qbackaer         ###   ########.fr       */
+/*   Created: 2020/01/10 19:48:47 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/01/10 19:50:17 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/21sh.h"
+#include "libft.h"
 
-char	*trim_newlines(char *input)
+char		*ft_strndup(const char *s1, size_t len)
 {
-	char	*trimmed;
-	int	i;
+	char	*buffer;
+	size_t	length;
 
-	if (!(trimmed = malloc(ft_strlen(input) + 1)))
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (input[i] && input[i] != '\n')
-	{
-		trimmed[i] = input[i];
-		i++;
-	}
-	trimmed[i] = '\0';
-	free(input);
-	return (trimmed);
+	buffer = (char*)malloc((sizeof(char) * len) + 1);
+	if (!buffer)
+		return (NULL);
+	ft_memcpy(buffer, s1, len);
+	*(buffer + len) = '\0';
+	return (buffer);
 }
