@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 17:54:41 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:19:31 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,9 @@ static int	prompt_loop(void)
 	{
 		prompt();
 		cmds = get_input();
-		printf("%s", cmds);
+		printf("%s\n", cmds);
+		if (!ft_strcmp(cmds, "exit"))
+			return (1);
 	}
 	return (1);
 }

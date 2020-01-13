@@ -6,26 +6,21 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 18:16:45 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 20:20:08 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:02:31 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-char	*trim_newlines(char *input)
+int		is_only_whitespaces(char *str)
 {
-	char	*trimmed;
-	int	i;
+	char	*ptr;
 
-	if (!(trimmed = malloc(ft_strlen(input) + 1)))
-		exit(EXIT_FAILURE);
-	i = 0;
-	while (input[i] && input[i] != '\n')
+	ptr = str;
+	while (*ptr)
 	{
-		trimmed[i] = input[i];
-		i++;
+		if (!ft_isspacer(*ptr))
+			return (0);
 	}
-	trimmed[i] = '\0';
-	free(input);
-	return (trimmed);
+	return (1);
 }

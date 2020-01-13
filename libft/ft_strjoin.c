@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/09 15:22:17 by qbackaer          #+#    #+#             */
-/*   Updated: 2018/10/30 16:02:48 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:14:24 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ char		*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
-	if (!s1 || !s2)
-		return (NULL);
+	if (!s1)
+		return (ft_strdup(s2));
+	if (!s2)
+		return (ft_strdup(s1));
 	sjoin = (char*)malloc(ft_strlen((char*)s1) + ft_strlen((char*)s2) + 1);
 	if (!sjoin)
 		return (NULL);

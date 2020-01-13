@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 20:15:03 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:24:50 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char		*get_input(void);
 /*
 ** input_tools.c
 */
-char		*trim_newlines(char *input);
+int			is_only_whitespaces(char *str);
 
 /*
 ** display.c

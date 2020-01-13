@@ -6,103 +6,106 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/10 20:37:50 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:22:23 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-static char	*is_quote_closed(char *start)
+//This function check if the quote starting at 'start' is ever closing or not
+static char		*is_quote_closed(char *start)
 {
 	char	*end;
-	int		bs_c;
+	int		esc;
 
+	esc = 0;
 	end = start + 1;
 	while (*end)
 	{
-		bs_c = 0;
-		while (*end == '\\')
+		if (!esc && *end == '\\')
 		{
-			bs_c++;
+			esc = 1;
 			end++;
+			continue ;
 		}
-		if (*end == *start && (bs_c % 2 == 0 || *start != '\"'))
+		if (*end == *start && (*start == '\'' || !esc))
 			return (end);
+		esc = 0;
 		end++;
 	}
 	return (NULL);
 }
 
-static int	check_quotes(char *str)
+//This function check if the current input is complete.
+static int		is_input_done(char *str)
 {
-	char	*ptr;
-	int		bs_c;
+	int			esc;
+	char		*ptr;
 
 	ptr = str;
+	esc = 0;
 	while (*ptr)
 	{
-		bs_c = 0;
-		while (*ptr == '\\')
+		//is *ptr an escape backslash? If so, 'esc' is turned to 1
+		if (!esc && *ptr == '\\')
 		{
-			bs_c++;
+			esc = 1;
 			ptr++;
+			continue ;
 		}
-		if ((*ptr == '\"' && bs_c % 2 == 0) || *ptr == '\'')
-		{
-			if (!is_quote_closed(ptr))
+		//is *ptr a quote character? If so, check if it's closed
+		if (!esc && (*ptr == '\"' || *ptr == '\''))
+			if (!(ptr = is_quote_closed(ptr)))
 				return (0);
-			else
-				ptr = is_quote_closed(ptr);
-		}
+		//is *ptr a pipe? If so, check if there's something after it
+		if (!esc && *ptr == '|' && is_only_whitespaces(ptr + 1))
+			return (0);
+		esc = 0;
 		ptr++;
 	}
+	//is there an escape at the end of the line?
+	if (ft_strlen(str) && *(ptr - 1) == '\\')
+		return (0);
 	return (1);
 }
 
-static int	is_input_done(char *str)
+//This functions keep getting lines from user as long as the command
+//is incomplete (unclosed quotes, backslash at the end, pipes going nowhere..)
+static char		*get_all_lines(void)
 {
-	str = trim_newlines(str);
-	if (!check_quotes(str))
-		return (0);
-	if (str[ft_strlen(str) - 1] == '\\')
-		return (0);
-	// need to also check for unfinished pipe or redirection
-	return (1);
-}
+	char		*full_input;
+	char		*line;
+	char		*temp;
 
-static int	syntax_check(char *str)
-{
-	char	*chr;
-
-	if ((chr = ft_strchr(str, ';')) && (*(chr + 1) == ';'))
+	full_input = NULL;
+	while (1)
 	{
-		ft_putendl_fd("21sh: parsing error: unexpected ';'", 2);
-		return (0);
-	}
-	return (1);
-}
-
-char		*get_input(void)
-{
-	char	*input;
-	char	*temp;
-
-	if (get_next_line(0, &input) < 0)
-		exit(EXIT_FAILURE);
-	input = trim_newlines(input);
-	if (input && ft_strlen(input) && !syntax_check(input))
-	{
-		free(input);
-		return(NULL);
-	}
-	while (!is_input_done(input))
-	{
-		ft_putstr("\\ ");
-		if (get_next_line(0, &temp) < 0)
+		//get a line and trim it
+		if (get_next_line(0, &line) < 0)
 			exit(EXIT_FAILURE);
-		input = trim_newlines(input);
-		input = ft_strjoin(input, temp);
+		temp = line;
+		line = ft_strtrim(line);
 		free(temp);
+		//add it to the current full input
+		temp = full_input;
+		if (!(full_input = ft_strjoin(full_input, line)))
+			exit(EXIT_FAILURE);
+		free(temp);
+		free(line);
+		//check if the input is closed and done. 
+		//If so, leave the loop and return it.
+		if (is_input_done(full_input))
+			break ;
 	}
+	return (full_input);
+}
+
+//Main function for getting the user input.
+char			*get_input(void)
+{
+	char		*input;
+
+	//get the full user input, then tokenize it.
+	input = get_all_lines();
 	return (input);
 }
