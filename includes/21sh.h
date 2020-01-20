@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/13 14:24:50 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:34:16 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,11 @@
 # define TOSH_H
 
 # define REG 1
-# define SQT 2
-# define DQT 3
-# define PIP 4
-# define FSR 5
-# define FDR 6
-# define BSR 7
-# define BDR 8
-# define SCL 9
+# define QOT 2
+# define PIP 3
+# define FRD 4
+# define BRD 5
+# define SCL 6
 
 # define MAG "\x1B[35m"
 # define CYAN "\x1B[36m"
@@ -53,6 +50,17 @@ char		*get_input(void);
 int			is_only_whitespaces(char *str);
 
 /*
+** tokenize.c
+*/
+t_tokens	*tokenize(char *input);
+
+/*
+** tokenize_tools.c
+*/
+int			is_redirection(char *ptr);
+int			is_quote(char *ptr);
+
+/*
 ** display.c
 */
 void		title(void);
@@ -79,5 +87,6 @@ size_t		count_nodes(t_tokens *list);
 int		ft_issquote(char c);
 int		ft_isdquote(char c);
 int		ft_isbquote(char c);
+void	display_ll(t_tokens *toks);
 
 #endif

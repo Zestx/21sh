@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:49:43 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/09 16:06:10 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:28:31 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_tokens	*add_token_node(t_tokens *list, char *str, int tp)
 	roam->next = node;
 	return (list);
 }
+
 //count the number of nodes in a tokens list.
 size_t		count_nodes(t_tokens *list)
 {

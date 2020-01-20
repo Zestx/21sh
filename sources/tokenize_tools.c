@@ -1,45 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   tokenize_tools.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/18 16:30:58 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/20 20:32:29 by qbackaer         ###   ########.fr       */
+/*   Created: 2020/01/20 18:50:46 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/01/20 20:20:40 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/21sh.h"
+#include "../includes/21sh.h"
 
-int		ft_issquote(char c) 
+int		is_redirection(char *ptr)
 {
-	return (c == '\'');
+	if (*ptr == '<' || *ptr == '>')
+		return (1);
+	if (ft_isdigit(*ptr) && (*(ptr + 1) == '>' || *(ptr + 1) == '>'))
+		return (1);
+	if (*ptr == '&' && *(ptr + 1) == '>')
+		return (1);
+	if (*ptr == '|' && *(ptr + 1) != '|')
+		return (1);
+	return (0);
 }
 
-int		ft_isdquote(char c) 
+int		is_quote(char *ptr) 
 {
-	return (c == '\"');
-}
-
-int		ft_isbquote(char c)
-{
-	return (c == '\\');
-}
-
-void	display_ll(t_tokens *toks)
-{
-	t_tokens *ptr;
-
-	if (!toks)
-	{
-		printf("list is null!\n");
-		return ;
-	}
-	ptr = toks;
-	while (ptr)
-	{
-		printf("[%s]\n", ptr->string);
-		ptr = ptr->next;
-	}
+	return (*ptr == '\'' || *ptr == '\"');
 }

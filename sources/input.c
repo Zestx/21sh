@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/13 17:06:25 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:33:44 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,7 @@ char			*get_input(void)
 	t_tokens	*toks;
 
 	input = get_all_lines();
+	toks = tokenize(input);
+	display_ll(toks);	
 	return (input);
 }
