@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:35:59 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/21 17:20:52 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/21 20:32:04 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,48 +28,6 @@ static char	*get_full_word(char	*start)
 	return (full_word);
 }
 
-static int	get_dquote_len(char *start)
-{
-	int		len;
-	int		esc;
-	char	*ptr;
-
-	if (!start)
-		return (0);
-	ptr = start;
-	esc = 0;
-	len = 0;
-	while (*ptr && (*ptr != '\"' || esc))
-	{
-		if (*ptr == '\\' && !esc)
-		{
-			esc = 1;
-			ptr++;
-			continue ;
-		}
-		esc = 0;
-		len++;
-		ptr++;
-	}
-	return (len);
-}
-
-static int	get_squote_len(char *start)
-{
-	int		len;
-	char	*ptr;
-
-	if (!start)
-		return (0);
-	ptr = start;
-	len = 0;
-	while (*ptr && *ptr != '\'')
-	{
-		ptr++;
-		len++;
-	}
-	return (len);
-}
 
 static char	*copy_dquote(char *start, int len)
 {
@@ -152,22 +110,58 @@ static char	*get_full_quote(char *start, int *og_len)
 	return (NULL);
 }
 
+static t_tokens *add_singlechar_token(char *c, t_tokens *toks)
+{
+	if (*c == '|')
+		toks = add_token_node(toks, "|", PIP);
+	if (*c == ';')
+		toks = add_token_node(toks, ";", SCL);
+	if (*c == '~')
+		toks = add_token_node(toks, "~", TIL);
+}
+
+static t_tokens *add_redirect_token(char *c, t_tokens *toks)
+{
+	char	*full_redirection;
+	char	*o_ptr;
+	char	*c_ptr;
+
+	o_ptr = c;
+	c_ptr = full_redirection;
+	if (!(full_redirection = malloc(6)))
+		exit(EXIT_FAILURE);
+	if (ft_isdigit(*o_ptr) || *o_ptr == '&')
+	{
+		*c_ptr = *o_ptr;
+		c_ptr++;
+		o_ptr++;
+	}
+}
+
+static t_tokens	*get_special(char *c, t_tokens *toks, int *og_len)
+{
+	if (*c == '|' || *c == ';' || *c == '~')
+		toks = add_singlechar_token(c, toks);
+	if (is_redirection(c))
+		toks = add_redirect_token(c, toks);
+	return (t_tokens *toks);
+}
+
 static t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
 {
 	char	*str;
 
+	if (!esc && is_special(c))
+	{
+		printf("special\n");
+	}
 	if (!esc && is_quote(c))
 	{
 		str = get_full_quote(c, og_len);
 		toks = add_token_node(toks, str, QOT);
 		free(str);
 	}
-	else if (!esc && (*c == ';'))
-	{
-		toks = add_token_node(toks, ";", SCL);
-		*og_len = 1;
-	}
-	else if (!ft_isspacer(*c))
+	else
 	{
 		str = get_full_word(c);
 		*og_len = ft_strlen(str);
@@ -177,13 +171,14 @@ static t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
 	return (toks);
 }
 
-t_tokens		*tokenize(char	*input)
+t_tokens		*tokenize(char	*input, char **env)
 {
 	t_tokens	*toks;
 	char		*ptr;
 	int			esc;
 	int			og_len;
 
+	og_len = 0;
 	toks = NULL;
 	esc = 0;
 	ptr = input;

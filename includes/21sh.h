@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/20 20:34:16 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/21 19:40:58 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,10 @@
 # define REG 1
 # define QOT 2
 # define PIP 3
-# define FRD 4
-# define BRD 5
+# define ORD 4
+# define IRD 5
 # define SCL 6
+# define TIL 7
 
 # define MAG "\x1B[35m"
 # define CYAN "\x1B[36m"
@@ -59,6 +60,14 @@ t_tokens	*tokenize(char *input);
 */
 int			is_redirection(char *ptr);
 int			is_quote(char *ptr);
+int			get_dquote_len(char *start);
+int			get_squote_len(char *start);
+int			is_special(char *c);
+
+/*
+** util_env.c
+*/
+char		*get_env_var(char **env, char *var_name);
 
 /*
 ** display.c
