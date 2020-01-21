@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:30:58 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/20 20:32:29 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/21 14:05:27 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,20 @@ int		ft_isbquote(char c)
 
 void	display_ll(t_tokens *toks)
 {
-	t_tokens *ptr;
+	t_tokens	*ptr;
+	int			n;
 
 	if (!toks)
 	{
 		printf("list is null!\n");
 		return ;
 	}
+	n = 0;
 	ptr = toks;
 	while (ptr)
 	{
-		printf("[%s]\n", ptr->string);
+		printf("%d. [%s]\n", n, ptr->string);
 		ptr = ptr->next;
+		n++;
 	}
 }
