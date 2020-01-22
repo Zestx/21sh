@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:35:59 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/21 20:32:04 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:19:16 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,33 +118,17 @@ static t_tokens *add_singlechar_token(char *c, t_tokens *toks)
 		toks = add_token_node(toks, ";", SCL);
 	if (*c == '~')
 		toks = add_token_node(toks, "~", TIL);
-}
-
-static t_tokens *add_redirect_token(char *c, t_tokens *toks)
-{
-	char	*full_redirection;
-	char	*o_ptr;
-	char	*c_ptr;
-
-	o_ptr = c;
-	c_ptr = full_redirection;
-	if (!(full_redirection = malloc(6)))
-		exit(EXIT_FAILURE);
-	if (ft_isdigit(*o_ptr) || *o_ptr == '&')
-	{
-		*c_ptr = *o_ptr;
-		c_ptr++;
-		o_ptr++;
-	}
+	return (toks);
 }
 
 static t_tokens	*get_special(char *c, t_tokens *toks, int *og_len)
 {
 	if (*c == '|' || *c == ';' || *c == '~')
+	{
 		toks = add_singlechar_token(c, toks);
-	if (is_redirection(c))
-		toks = add_redirect_token(c, toks);
-	return (t_tokens *toks);
+		*og_len = 1;
+	}
+	return (toks);
 }
 
 static t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
@@ -152,10 +136,8 @@ static t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
 	char	*str;
 
 	if (!esc && is_special(c))
-	{
-		printf("special\n");
-	}
-	if (!esc && is_quote(c))
+		toks = get_special(c, toks, og_len);
+	else if (!esc && is_quote(c))
 	{
 		str = get_full_quote(c, og_len);
 		toks = add_token_node(toks, str, QOT);
@@ -171,7 +153,8 @@ static t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
 	return (toks);
 }
 
-t_tokens		*tokenize(char	*input, char **env)
+//this function takes user input and returns a tokenized version in a linked list.
+t_tokens		*tokenize(char	*input)
 {
 	t_tokens	*toks;
 	char		*ptr;

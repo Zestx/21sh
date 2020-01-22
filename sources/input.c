@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/21 14:04:45 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:09:17 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ static char		*get_all_lines(void)
 	return (full_input);
 }
 
-//Main function for getting the user input.
 char			*get_input(void)
 {
 	char		*input;

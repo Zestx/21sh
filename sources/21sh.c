@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/21 13:58:13 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:11:04 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ size_t	get_tab_size(char **tab)
 	return (size);
 }
 
+//simple function to get a copy of the environment variables.
 char		**get_env(char **environ)
 {
 	char	**copy;
@@ -51,7 +52,6 @@ char		**get_env(char **environ)
 	*cpy_ptr = NULL;
 	return (copy);
 }
-
 
 static int	prompt_loop(void)
 {

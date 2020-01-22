@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:30:58 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/21 14:05:27 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/22 13:58:09 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,21 @@ void	display_ll(t_tokens *toks)
 	ptr = toks;
 	while (ptr)
 	{
-		printf("%d. [%s]\n", n, ptr->string);
+		printf("%d. [%s] ", n, ptr->string);
+		if (ptr->type == 1)
+			printf("REG\n");
+		if (ptr->type == 2)
+			printf("QOT\n");
+		if (ptr->type == 3)
+			printf("PIP\n");
+		if (ptr->type == 4)
+			printf("ORD\n");
+		if (ptr->type == 5)
+			printf("IRD\n");
+		if (ptr->type == 6)
+			printf("SCL\n");
+		if (ptr->type == 7)
+			printf("TIL\n");
 		ptr = ptr->next;
 		n++;
 	}
