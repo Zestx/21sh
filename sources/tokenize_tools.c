@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 18:50:46 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 13:48:25 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:38:56 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int is_special(char *c)
 {
-	return (is_redirection(c) || *c == ';' || *c == '~');
+	return (is_redirection(c) || *c == ';');
 }
 
 int		is_redirection(char *ptr)

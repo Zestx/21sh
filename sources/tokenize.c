@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:35:59 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 14:19:16 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/22 14:38:38 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ static t_tokens *add_singlechar_token(char *c, t_tokens *toks)
 
 static t_tokens	*get_special(char *c, t_tokens *toks, int *og_len)
 {
-	if (*c == '|' || *c == ';' || *c == '~')
+	if (*c == '|' || *c == ';')
 	{
 		toks = add_singlechar_token(c, toks);
 		*og_len = 1;
