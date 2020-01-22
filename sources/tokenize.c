@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:35:59 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 14:38:38 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/22 16:12:24 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static char	*get_full_quote(char *start, int *og_len)
 			end++;
 			continue ;
 		}
-		if ((*end == '\"' && !esc) || *end == '\'')
+		if (*end == *start && (*start == '\'' || !esc))
 		{
 			*og_len = end - start + 1;
 			return (*end == '\"' ? copy_dquote(start + 1, get_dquote_len(start + 1))
