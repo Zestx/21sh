@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 16:57:05 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 19:38:49 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,14 @@ int			get_squote_len(char *start);
 int			is_special(char *c);
 
 /*
+** get_tokens.c
+*/
+t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len);
+char		*copy_dquote(char *start, int len);
+char		*copy_squote(char *start, int len);
+t_tokens	*add_singlechar_token(char *c, t_tokens *toks);
+
+/*
 ** util_env.c
 */
 char		*get_env_var(char **env, char *var_name);
@@ -79,14 +87,6 @@ char		*get_env_var(char **env, char *var_name);
 void		title(void);
 void		prompt(void);
 void		printenv(char **env);
-
-/*
-** lex_main.c
-*/
-t_tokens	*tokenize_input(char *input);
-char		*get_full_rword(char *start);
-char		*get_full_dquote(char *start);
-char		*get_full_squote(char *start);
 
 /*
 ** lex_list.c

@@ -6,13 +6,12 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 15:42:22 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 18:28:54 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-//This function check if the quote starting at 'start' is ever closing or not
 static char		*is_quote_closed(char *start)
 {
 	char	*end;
@@ -36,7 +35,6 @@ static char		*is_quote_closed(char *start)
 	return (NULL);
 }
 
-//This function check if the current input is complete.
 static int		is_input_done(char *str)
 {
 	int			esc;
@@ -65,9 +63,6 @@ static int		is_input_done(char *str)
 	return (1);
 }
 
-//This functions keep getting lines from user as long as the command
-//is incomplete (unclosed quotes, backslash at the end, pipes going nowhere..)
-//and joining them together until it's complete
 static char		*get_all_lines(void)
 {
 	char		*full_input;
@@ -100,6 +95,6 @@ char			*get_input(void)
 
 	input = get_all_lines();
 	toks = tokenize(input);
-	display_ll(toks);	
+	display_ll(toks);
 	return (input);
 }

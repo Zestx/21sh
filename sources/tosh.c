@@ -6,13 +6,13 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 13:11:04 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 18:27:43 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-size_t	get_tab_size(char **tab)
+size_t		get_tab_size(char **tab)
 {
 	size_t	size;
 	char	**roam;
@@ -29,7 +29,6 @@ size_t	get_tab_size(char **tab)
 	return (size);
 }
 
-//simple function to get a copy of the environment variables.
 char		**get_env(char **environ)
 {
 	char	**copy;

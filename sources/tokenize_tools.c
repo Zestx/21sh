@@ -6,13 +6,13 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 18:50:46 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 16:47:17 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 18:29:31 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-int is_special(char *c)
+int		is_special(char *c)
 {
 	return ((*c == '|' && *(c + 1) != '|') || *c == ';');
 }
@@ -28,12 +28,12 @@ int		is_redirection(char *ptr)
 	return (0);
 }
 
-int		is_quote(char *ptr) 
+int		is_quote(char *ptr)
 {
 	return (*ptr == '\'' || *ptr == '\"');
 }
 
-int	get_dquote_len(char *start)
+int		get_dquote_len(char *start)
 {
 	int		len;
 	int		esc;
@@ -59,7 +59,7 @@ int	get_dquote_len(char *start)
 	return (len);
 }
 
-int	get_squote_len(char *start)
+int		get_squote_len(char *start)
 {
 	int		len;
 	char	*ptr;

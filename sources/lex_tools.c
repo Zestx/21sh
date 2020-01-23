@@ -6,18 +6,18 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:30:58 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 17:02:07 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 18:26:53 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-int		ft_issquote(char c) 
+int		ft_issquote(char c)
 {
 	return (c == '\'');
 }
 
-int		ft_isdquote(char c) 
+int		ft_isdquote(char c)
 {
 	return (c == '\"');
 }
@@ -33,10 +33,7 @@ void	display_ll(t_tokens *toks)
 	int			n;
 
 	if (!toks)
-	{
-		printf("list is null!\n");
 		return ;
-	}
 	n = 0;
 	ptr = toks;
 	while (ptr)
