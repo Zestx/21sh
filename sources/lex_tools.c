@@ -6,11 +6,11 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:30:58 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 13:58:09 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 17:02:07 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/21sh.h"
+#include "../includes/21sh.h"
 
 int		ft_issquote(char c) 
 {
@@ -49,13 +49,9 @@ void	display_ll(t_tokens *toks)
 		if (ptr->type == 3)
 			printf("PIP\n");
 		if (ptr->type == 4)
-			printf("ORD\n");
+			printf("RED\n");
 		if (ptr->type == 5)
-			printf("IRD\n");
-		if (ptr->type == 6)
 			printf("SCL\n");
-		if (ptr->type == 7)
-			printf("TIL\n");
 		ptr = ptr->next;
 		n++;
 	}

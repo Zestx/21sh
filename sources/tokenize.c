@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:35:59 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 16:12:24 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:54:37 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,6 @@ static t_tokens *add_singlechar_token(char *c, t_tokens *toks)
 		toks = add_token_node(toks, "|", PIP);
 	if (*c == ';')
 		toks = add_token_node(toks, ";", SCL);
-	if (*c == '~')
-		toks = add_token_node(toks, "~", TIL);
 	return (toks);
 }
 
@@ -131,12 +129,40 @@ static t_tokens	*get_special(char *c, t_tokens *toks, int *og_len)
 	return (toks);
 }
 
+static t_tokens *get_redirect(char *c, t_tokens *toks, int *og_len)
+{
+	char	*str;
+	char	*c_ptr;
+
+	if (!(str = malloc(5)))
+		exit(EXIT_FAILURE);
+	c_ptr = str;
+	if (*c == '&' || ft_isdigit(*c))
+		*(c_ptr++) = *(c++);
+	if (*c == '>' || *c == '<')
+		*(c_ptr++) = *(c++);
+	if (*c == '>' || *c == '<' || *c == '&')
+		*(c_ptr++) = *(c++);
+	if (*c == '-' || ft_isdigit(*c))
+		*(c_ptr++) = *(c++);
+	*c_ptr = '\0';
+	toks = add_token_node(toks, str, RED);
+	*og_len = ft_strlen(str);
+	return (toks);
+}
+
 static t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
 {
 	char	*str;
 
 	if (!esc && is_special(c))
+	{
 		toks = get_special(c, toks, og_len);
+	}
+	else if (!esc && is_redirection(c))
+	{
+		toks = get_redirect(c, toks, og_len);
+	}
 	else if (!esc && is_quote(c))
 	{
 		str = get_full_quote(c, og_len);

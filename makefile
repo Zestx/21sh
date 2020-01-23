@@ -6,7 +6,7 @@
 #    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:44:40 by qbackaer          #+#    #+#              #
-#    Updated: 2020/01/22 13:52:06 by qbackaer         ###   ########.fr        #
+#    Updated: 2020/01/23 17:01:40 by qbackaer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,10 +15,10 @@ CFLAGS = -Wall -Wextra -g
 NAME = 21sh
 INCLUDES = 21sh.h
 SRCS = sources/21sh.c sources/display.c sources/input.c sources/input_tools.c \
-	   sources/lexing/lex_tools.c sources/lexing/lex_ll.c \
+	   sources/lex_tools.c sources/lex_ll.c sources/expand.c \
 	   sources/tokenize.c sources/tokenize_tools.c sources/util_env.c
 OBJS = 21sh.o display.o input.o input_tools.o lex_tools.o lex_ll.o \
-	   tokenize.o tokenize_tools.o util_env.o
+	   tokenize.o tokenize_tools.o util_env.o sources/expand.c
 
 all: $(NAME)
 

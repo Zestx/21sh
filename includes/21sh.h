@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/21 19:40:58 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:57:05 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@
 # define REG 1
 # define QOT 2
 # define PIP 3
-# define ORD 4
-# define IRD 5
-# define SCL 6
-# define TIL 7
+# define RED 4
+# define SCL 5
+# define TIL 6
 
 # define MAG "\x1B[35m"
 # define CYAN "\x1B[36m"
@@ -39,6 +38,11 @@ typedef struct	s_tokens
 		int				type;
 		struct s_tokens	*next;
 }				t_tokens;
+
+/*
+** input.c
+*/
+t_tokens	*roam_expand(t_tokens	*toks, char *env);
 
 /*
 ** input.c

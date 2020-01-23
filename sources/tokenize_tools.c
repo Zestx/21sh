@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 18:50:46 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/22 14:38:56 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:47:17 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int is_special(char *c)
 {
-	return (is_redirection(c) || *c == ';');
+	return ((*c == '|' && *(c + 1) != '|') || *c == ';');
 }
 
 int		is_redirection(char *ptr)
@@ -24,8 +24,6 @@ int		is_redirection(char *ptr)
 	if (ft_isdigit(*ptr) && (*(ptr + 1) == '>' || *(ptr + 1) == '>'))
 		return (1);
 	if (*ptr == '&' && *(ptr + 1) == '>')
-		return (1);
-	if (*ptr == '|' && *(ptr + 1) != '|')
 		return (1);
 	return (0);
 }
@@ -77,4 +75,3 @@ int	get_squote_len(char *start)
 	}
 	return (len);
 }
-
