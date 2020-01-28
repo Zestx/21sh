@@ -16,6 +16,7 @@ static char		*get_full_word(char *start)
 {
 	char	*full_word;
 	char	*end;
+
 	int		esc;
 
 	esc = 0;
