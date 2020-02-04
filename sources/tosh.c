@@ -65,12 +65,24 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks = tokenize(cmds);
+		//do the expansions
 		toks_groups = split_commands(toks);
 		curr = toks_groups;
 		while (*curr)
 		{
 			printf("===============\n");
 			display_ll(*curr);
+			//go into Dispatch:
+			//	-split each command groups into execution groups
+			//	 as elements of the pipeline.
+			//	-split each execution groups in two groups:
+			//		- redirections
+			//		- command (program and its arguments)
+			//	-start the pipeline execution:
+			//	 at each stage of the pipeline
+			//	 	- pipe the command
+			//	 	- do the redirections in order
+			//	 	- execute the current command
 			curr++;
 		}
 	}
