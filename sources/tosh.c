@@ -54,14 +54,25 @@ char		**get_env(char **environ)
 
 static int	prompt_loop(void)
 {
-	char	*cmds;
+	char		*cmds;
+	t_tokens	*toks;
+	t_tokens	**toks_groups;
+	t_tokens	**curr;
 
 	while (1)
 	{
 		prompt();
-		cmds = get_input();
-		if (!ft_strcmp(cmds, "exit"))
-			return (1);
+		if (!(cmds = get_input()))
+			continue ;
+		toks = tokenize(cmds);
+		toks_groups = split_commands(toks);
+		curr = toks_groups;
+		while (*curr)
+		{
+			printf("===============\n");
+			display_ll(*curr);
+			curr++;
+		}
 	}
 	return (1);
 }

@@ -91,10 +91,17 @@ static char		*get_all_lines(void)
 char			*get_input(void)
 {
 	char		*input;
-	t_tokens	*toks;
+	char		*chr;
 
 	input = get_all_lines();
-	toks = tokenize(input);
-	display_ll(toks);
+	if (input && ft_strlen(input) && (input[0] == ';'
+	|| ((chr = ft_strchr(input, ';')) && *(chr + 1) == ';')))
+	{
+		free(input);
+		ft_putendl_fd("minishell: syntax error: unexpected ';'", 2);
+		return (NULL);
+	}
+	if (!input || !ft_strlen(input))
+		return (NULL);
 	return (input);
 }

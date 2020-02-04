@@ -16,9 +16,11 @@ NAME = 21sh
 INCLUDES = 21sh.h
 SRCS = sources/tosh.c sources/display.c sources/input.c sources/input_tools.c \
 	   sources/lex_tools.c sources/lex_ll.c sources/get_tokens.c \
-	   sources/tokenize.c sources/tokenize_tools.c sources/util_env.c
+	   sources/tokenize.c sources/tokenize_tools.c sources/util_env.c \
+	   sources/split_commands.c
 OBJS = tosh.o display.o input.o input_tools.o lex_tools.o lex_ll.o \
-	   tokenize.o tokenize_tools.o util_env.o get_tokens.o
+	   tokenize.o tokenize_tools.o util_env.o get_tokens.o \
+	   split_commands.o
 
 all: $(NAME)
 

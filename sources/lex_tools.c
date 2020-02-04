@@ -53,3 +53,20 @@ void	display_ll(t_tokens *toks)
 		n++;
 	}
 }
+
+void	display_all_toks(t_tokens **all_toks)
+{
+	t_tokens	**curr;
+
+	curr = all_toks;
+	while (*curr)
+	{
+		printf("========================\n");
+		display_ll(*curr);
+		curr++;
+	}
+}
+
+
+
+

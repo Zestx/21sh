@@ -31,7 +31,7 @@ typedef struct	s_buffer
 
 typedef struct	s_util
 {
-	char	*p;
+	char		*p;
 	int		curr_size;
 	int		size;
 	int		n;
@@ -115,5 +115,6 @@ void			*ft_lstputstr(t_list *lst, int n);
 int				get_next_line(const int fd, char **line );
 char			**ft_realloc_tab(char **old_tab, char *new_entry);
 void			ft_free_tab2(char **tab);
+size_t			ft_tablen(char **tab);
 
 #endif

@@ -39,10 +39,11 @@ typedef struct	s_tokens
 		struct s_tokens	*next;
 }				t_tokens;
 
+
 /*
-** input.c
+** split_commands.c
 */
-t_tokens	*roam_expand(t_tokens	*toks, char *env);
+t_tokens	**split_commands(t_tokens *toks);
 
 /*
 ** input.c
@@ -100,6 +101,6 @@ size_t		count_nodes(t_tokens *list);
 int		ft_issquote(char c);
 int		ft_isdquote(char c);
 int		ft_isbquote(char c);
-void	display_ll(t_tokens *toks);
-
+void		display_ll(t_tokens *toks);
+void		display_all_toks(t_tokens **toks);
 #endif
