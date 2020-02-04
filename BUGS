@@ -2,3 +2,4 @@
 MINOR
 - when checking for multiple semicolumns one after the other (which is a syntax error), in input.c, 
   it only complain about the error if it's the first semi-column that is concerned.
+- backslash-quoting a space seems to have no effect, it stills create a new token.
