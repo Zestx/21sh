@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 18:20:51 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/05 18:21:04 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/05 20:09:29 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,26 @@ typedef struct	s_tokens
 	struct s_tokens	*next;
 
 }				t_tokens;
+
+typedef struct	s_pnode
+{
+	t_commands		*args;
+	t_redirs		*reds;
+	struct s_pnode	*next;
+}				t_pnode;
+
+typedef struct	s_redirs
+{
+	char			from;
+	char			to;
+	struct s_redirs	*next;
+}				t_redirs;
+
+typedef struct	s_commands;
+{
+	char				*string;
+	struct s_command	*next;
+}				t_commands;
 
 
 /*
