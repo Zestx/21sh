@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 19:38:49 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/05 17:42:17 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct	s_tokens
 /*
 ** split_commands.c
 */
-t_tokens	**split_commands(t_tokens *toks);
+t_tokens	**split_commands(t_tokens *toks, int splitter);
 
 /*
 ** input.c

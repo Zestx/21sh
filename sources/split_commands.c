@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   split_commands.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/05 17:13:03 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/02/05 17:43:09 by qbackaer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/21sh.h"
 
-static size_t	get_groups_number(t_tokens *toks)
+static size_t	get_groups_number(t_tokens *toks, int splitter)
 {
 	t_tokens	*curr;
 	size_t		n;
@@ -9,7 +21,7 @@ static size_t	get_groups_number(t_tokens *toks)
 	n = 1;
 	while (curr)
 	{
-		if (curr->type == SCL && curr->next)
+		if (curr->type == splitter && curr->next)
 			n++;
 		curr = curr->next;
 	}
@@ -32,7 +44,7 @@ static t_tokens	**init_tokens_groups(size_t size)
 	return (toks_groups);
 }
 
-t_tokens	**split_commands(t_tokens *toks)
+t_tokens	**split_commands(t_tokens *toks, int splitter)
 {
 	t_tokens	**toks_groups;
 	t_tokens	*curr_list;
@@ -40,12 +52,12 @@ t_tokens	**split_commands(t_tokens *toks)
 
 	if (!toks)
 		return (NULL);
-	toks_groups = init_tokens_groups(get_groups_number(toks));
+	toks_groups = init_tokens_groups(get_groups_number(toks, splitter));
 	curr_list = toks;
 	curr_group = toks_groups;
 	while (curr_list)
 	{
-		if (curr_list->type != SCL)
+		if (curr_list->type != splitter)
 		{
 			*curr_group = add_token_node
 			(*curr_group, curr_list->string, curr_list->type);

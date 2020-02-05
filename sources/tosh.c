@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 18:27:43 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/05 17:53:19 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,19 @@ char		**get_env(char **environ)
 	*cpy_ptr = NULL;
 	return (copy);
 }
-
+static int	dispatch(t_tokens *cmd_group)
+{
+			//	-split each command groups into execution groups
+			//	 as elements of the pipeline.
+			//	-split each execution groups in two groups:
+			//		- redirections
+			//		- command (program and its arguments)
+			//	-start the pipeline execution:
+			//	 at each stage of the pipeline
+			//	 	- pipe the command
+			//	 	- do the redirections in order
+			//	 	- execute the current command
+}
 static int	prompt_loop(void)
 {
 	char		*cmds;
@@ -66,23 +78,14 @@ static int	prompt_loop(void)
 			continue ;
 		toks = tokenize(cmds);
 		//do the expansions
-		toks_groups = split_commands(toks);
+		toks_groups = split_commands(toks, SCL);
 		curr = toks_groups;
 		while (*curr)
 		{
 			printf("===============\n");
 			display_ll(*curr);
-			//go into Dispatch:
-			//	-split each command groups into execution groups
-			//	 as elements of the pipeline.
-			//	-split each execution groups in two groups:
-			//		- redirections
-			//		- command (program and its arguments)
-			//	-start the pipeline execution:
-			//	 at each stage of the pipeline
-			//	 	- pipe the command
-			//	 	- do the redirections in order
-			//	 	- execute the current command
+			dispatch(*curr);
+			//go into dispatch()
 			curr++;
 		}
 	}
