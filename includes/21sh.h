@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/28 19:20:25 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/05 17:42:17 by qbackaer         ###   ########.fr       */
+/*   Created: 2020/02/05 18:20:51 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/02/05 18:21:04 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,36 @@
 
 typedef struct	s_tokens
 {
-		char			*string;
-		int				type;
-		struct s_tokens	*next;
+	char			*string;
+	int				type;
+	struct s_tokens	*next;
+
 }				t_tokens;
 
 
 /*
-** split_commands.c
-*/
+ * ** split_commands.c
+ * */
 t_tokens	**split_commands(t_tokens *toks, int splitter);
 
 /*
-** input.c
-*/
+ * ** input.c
+ * */
 char		*get_input(void);
 
 /*
-** input_tools.c
-*/
+ * ** input_tools.c
+ * */
 int			is_only_whitespaces(char *str);
 
 /*
-** tokenize.c
-*/
+ * ** tokenize.c
+ * */
 t_tokens	*tokenize(char *input);
 
 /*
-** tokenize_tools.c
-*/
+ * ** tokenize_tools.c
+ * */
 int			is_redirection(char *ptr);
 int			is_quote(char *ptr);
 int			get_dquote_len(char *start);
@@ -70,34 +71,34 @@ int			get_squote_len(char *start);
 int			is_special(char *c);
 
 /*
-** get_tokens.c
-*/
+ * ** get_tokens.c
+ * */
 t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len);
 char		*copy_dquote(char *start, int len);
 char		*copy_squote(char *start, int len);
 t_tokens	*add_singlechar_token(char *c, t_tokens *toks);
 
 /*
-** util_env.c
-*/
+ * ** util_env.c
+ * */
 char		*get_env_var(char **env, char *var_name);
 
 /*
-** display.c
-*/
+ * ** display.c
+ * */
 void		title(void);
 void		prompt(void);
 void		printenv(char **env);
 
 /*
-** lex_list.c
-*/
+ * ** lex_list.c
+ * */
 t_tokens	*add_token_node(t_tokens *list, char *string, int type);
 size_t		count_nodes(t_tokens *list);
 
 /* 
-** lex_tools.c
-*/
+ * ** lex_tools.c
+ * */
 int		ft_issquote(char c);
 int		ft_isdquote(char c);
 int		ft_isbquote(char c);

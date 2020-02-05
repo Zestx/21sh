@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/05 18:08:53 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/05 18:55:49 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,87 @@ char		**get_env(char **environ)
 	*cpy_ptr = NULL;
 	return (copy);
 }
+
+static size_t	count_spec_nodes(t_tokens *toks, int spec)
+{
+	size_t		count;
+	t_tokens	*curr;
+
+	if (!toks)
+		return (0);
+	curr = toks;
+	count = 0;
+	while (curr)
+	{
+		if (curr->type == spec)
+			count++;
+		curr = curr->next;
+	}
+	return (count);
+}
+
+//should probably be parsed into a special kind of struct/list.
+static t_tokens *gather_redir_tokens(t_tokens *group)
+{
+	t_tokens	*gathered;
+	t_tokens	*curr;
+	size_t		size;
+
+	if (!group)
+		return (NULL);
+	size = count_spec_nodes(group, RED);
+	if (!(gathered = malloc(sizeof(curr) * size)))
+		exit(EXIT_FAILURE);
+	gathered = NULL;
+	curr = group;
+	while (curr)
+	{
+		if (curr->type == RED)
+			gathered = add_token_node(gathered, curr->string, RED);
+		curr = curr->next;
+	}
+	return (gathered);
+}
+
+static t_tokens *gather_cmds_tokens(t_tokens *group)
+{
+	t_tokens	*gathered;
+	t_tokens	*curr;
+	size_t		size;
+
+	if (!group)
+		return (NULL);
+	size = count_spec_nodes(group, REG) + count_spec_nodes(group, QOT);
+	if (!(gathered = malloc(sizeof(curr) * size)))
+		exit(EXIT_FAILURE);
+	gathered = NULL;
+	curr = group;
+	while (curr)
+	{
+		if (curr->type == REG || curr->type == QOT)
+			gathered = add_token_node(gathered, curr->string, REG);
+		curr = curr->next;
+	}
+	return (gathered);
+}
+
 static int	dispatch(t_tokens *cmd_group)
 {
 	t_tokens	**pipeline;
 	t_tokens	**curr;
+	t_tokens	*redirs;
+	t_tokens	*args;
 
 	pipeline = split_commands(cmd_group, PIP);
 	curr = pipeline;
 	while (*curr)
 	{
-			printf("===============\n");
-			display_ll(*curr);
-			//	-split each execution groups in two groups:
-			//		- redirections
-			//		- command (program and its arguments)
+			redirs = gather_redir_tokens(*curr);
+			args = gather_cmds_tokens(*curr);
+			printf("ARGS: \n");
+			display_ll(args);
+			printf("REDS: \n");
+			display_ll(redirs);
 			//	-start the pipeline execution:
 			//	 at each stage of the pipeline
 			//	 	- pipe the command
@@ -72,7 +139,6 @@ static int	dispatch(t_tokens *cmd_group)
 			//	 	- execute the current command
 			curr++;
 	}
-	printf("+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+\n");
 	return (1);
 }
 static int	prompt_loop(void)
