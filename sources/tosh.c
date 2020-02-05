@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/05 17:53:19 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/05 18:08:53 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,15 @@ char		**get_env(char **environ)
 }
 static int	dispatch(t_tokens *cmd_group)
 {
-			//	-split each command groups into execution groups
-			//	 as elements of the pipeline.
+	t_tokens	**pipeline;
+	t_tokens	**curr;
+
+	pipeline = split_commands(cmd_group, PIP);
+	curr = pipeline;
+	while (*curr)
+	{
+			printf("===============\n");
+			display_ll(*curr);
 			//	-split each execution groups in two groups:
 			//		- redirections
 			//		- command (program and its arguments)
@@ -63,6 +70,10 @@ static int	dispatch(t_tokens *cmd_group)
 			//	 	- pipe the command
 			//	 	- do the redirections in order
 			//	 	- execute the current command
+			curr++;
+	}
+	printf("+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+\n");
+	return (1);
 }
 static int	prompt_loop(void)
 {
@@ -82,10 +93,7 @@ static int	prompt_loop(void)
 		curr = toks_groups;
 		while (*curr)
 		{
-			printf("===============\n");
-			display_ll(*curr);
 			dispatch(*curr);
-			//go into dispatch()
 			curr++;
 		}
 	}
