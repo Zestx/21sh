@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/06 19:13:57 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/06 19:31:15 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks = tokenize(cmds);
+		free(cmds);
 		//do the expansions
 		toks_groups = split_commands(toks, SCL);
 		curr = toks_groups;
@@ -153,8 +154,6 @@ static int	prompt_loop(void)
 		{
 			dispatch(*curr);
 			curr++;
-			if (!curr)
-				printf("curr is null\n");
 		}
 	}
 	return (1);

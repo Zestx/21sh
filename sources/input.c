@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 18:28:54 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/06 19:34:07 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ static char		*get_all_lines(void)
 		if (get_next_line(0, &line) < 0)
 			exit(EXIT_FAILURE);
 		temp = line;
+	printf("getting input\n");
 		line = ft_strtrim(line);
 		free(temp);
 		temp = full_input;
