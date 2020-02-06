@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/05 18:55:49 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/06 18:44:08 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,23 +93,19 @@ static t_tokens *gather_redir_tokens(t_tokens *group)
 	return (gathered);
 }
 
-static t_tokens *gather_cmds_tokens(t_tokens *group)
+static char **gather_cmds_tokens(t_tokens *group)
 {
-	t_tokens	*gathered;
+	char		**gathered;
 	t_tokens	*curr;
-	size_t		size;
 
 	if (!group)
 		return (NULL);
-	size = count_spec_nodes(group, REG) + count_spec_nodes(group, QOT);
-	if (!(gathered = malloc(sizeof(curr) * size)))
-		exit(EXIT_FAILURE);
 	gathered = NULL;
 	curr = group;
 	while (curr)
 	{
 		if (curr->type == REG || curr->type == QOT)
-			gathered = add_token_node(gathered, curr->string, REG);
+			gathered = ft_realloc_tab(gathered, curr->string);
 		curr = curr->next;
 	}
 	return (gathered);
@@ -117,30 +113,26 @@ static t_tokens *gather_cmds_tokens(t_tokens *group)
 
 static int	dispatch(t_tokens *cmd_group)
 {
-	t_tokens	**pipeline;
+	t_pnode		*pipeline_full;
+	t_tokens	**pipeline_cmds;
 	t_tokens	**curr;
 	t_tokens	*redirs;
-	t_tokens	*args;
+	char		**args;
 
-	pipeline = split_commands(cmd_group, PIP);
-	curr = pipeline;
+	pipeline_cmds = split_commands(cmd_group, PIP);
+	curr = pipeline_cmds;
+	pipeline_full = NULL;
 	while (*curr)
 	{
 			redirs = gather_redir_tokens(*curr);
 			args = gather_cmds_tokens(*curr);
-			printf("ARGS: \n");
-			display_ll(args);
-			printf("REDS: \n");
-			display_ll(redirs);
-			//	-start the pipeline execution:
-			//	 at each stage of the pipeline
-			//	 	- pipe the command
-			//	 	- do the redirections in order
-			//	 	- execute the current command
+			pipeline_full = add_pnode(pipeline_full, args, redirs);
 			curr++;
 	}
+	execute_pipeline(pipeline_full);
 	return (1);
 }
+
 static int	prompt_loop(void)
 {
 	char		*cmds;

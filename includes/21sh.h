@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 18:20:51 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/05 20:09:29 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/06 18:31:48 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,10 @@ typedef struct	s_tokens
 
 typedef struct	s_pnode
 {
-	t_commands		*args;
-	t_redirs		*reds;
+	char			**cmds;
+	struct s_tokens *reds;
 	struct s_pnode	*next;
 }				t_pnode;
-
-typedef struct	s_redirs
-{
-	char			from;
-	char			to;
-	struct s_redirs	*next;
-}				t_redirs;
-
-typedef struct	s_commands;
-{
-	char				*string;
-	struct s_command	*next;
-}				t_commands;
-
 
 /*
  * ** split_commands.c
@@ -99,6 +85,10 @@ char		*copy_squote(char *start, int len);
 t_tokens	*add_singlechar_token(char *c, t_tokens *toks);
 
 /*
+** get_tokens.c
+*/
+void		execute_pipeline(t_pnode *cmd_list);
+/*
  * ** util_env.c
  * */
 char		*get_env_var(char **env, char *var_name);
@@ -114,6 +104,7 @@ void		printenv(char **env);
  * ** lex_list.c
  * */
 t_tokens	*add_token_node(t_tokens *list, char *string, int type);
+t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs);
 size_t		count_nodes(t_tokens *list);
 
 /* 

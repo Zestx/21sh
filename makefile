@@ -6,7 +6,7 @@
 #    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:44:40 by qbackaer          #+#    #+#              #
-#    Updated: 2020/01/23 19:13:59 by qbackaer         ###   ########.fr        #
+#    Updated: 2020/02/06 18:30:30 by qbackaer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,10 @@ INCLUDES = 21sh.h
 SRCS = sources/tosh.c sources/display.c sources/input.c sources/input_tools.c \
 	   sources/lex_tools.c sources/lex_ll.c sources/get_tokens.c \
 	   sources/tokenize.c sources/tokenize_tools.c sources/util_env.c \
-	   sources/split_commands.c
+	   sources/split_commands.c sources/execute_pipeline.c
 OBJS = tosh.o display.o input.o input_tools.o lex_tools.o lex_ll.o \
 	   tokenize.o tokenize_tools.o util_env.o get_tokens.o \
-	   split_commands.o
+	   split_commands.o execute_pipeline.o
 
 all: $(NAME)
 

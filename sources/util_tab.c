@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/10 19:16:05 by qbackaer          #+#    #+#             */
-/*   Updated: 2019/10/10 19:17:22 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/06 18:24:42 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,18 @@ size_t	get_tab_size(char **tab)
 		roam++;
 	}
 	return (size);
+}
+
+void	print_tab(char **tab)
+{
+	char	**curr;
+
+	if (!tab)
+		return ;
+	curr = tab;
+	while (*roam)
+	{
+		printf("[ %s ]\n", *roam);
+		roam++;
+	}
 }
