@@ -15,7 +15,22 @@ static void execute(char **cmd_list)
 	perror("exec error: ");
 	exit(EXIT_FAILURE);
 }
+static void	execute_last(t_pnode *cmd)
+{
+	pid_t pid;
 
+	pid = fork();
+	if (pid < 0)
+		err_handler("fork error");
+	if (!pid)
+	{
+		execute(cmd->cmds);
+		perror("exec error: ");
+		exit(EXIT_FAILURE);
+	}
+	if (pid > 0)
+		wait(&pid);
+}
 void execute_pipeline(t_pnode *cmd_list)
 {
 	pid_t	pid;
@@ -24,10 +39,9 @@ void execute_pipeline(t_pnode *cmd_list)
 	if (!cmd_list)
 		return ;
 	curr = cmd_list;
-	while (curr) {
+	while (curr->next) {
 		int p[2];
 
-		printf("..execute process..");
 		if (pipe(p) < 0)
 			err_handler("pipe error: ");
 		pid = fork();
@@ -36,12 +50,9 @@ void execute_pipeline(t_pnode *cmd_list)
 		//child
 		else if (pid == 0)
 		{
-			if (curr->next) 
-			{
-				close(p[0]);
-				dup2(p[1], 1);
-				close(p[1]);
-			} 
+			close(p[0]);
+			dup2(p[1], 1);
+			close(p[1]);
 			execute(curr->cmds);
 			perror("exec error: ");
 			exit(EXIT_FAILURE);
@@ -49,13 +60,12 @@ void execute_pipeline(t_pnode *cmd_list)
 		//parent
 		else if (pid > 0)
 		{
-			if (curr->next)
-			{
-				close(p[1]);
-				dup2(p[0], 0);
-				close(p[0]);
-			}
+			close(p[1]);
+			dup2(p[0], 0);
+			close(p[0]);
+			wait(&pid);
 		}
 		curr = curr->next;
 	}
+	execute_last(curr);
 }

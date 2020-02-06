@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/06 18:44:08 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/06 19:13:57 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,8 @@ static int	prompt_loop(void)
 		{
 			dispatch(*curr);
 			curr++;
+			if (!curr)
+				printf("curr is null\n");
 		}
 	}
 	return (1);
