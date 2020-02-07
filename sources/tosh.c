@@ -129,7 +129,7 @@ static int	dispatch(t_tokens *cmd_group)
 			pipeline_full = add_pnode(pipeline_full, args, redirs);
 			curr++;
 	}
-	execute_pipeline(pipeline_full);
+	execute_main(pipeline_full);
 	return (1);
 }
 

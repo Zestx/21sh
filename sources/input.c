@@ -75,7 +75,6 @@ static char		*get_all_lines(void)
 		if (get_next_line(0, &line) < 0)
 			exit(EXIT_FAILURE);
 		temp = line;
-	printf("getting input\n");
 		line = ft_strtrim(line);
 		free(temp);
 		temp = full_input;

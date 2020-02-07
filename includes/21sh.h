@@ -87,7 +87,7 @@ t_tokens	*add_singlechar_token(char *c, t_tokens *toks);
 /*
 ** get_tokens.c
 */
-void		execute_pipeline(t_pnode *cmd_list);
+void		execute_main(t_pnode *cmd_list);
 /*
  * ** util_env.c
  * */

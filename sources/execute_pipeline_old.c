@@ -15,8 +15,23 @@ static void execute(char **cmd_list)
 	perror("exec error: ");
 	exit(EXIT_FAILURE);
 }
+static void	execute_last(t_pnode *cmd)
+{
+	pid_t pid;
 
-static void execute_pipeline(t_pnode *cmd_list)
+	pid = fork();
+	if (pid < 0)
+		err_handler("fork error");
+	if (!pid)
+	{
+		execute(cmd->cmds);
+		perror("exec error: ");
+		exit(EXIT_FAILURE);
+	}
+	if (pid > 0)
+		wait(&pid);
+}
+void execute_pipeline(t_pnode *cmd_list)
 {
 	pid_t	pid;
 	t_pnode *curr;
@@ -52,32 +67,5 @@ static void execute_pipeline(t_pnode *cmd_list)
 		}
 		curr = curr->next;
 	}
-	execute(curr->cmds);
-}
-
-void execute_main(t_pnode *cmd_list)
-{
-	pid_t	pid;
-
-	if (!cmd_list)
-		return ;
-	pid = fork();
-	if (pid < 0)
-		err_handler("fork error: ");
-	else if (pid == 0)	//child
-	{
-		if (cmd_list->next == NULL)
-		{
-			execute(cmd_list->cmds);
-			perror("exec error: ");
-			exit(EXIT_FAILURE);
-		}
-		else
-		{
-			printf("pipeline in\n");
-			execute_pipeline(cmd_list);
-		}
-	}
-	else if (pid > 0)	//parent
-		wait(&pid);
+	execute_last(curr);
 }
