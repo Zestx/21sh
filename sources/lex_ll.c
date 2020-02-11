@@ -34,6 +34,38 @@ t_tokens	*add_token_node(t_tokens *list, char *str, int tp)
 	return (list);
 }
 
+void		free_token_list(t_tokens *list)
+{
+	t_tokens *ptr;
+	t_tokens *tmp;
+
+	if (!list)
+		return ;
+	ptr = list;
+	while (ptr)
+	{
+		tmp = ptr;
+		if (ptr->string)
+			free(ptr->string);
+		free(ptr);
+		ptr = tmp->next;
+	}
+}
+
+void		free_token_meta_list(t_tokens **list)
+{
+	t_tokens **ptr;
+
+	if (!list)
+		return ;
+	ptr = list;
+	while (ptr)
+	{
+		free_token_list(*ptr);
+		ptr++;
+	}
+}
+
 t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs)
 {
 	t_pnode	*node;
@@ -53,6 +85,24 @@ t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs)
 		curr = curr->next;
 	curr->next = node;
 	return (list);
+}
+
+void		free_pnode_list(t_pnode *list)
+{
+	t_pnode *ptr;
+	t_pnode *tmp;
+
+	if (!list)
+		return ;
+	ptr = list;
+	while (ptr)
+	{
+		ft_free_tab2(ptr->cmds);
+		free_token_list(ptr->reds);
+		tmp = ptr;
+		free(ptr);
+		ptr = tmp->next;
+	}
 }
 
 size_t		count_nodes(t_tokens *list)
