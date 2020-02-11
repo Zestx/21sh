@@ -16,6 +16,8 @@ static void execute(char **cmd_list)
 	exit(EXIT_FAILURE);
 }
 
+//loop through each node of the pipeline, pipe/dup the commands and execute them
+//one after the other.
 static void execute_pipeline(t_pnode *cmd_list)
 {
 	pid_t	pid;
@@ -35,9 +37,12 @@ static void execute_pipeline(t_pnode *cmd_list)
 		//child
 		else if (pid == 0)
 		{
+			//close the read-end of the pipe, since it reads from stdin.
 			close(p[0]);
+			//duplicate stdout into the pipe and close it.
 			dup2(p[1], 1);
 			close(p[1]);
+			//execute.
 			execute(curr->cmds);
 			perror("exec error: ");
 			exit(EXIT_FAILURE);
@@ -45,6 +50,7 @@ static void execute_pipeline(t_pnode *cmd_list)
 		//parent
 		else if (pid > 0)
 		{
+			//close the write-end of the pipe and duplicate stdin to the pipe.
 			close(p[1]);
 			dup2(p[0], 0);
 			close(p[0]);
@@ -55,6 +61,8 @@ static void execute_pipeline(t_pnode *cmd_list)
 	execute(curr->cmds);
 }
 
+//fork and execute the command if there's only one. If there's a real pipeline, 
+//call execute_pipeline which will loop and fork for each command.
 void execute_main(t_pnode *cmd_list)
 {
 	pid_t	pid;

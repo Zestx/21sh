@@ -44,6 +44,8 @@ static t_tokens	**init_tokens_groups(size_t size)
 	return (toks_groups);
 }
 
+//this function is used to split a token list in different part,
+//like a strsplit, with splitter being a token type (scl, pip..)
 t_tokens	**split_commands(t_tokens *toks, int splitter)
 {
 	t_tokens	**toks_groups;

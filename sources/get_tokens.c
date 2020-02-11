@@ -12,6 +12,7 @@
 
 #include "../includes/21sh.h"
 
+//get a regular token.
 static char		*get_full_word(char *start)
 {
 	char	*full_word;
@@ -29,6 +30,7 @@ static char		*get_full_word(char *start)
 	return (full_word);
 }
 
+//get a quote token.
 static char		*get_full_quote(char *ptr, int *og_len)
 {
 	char	*end;
@@ -57,6 +59,7 @@ static char		*get_full_quote(char *ptr, int *og_len)
 	return (NULL);
 }
 
+//get pipe or semicolumn token. Should be updated.
 static t_tokens	*get_special(char *c, t_tokens *toks, int *og_len)
 {
 	if (*c == '|' || *c == ';')
@@ -67,6 +70,7 @@ static t_tokens	*get_special(char *c, t_tokens *toks, int *og_len)
 	return (toks);
 }
 
+//get a redirection token.
 static t_tokens	*get_redirect(char *c, t_tokens *toks, int *og_len)
 {
 	char	*str;
@@ -91,6 +95,8 @@ static t_tokens	*get_redirect(char *c, t_tokens *toks, int *og_len)
 	return (toks);
 }
 
+//browse through the input, check for the type of the next element, and extract it into
+//a token.
 t_tokens		*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
 {
 	char	*str;

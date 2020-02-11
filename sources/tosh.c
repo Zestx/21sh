@@ -29,6 +29,8 @@ size_t		get_tab_size(char **tab)
 	return (size);
 }
 
+//returns a copy of the table in arguments, actually used to copy the external
+//environement variables table.
 char		**get_env(char **environ)
 {
 	char	**copy;
@@ -52,6 +54,7 @@ char		**get_env(char **environ)
 	return (copy);
 }
 
+//count all the nodes of a certain type in a token list.
 static size_t	count_spec_nodes(t_tokens *toks, int spec)
 {
 	size_t		count;
@@ -69,8 +72,7 @@ static size_t	count_spec_nodes(t_tokens *toks, int spec)
 	}
 	return (count);
 }
-
-//should probably be parsed into a special kind of struct/list.
+//get all the redirections tokens of a list into another list.
 static t_tokens *gather_redir_tokens(t_tokens *group)
 {
 	t_tokens	*gathered;
@@ -93,6 +95,7 @@ static t_tokens *gather_redir_tokens(t_tokens *group)
 	return (gathered);
 }
 
+//get all the command/args (regulars and quotes) of a list into a table.
 static char **gather_cmds_tokens(t_tokens *group)
 {
 	char		**gathered;
@@ -111,6 +114,8 @@ static char **gather_cmds_tokens(t_tokens *group)
 	return (gathered);
 }
 
+//this function split each command groups into "pipeline nodes" then separate
+//each nodes into a group of command+args and a group of redirections.
 static int	dispatch(t_tokens *cmd_group)
 {
 	t_pnode		*pipeline_full;
@@ -133,6 +138,8 @@ static int	dispatch(t_tokens *cmd_group)
 	return (1);
 }
 
+//get user input, split it into command groups (separated by semicolumns)
+//and send each groups to dispatch().
 static int	prompt_loop(void)
 {
 	char		*cmds;

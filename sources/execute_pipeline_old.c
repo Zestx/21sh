@@ -1,4 +1,5 @@
-#include <fcntl.h>
+eortrehgdhigurehgrohrhgpgdsùhpges<fOAàue
+rz#include <fcntl.h>
 #include <sys/wait.h>
 #include "../includes/21sh.h"
 
