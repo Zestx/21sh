@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 18:36:09 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/19 18:40:42 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/19 18:48:45 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,12 @@ static t_tokens	*get_redirect(char *c, t_tokens *toks, int *og_len)
 		*(c_ptr++) = *(c++);
 	if (*c == '-' || ft_isdigit(*c))
 		*(c_ptr++) = *(c++);
-	else 
+	else
+	{
+		while (ft_isspacer(*c))
+			c++;
 		str = ft_strjoin(str, get_full_word(c, og_len));
+	}	
 	*c_ptr = '\0';
 	toks = add_token_node(toks, str, RED);
 	*og_len = ft_strlen(str);
