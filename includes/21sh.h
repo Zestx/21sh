@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 18:20:51 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/06 18:31:48 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/19 19:28:05 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,17 @@ void		free_pnode_list(t_pnode *list);
 size_t		count_nodes(t_tokens *list);
 
 /* 
- * ** lex_tools.c
- * */
+** lex_tools.c
+*/
 int		ft_issquote(char c);
 int		ft_isdquote(char c);
 int		ft_isbquote(char c);
 void		display_ll(t_tokens *toks);
 void		display_all_toks(t_tokens **toks);
+
+/* 
+** lex_tools.c
+*/
+void	redirect(t_tokens *redirections);
+
 #endif
