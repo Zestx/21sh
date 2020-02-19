@@ -2,11 +2,5 @@
 - when checking for multiple semicolumns one after the other (which is a syntax error), in input.c, 
   it only complain about the error if it's the first semi-column that is concerned.
 
-- backslash-quoting a space seems to have no effect, it stills create a new token. (this bug also affect
-  redirections with a file)
-
 - when tokenizing a redirection with a file, in the format ">file" only (?), the filename will be preceded
   by the last character of the token before. ( "ls >file" will give 'ls' and '>sfile' ) 
-
-- after executing a multiple-nodes pipeline (so just an actual pipeline), 21sh gives back the prompt and segfault
-  probly has something to do with pipes/dups not properly resets after the pipelining.

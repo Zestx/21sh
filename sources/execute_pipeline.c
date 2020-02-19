@@ -81,10 +81,7 @@ void execute_main(t_pnode *cmd_list)
 			exit(EXIT_FAILURE);
 		}
 		else
-		{
-			printf("pipeline in\n");
 			execute_pipeline(cmd_list);
-		}
 	}
 	else if (pid > 0)	//parent
 		wait(&pid);

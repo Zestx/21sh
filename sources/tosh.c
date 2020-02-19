@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/06 19:31:15 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/19 17:49:07 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks = tokenize(cmds);
+		display_ll(toks);
 		free(cmds);
 		//do the expansions
 		toks_groups = split_commands(toks, SCL);
