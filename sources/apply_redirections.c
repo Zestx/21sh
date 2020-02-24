@@ -4,6 +4,7 @@ static int	open_file(char *r_value)
 {
 	int fd;
 
+	printf("opening [%s]\n", r_value);
 	if (access(r_value, F_OK))
 		fd = creat(r_value, 0644);
 	else if (access(r_value, W_OK))
@@ -12,7 +13,8 @@ static int	open_file(char *r_value)
 		return (-1);
 	}
 	else
-		fd = open(r_value, 0644);
+		if ((fd = open(r_value, 0644) < 0))
+				ft_putendl("bad fd.");
 	if (fd < 0)
 	{
 		ft_putendl("error: negative fd.\n");
@@ -46,10 +48,11 @@ static int	get_output_fd(char *r_value)
 int	apply_output_redir(char *operand, char *l_value, char *r_value)
 {
 	int output_fd;
-	//int input_fd;
+	int input_fd;
 
+	ft_putendl("apply output redirs");	
 	output_fd = get_output_fd(r_value);
-	//input_fd = get_input_fd(l_value);
+	input_fd = get_input_fd(l_value);
 	if (output_fd < 0)
 	{
 		ft_putendl("output_fd error!");

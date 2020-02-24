@@ -34,23 +34,18 @@ static void execute_pipeline(t_pnode *cmd_list)
 		pid = fork();
 		if (pid < 0) 
 			err_handler("fork error: ");
-		//child
 		else if (pid == 0)
 		{
-			//close the read-end of the pipe, since it reads from stdin.
+			redirect(curr->reds);
 			close(p[0]);
-			//duplicate stdout into the pipe and close it.
 			dup2(p[1], 1);
 			close(p[1]);
-			//execute.
 			execute(curr->cmds);
 			perror("exec error: ");
 			exit(EXIT_FAILURE);
 		} 
-		//parent
 		else if (pid > 0)
 		{
-			//close the write-end of the pipe and duplicate stdin to the pipe.
 			close(p[1]);
 			dup2(p[0], 0);
 			close(p[0]);

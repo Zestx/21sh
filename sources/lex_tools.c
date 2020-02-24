@@ -66,7 +66,3 @@ void	display_all_toks(t_tokens **all_toks)
 		curr++;
 	}
 }
-
-
-
-

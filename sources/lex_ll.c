@@ -52,20 +52,6 @@ void		free_token_list(t_tokens *list)
 	}
 }
 
-void		free_token_meta_list(t_tokens **list)
-{
-	t_tokens **ptr;
-
-	if (!list)
-		return ;
-	ptr = list;
-	while (ptr)
-	{
-		free_token_list(*ptr);
-		ptr++;
-	}
-}
-
 t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs)
 {
 	t_pnode	*node;

@@ -43,6 +43,7 @@ static t_redirect	*extract_redir_values(char *unlexd_redir)
 
 static int		apply_redirections(t_redirect *redir_toks)	
 {
+	printf("REDIRECT\n");
 	if (!redir_toks)
 		return (0);
 	printf("--------------\n");
@@ -67,6 +68,7 @@ void			redirect(t_tokens *redirections)
 	curr = redirections;
 	while (curr)
 	{
+		printf("LOOP\n");
 		redir_toks = extract_redir_values(curr->string);
 		if (!(apply_redirections(redir_toks)))
 		{

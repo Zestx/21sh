@@ -125,6 +125,7 @@ static int	dispatch(t_tokens *cmd_group)
 	char		**args;
 
 	pipeline_cmds = split_commands(cmd_group, PIP);
+	free_token_list(cmd_group);
 	curr = pipeline_cmds;
 	pipeline_full = NULL;
 	while (*curr)
@@ -134,8 +135,8 @@ static int	dispatch(t_tokens *cmd_group)
 			pipeline_full = add_pnode(pipeline_full, args, redirs);
 			curr++;
 	}
-	//free_token_meta_list(pipeline_cmds);
 	execute_main(pipeline_full);
+	free_pnode_list(pipeline_full);
 	return (1);
 }
 
@@ -154,8 +155,8 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks = tokenize(cmds);
-		display_ll(toks);
 		free(cmds);
+		display_ll(toks);
 		//do the expansions
 		toks_groups = split_commands(toks, SCL);
 		free_token_list(toks);
@@ -163,22 +164,17 @@ static int	prompt_loop(void)
 		while (*curr)
 		{
 			dispatch(*curr);
+			*curr = NULL;
 			curr++;
 		}
-		//free_token_meta_list(toks_groups);
+		//free(toks_groups);
 	}
 	return (1);
 }
 
 int			main(void)
 {
-	extern char **environ;
-	char		**env;
-
-	if (!(env = get_env(environ)))
-		return (-1);
 	title();
 	prompt_loop();
-	ft_free_tab2(env);
 	return (0);
 }
