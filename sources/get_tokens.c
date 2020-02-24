@@ -114,16 +114,14 @@ static t_tokens	*get_redirect(char *c, t_tokens *toks, int *og_len)
 	char	*str;
 	char	*c_ptr;
 
-	if (!(str = malloc(5)))
+	if (!(str = malloc(6)))
 		exit(EXIT_FAILURE);
 	c_ptr = str;
 	if (*c == '&' || ft_isdigit(*c))
 		*(c_ptr++) = *(c++);
 	if (*c == '>' || *c == '<')
 		*(c_ptr++) = *(c++);
-	if (*c == '>' || *c == '<' || *c == '&')
-		*(c_ptr++) = *(c++);
-	if (*c == '-' || ft_isdigit(*c))
+	if (*c == '>' || *c == '<')
 		*(c_ptr++) = *(c++);
 	else
 	{

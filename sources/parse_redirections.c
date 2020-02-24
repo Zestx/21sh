@@ -20,6 +20,8 @@ static t_redirect	*extract_redir_values(char *unlexd_redir)
 	char		*start;
 	char		*end;
 
+	if (!unlexd_redir)
+		return (NULL);
 	if (!(lexd_redir = malloc(sizeof(t_redirect))))
 		exit(EXIT_FAILURE);
 	start = unlexd_redir;
@@ -35,26 +37,26 @@ static t_redirect	*extract_redir_values(char *unlexd_redir)
 		exit(EXIT_FAILURE);
 	if (!(lexd_redir->r_value = strdup(end)))
 		exit(EXIT_FAILURE);
-	return (NULL);
-}
-
-static t_redirect	*get_redir_tokens(t_tokens *unlexd_redir)
-{
-	t_redirect	*lexd_redir;
-
-	if (!unlexd_redir)
-		return (NULL);
-	lexd_redir = extract_redir_values(unlexd_redir->string);
-
 	return (lexd_redir);
 }
-/*
+
+
 static int		apply_redirections(t_redirect *redir_toks)	
 {
-	//parse the redirection tokens to know the 'source' fd
-	//and the 'destination' fd, then pipe them using dup2().
+	if (!redir_toks)
+		return (0);
+	printf("--------------\n");
+	printf("l_value is %s\n", redir_toks->l_value);
+	printf("operand is %s\n", redir_toks->operand);
+	printf("r_value is %s\n", redir_toks->r_value);
+	
+	if (ft_strcmp(redir_toks->operand, ">") 
+	|| ft_strcmp(redir_toks->operand, ">>"))
+		apply_output_redir(redir_toks->operand, redir_toks->l_value,
+				redir_toks->r_value);
+	return (1);
 }
-*/
+
 void			redirect(t_tokens *redirections)
 {
 	t_tokens	*curr;
@@ -65,12 +67,13 @@ void			redirect(t_tokens *redirections)
 	curr = redirections;
 	while (curr)
 	{
-		redir_toks = get_redir_tokens(curr);
-		/*if (!(apply_redirections(redir_toks)))
+		redir_toks = extract_redir_values(curr->string);
+		if (!(apply_redirections(redir_toks)))
 		{
-			ft_putendl_fd("21sh: redirections error.");
+			ft_putendl_fd("21sh: redirections error.", 2);
 			exit(EXIT_FAILURE);
-		};*/
+		};
+
 		curr = curr->next;
 	}
 	return ;

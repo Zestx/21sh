@@ -130,5 +130,5 @@ void		display_all_toks(t_tokens **toks);
 ** lex_tools.c
 */
 void	redirect(t_tokens *redirections);
-
+int	apply_output_redir(char *operand, char *l_value, char *r_value);
 #endif
