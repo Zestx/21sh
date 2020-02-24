@@ -47,6 +47,13 @@ typedef struct	s_pnode
 	struct s_pnode	*next;
 }				t_pnode;
 
+typedef struct	s_redirect
+{
+	char	*l_value;
+	char	*r_value;
+	char	*operand;
+}		t_redirect;
+
 /*
  * ** split_commands.c
  * */
