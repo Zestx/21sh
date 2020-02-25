@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 17:13:03 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/05 17:43:09 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 17:04:39 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ static t_tokens	**init_tokens_groups(size_t size)
 	return (toks_groups);
 }
 
-//this function is used to split a token list in different part,
-//like a strsplit, with splitter being a token type (scl, pip..)
-t_tokens	**split_commands(t_tokens *toks, int splitter)
+t_tokens		**split_commands(t_tokens *toks, int splitter)
 {
 	t_tokens	**toks_groups;
 	t_tokens	*curr_list;
@@ -61,8 +59,8 @@ t_tokens	**split_commands(t_tokens *toks, int splitter)
 	{
 		if (curr_list->type != splitter)
 		{
-			*curr_group = add_token_node
-			(*curr_group, curr_list->string, curr_list->type);
+			*curr_group =
+				add_token_node(*curr_group, curr_list->string, curr_list->type);
 		}
 		else
 			curr_group++;

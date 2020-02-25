@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 18:20:51 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 16:43:04 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 16:44:39 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include <string.h>
 # include <unistd.h>
 # include <limits.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 # include "../libft/libft.h"
 
 typedef struct	s_tokens

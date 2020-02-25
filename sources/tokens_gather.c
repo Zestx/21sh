@@ -6,13 +6,12 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:49:52 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 16:30:20 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 16:59:22 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-//count all the nodes of a certain type in a token list.
 static size_t	count_spec_nodes(t_tokens *toks, int spec)
 {
 	size_t		count;
@@ -30,8 +29,8 @@ static size_t	count_spec_nodes(t_tokens *toks, int spec)
 	}
 	return (count);
 }
-//get all the redirections tokens of a list into another list.
-t_tokens *gather_redir_tokens(t_tokens *group)
+
+t_tokens		*gather_redir_tokens(t_tokens *group)
 {
 	t_tokens	*gathered;
 	t_tokens	*curr;
@@ -53,8 +52,7 @@ t_tokens *gather_redir_tokens(t_tokens *group)
 	return (gathered);
 }
 
-//get all the command/args (regulars and quotes) of a list into a table.
-char **gather_cmds_tokens(t_tokens *group)
+char			**gather_cmds_tokens(t_tokens *group)
 {
 	char		**gathered;
 	t_tokens	*curr;

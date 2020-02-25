@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 19:32:36 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 16:38:41 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 17:05:51 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ char	*get_env_var(char **env, char *var_name)
 	return (NULL);
 }
 
-//returns a copy of the table in arguments, actually used to copy the external
-//environement variables table.
-char		**get_env(char **environ)
+char	**get_env(char **environ)
 {
 	char	**copy;
 	char	**env_ptr;

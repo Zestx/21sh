@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:35:59 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 19:36:33 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 17:01:55 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_tokens	*add_singlechar_token(char *c, t_tokens *toks)
 	return (toks);
 }
 
-t_tokens		*tokenize(char *input)
+t_tokens	*tokenize(char *input)
 {
 	t_tokens	*toks;
 	char		*ptr;

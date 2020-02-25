@@ -6,13 +6,13 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 15:59:54 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 16:13:02 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 17:05:20 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-char		*add_char(char *str, char c)
+char	*add_char(char *str, char c)
 {
 	char	*new_str;
 	char	*new_ptr;

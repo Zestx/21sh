@@ -1,38 +1,45 @@
-#include <fcntl.h>
-#include <sys/wait.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   execute_main.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/25 17:07:50 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/02/25 17:08:27 by qbackaer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/21sh.h"
 
-
-static int err_handler(char *err_msg)
+static int	err_handler(char *err_msg)
 {
 	perror(err_msg);
 	exit(EXIT_FAILURE);
 }
 
-static void execute(char **cmd_list)
+static void	execute(char **cmd_list)
 {
 	execvp(cmd_list[0], cmd_list);
 	perror("exec error: ");
 	exit(EXIT_FAILURE);
 }
 
-//loop through each node of the pipeline, pipe/dup the commands and execute them
-//one after the other.
-static void execute_pipeline(t_pnode *cmd_list)
+static void	execute_pipeline(t_pnode *cmd_list)
 {
+	int		p[2];
 	pid_t	pid;
-	t_pnode *curr;
+	t_pnode	*curr;
 
 	if (!cmd_list)
 		return ;
 	curr = cmd_list;
-	while (curr->next) {
-		int p[2];
-
+	while (curr->next)
+	{
 		if (pipe(p) < 0)
 			err_handler("pipe error: ");
 		pid = fork();
-		if (pid < 0) 
+		if (pid < 0)
 			err_handler("fork error: ");
 		else if (pid == 0)
 		{
@@ -43,7 +50,7 @@ static void execute_pipeline(t_pnode *cmd_list)
 			execute(curr->cmds);
 			perror("exec error: ");
 			exit(EXIT_FAILURE);
-		} 
+		}
 		else if (pid > 0)
 		{
 			close(p[1]);
@@ -56,9 +63,7 @@ static void execute_pipeline(t_pnode *cmd_list)
 	execute(curr->cmds);
 }
 
-//fork and execute the command if there's only one. If there's a real pipeline, 
-//call execute_pipeline which will loop and fork for each command.
-void execute_main(t_pnode *cmd_list)
+void		execute_main(t_pnode *cmd_list)
 {
 	pid_t	pid;
 
@@ -67,7 +72,7 @@ void execute_main(t_pnode *cmd_list)
 	pid = fork();
 	if (pid < 0)
 		err_handler("fork error: ");
-	else if (pid == 0)	//child
+	else if (pid == 0)
 	{
 		if (cmd_list->next == NULL)
 		{
@@ -79,6 +84,6 @@ void execute_main(t_pnode *cmd_list)
 		else
 			execute_pipeline(cmd_list);
 	}
-	else if (pid > 0)	//parent
+	else if (pid > 0)
 		wait(&pid);
 }

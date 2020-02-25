@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 14:45:23 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/06 19:34:07 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 16:52:18 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static char		*is_quote_closed(char *start)
 	return (NULL);
 }
 
-//check if the user input is closed (missing closing quote, EOL backslash..)
 static int		is_input_done(char *str)
 {
 	int			esc;
@@ -64,8 +63,6 @@ static int		is_input_done(char *str)
 	return (1);
 }
 
-//get a line of input from user. If it isn't closed, ask for another line until
-//the input is complete and returns all of it as a single string.
 static char		*get_all_lines(void)
 {
 	char		*full_input;
@@ -91,7 +88,6 @@ static char		*get_all_lines(void)
 	return (full_input);
 }
 
-//get user input, check for syntax error (only scl at the moment) and returns it.
 char			*get_input(void)
 {
 	char		*input;

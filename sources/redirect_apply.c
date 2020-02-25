@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirect_apply.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/02/25 16:53:18 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/02/25 16:54:10 by qbackaer         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/21sh.h"
 
 static int	open_file(char *r_value)
@@ -12,9 +24,8 @@ static int	open_file(char *r_value)
 		perror("access W_OK error: ");
 		return (-1);
 	}
-	else
-		if ((fd = open(r_value, 0644) < 0))
-				ft_putendl("bad fd.");
+	else if ((fd = open(r_value, 0644) < 0))
+		ft_putendl("bad fd.");
 	if (fd < 0)
 	{
 		ft_putendl("error: negative fd.\n");
@@ -45,12 +56,12 @@ static int	get_output_fd(char *r_value)
 	return (open_file(r_value));
 }
 
-int	apply_output_redir(char *operand, char *l_value, char *r_value)
+int			apply_output_redir(char *operand, char *l_value, char *r_value)
 {
 	int output_fd;
 	int input_fd;
 
-	ft_putendl("apply output redirs");	
+	ft_putendl("apply output redirs");
 	output_fd = get_output_fd(r_value);
 	input_fd = get_input_fd(l_value);
 	if (output_fd < 0)
