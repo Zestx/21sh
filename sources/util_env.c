@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 19:32:36 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/21 19:41:21 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 16:38:41 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,29 @@ char	*get_env_var(char **env, char *var_name)
 		roam++;
 	}
 	return (NULL);
+}
+
+//returns a copy of the table in arguments, actually used to copy the external
+//environement variables table.
+char		**get_env(char **environ)
+{
+	char	**copy;
+	char	**env_ptr;
+	char	**cpy_ptr;
+
+	if (!environ)
+		return (NULL);
+	if (!(copy = malloc(sizeof(copy) * (get_tab_size(environ) + 1))))
+		exit(EXIT_FAILURE);
+	env_ptr = environ;
+	cpy_ptr = copy;
+	while (*env_ptr)
+	{
+		if (!(*cpy_ptr = ft_strdup(*env_ptr)))
+			exit(EXIT_FAILURE);
+		cpy_ptr++;
+		env_ptr++;
+	}
+	*cpy_ptr = NULL;
+	return (copy);
 }

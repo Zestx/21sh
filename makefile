@@ -6,7 +6,7 @@
 #    By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/24 17:44:40 by qbackaer          #+#    #+#              #
-#    Updated: 2020/02/19 19:28:33 by qbackaer         ###   ########.fr        #
+#    Updated: 2020/02/25 16:19:44 by qbackaer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,15 +14,16 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 NAME = 21sh
 INCLUDES = 21sh.h
-SRCS = sources/tosh.c sources/display.c sources/input.c sources/input_tools.c \
-	   sources/lex_tools.c sources/lex_ll.c sources/get_tokens.c \
-	   sources/tokenize.c sources/tokenize_tools.c sources/util_env.c \
-	   sources/split_commands.c sources/execute_pipeline.c \
-	   sources/redirect_parse.c sources/redirect_apply.c
-OBJS = tosh.o display.o input.o input_tools.o lex_tools.o lex_ll.o \
-	   tokenize.o tokenize_tools.o util_env.o get_tokens.o \
-	   split_commands.o execute_pipeline.o redirect_parse.o \
-	   redirect_apply.o
+SRCS = sources/sh21.c sources/display.c sources/input_main.c sources/input_tools.c \
+	   sources/tokens_list.c sources/tokens_get.c \
+	   sources/tokens_main.c sources/tokens_tools_a.c sources/util_env.c \
+	   sources/tokens_split.c sources/execute_main.c \
+	   sources/redirect_parse.c sources/redirect_apply.c \
+	   sources/tokens_gather.c sources/tokens_tools_b.c
+OBJS = sh21.o display.o input_main.o input_tools.o tokens_list.o \
+	   tokens_main.o tokens_tools_a.o util_env.o tokens_get.o \
+	   tokens_split.o execute_main.o redirect_parse.o \
+	   redirect_apply.o tokens_gather.o tokens_tools_b.o
 
 all: $(NAME)
 

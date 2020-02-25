@@ -1,16 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tools.c                                            :+:      :+:    :+:   */
+/*   tokenize_tools_b.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/18 16:30:58 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/01/23 18:26:53 by qbackaer         ###   ########.fr       */
+/*   Created: 2020/02/25 15:59:54 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/02/25 16:13:02 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
+
+char		*add_char(char *str, char c)
+{
+	char	*new_str;
+	char	*new_ptr;
+	char	*org_ptr;
+	size_t	len;
+
+	if (!str)
+		len = 0;
+	else
+		len = ft_strlen(str);
+	if (!(new_str = malloc(len + 2)))
+		exit(EXIT_FAILURE);
+	new_ptr = new_str;
+	org_ptr = str;
+	while (org_ptr && *org_ptr)
+	{
+		*new_ptr = *org_ptr;
+		new_ptr++;
+		org_ptr++;
+	}
+	*new_ptr = c;
+	new_ptr++;
+	*new_ptr = '\0';
+	if (str)
+		free(str);
+	return (new_str);
+}
 
 int		ft_issquote(char c)
 {
@@ -51,18 +80,5 @@ void	display_ll(t_tokens *toks)
 			printf("SCL\n");
 		ptr = ptr->next;
 		n++;
-	}
-}
-
-void	display_all_toks(t_tokens **all_toks)
-{
-	t_tokens	**curr;
-
-	curr = all_toks;
-	while (*curr)
-	{
-		printf("========================\n");
-		display_ll(*curr);
-		curr++;
 	}
 }

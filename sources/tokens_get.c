@@ -6,40 +6,12 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 18:36:09 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/19 18:48:45 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/02/25 16:02:07 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-static char		*add_char(char *str, char c)
-{
-	char	*new_str;
-	char	*new_ptr;
-	char	*org_ptr;
-	size_t	len;
-
-	if (!str)
-		len = 0;
-	else
-		len = ft_strlen(str);
-	if (!(new_str = malloc(len + 2)))
-		exit(EXIT_FAILURE);
-	new_ptr = new_str;
-	org_ptr = str;
-	while (org_ptr && *org_ptr)
-	{
-		*new_ptr = *org_ptr;
-		new_ptr++;
-		org_ptr++;
-	}
-	*new_ptr = c;
-	new_ptr++;
-	*new_ptr = '\0';
-	if (str)
-		free(str);
-	return (new_str);
-}
 
 //get a regular token.
 static char		*get_full_word(char *start, int *og_len)
