@@ -81,4 +81,5 @@ void	display_ll(t_tokens *toks)
 		ptr = ptr->next;
 		n++;
 	}
+	printf("=================\n");
 }

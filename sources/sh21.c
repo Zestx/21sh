@@ -57,9 +57,10 @@ static int	prompt_loop(void)
 		while (*curr)
 		{
 			dispatch(*curr);
-			*curr = NULL;
+			free_token_list(toks);
 			curr++;
 		}
+		free(toks_groups);
 	}
 	return (1);
 }

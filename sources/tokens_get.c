@@ -34,7 +34,7 @@ static char		*get_full_word(char *start, int *og_len)
 		esc = 0;
 		end++;
 	}
-	*og_len = end - start + 1;
+	*og_len = end - start;
 	return (full_word);
 }
 
@@ -90,13 +90,10 @@ static t_tokens	*get_redirect(char *c, t_tokens *toks, int *og_len)
 		*(c_ptr++) = *(c++);
 	if (*c == '>' || *c == '<')
 		*(c_ptr++) = *(c++);
-	else
-	{
-		while (ft_isspacer(*c))
-			c++;
-		str = ft_strjoin(str, get_full_word(c, og_len));
-	}
-	*c_ptr = '\0';
+	*(c_ptr++) = '\0';
+	while (ft_isspacer(*c))
+		c++;
+	str = ft_strjoin(str, get_full_word(c, og_len));
 	toks = add_token_node(toks, str, RED);
 	*og_len = ft_strlen(str);
 	return (toks);

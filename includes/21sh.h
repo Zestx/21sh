@@ -142,13 +142,13 @@ void		display_ll(t_tokens *toks);
 ** util_env.c
 */
 char		*get_env_var(char **env, char *var_name);
-char		**get_env(char **environ)
+char		**get_env(char **environ);
 
 /*
 ** util_tab.c
 */
-char		**init_tab(void)
-size_t		get_tab_size(char **tab)
-void		print_tab(char **tab)
+char		**init_tab(void);
+size_t		get_tab_size(char **tab);
+void		print_tab(char **tab);
 
 #endif

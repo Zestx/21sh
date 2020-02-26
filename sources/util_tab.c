@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/21sh.h"
 
 char	**init_tab(void)
 {
@@ -18,7 +18,8 @@ char	**init_tab(void)
 
 	if (!(tab = malloc(sizeof(tab) * 2)))
 		exit(EXIT_FAILURE);
-	tab[0] = strdup_safe("");
+	if (!(tab[0] = ft_strdup("")))
+		exit(EXIT_FAILURE);
 	tab[1] = NULL;
 	return (tab);
 }
@@ -47,9 +48,9 @@ void	print_tab(char **tab)
 	if (!tab)
 		return ;
 	curr = tab;
-	while (*roam)
+	while (*curr)
 	{
-		printf("[ %s ]\n", *roam);
-		roam++;
+		printf("[ %s ]\n", *curr);
+		curr++;
 	}
 }

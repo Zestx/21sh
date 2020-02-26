@@ -14,7 +14,8 @@ CC = gcc
 CFLAGS = -Wall -Wextra -g
 NAME = 21sh
 INCLUDES = 21sh.h
-SRCS = sources/sh21.c sources/display.c sources/input_main.c sources/input_tools.c \
+SRCS = sources/sh21.c sources/display.c sources/input_main.c \
+	   sources/input_tools.c sources/util_tab.c \
 	   sources/tokens_list.c sources/tokens_get.c \
 	   sources/tokens_main.c sources/tokens_tools_a.c sources/util_env.c \
 	   sources/tokens_split.c sources/execute_main.c \
@@ -23,7 +24,8 @@ SRCS = sources/sh21.c sources/display.c sources/input_main.c sources/input_tools
 OBJS = sh21.o display.o input_main.o input_tools.o tokens_list.o \
 	   tokens_main.o tokens_tools_a.o util_env.o tokens_get.o \
 	   tokens_split.o execute_main.o redirect_parse.o \
-	   redirect_apply.o tokens_gather.o tokens_tools_b.o
+	   redirect_apply.o tokens_gather.o tokens_tools_b.o \
+	   util_tab.o
 
 all: $(NAME)
 
