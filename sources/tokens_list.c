@@ -36,11 +36,14 @@ t_tokens	*add_token_node(t_tokens *list, char *str, int tp)
 
 void		free_token_list(t_tokens *list)
 {
-	t_tokens *ptr;
 	t_tokens *tmp;
+	t_tokens *ptr;
 
 	if (!list)
+	{
+		ft_putendl_fd("free_token_list error: NULL list.", 2);
 		return ;
+	}
 	ptr = list;
 	while (ptr)
 	{
@@ -50,6 +53,20 @@ void		free_token_list(t_tokens *list)
 		free(ptr);
 		ptr = tmp;
 	}
+}
+
+void		free_token_group(t_tokens **list)
+{
+	t_tokens	**curr;
+
+	if (!list)
+		return ;
+	curr = list;
+	while (*curr)
+	{
+		curr++;
+	}
+	return ;
 }
 
 t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs)
@@ -83,11 +100,11 @@ void		free_pnode_list(t_pnode *list)
 	ptr = list;
 	while (ptr)
 	{
+		tmp = ptr->next;
 		ft_free_tab2(ptr->cmds);
 		free_token_list(ptr->reds);
-		tmp = ptr;
 		free(ptr);
-		ptr = tmp->next;
+		ptr = tmp;
 	}
 }
 

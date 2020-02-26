@@ -30,7 +30,9 @@ static int	dispatch(t_tokens *cmd_group)
 		pipeline_full = add_pnode(pipeline_full, args, redirs);
 		curr++;
 	}
+	free_token_group(pipeline_cmds);
 	execute_main(pipeline_full);
+	//free_pnode_list(pipeline_full);
 	return (1);
 }
 
@@ -49,12 +51,14 @@ static int	prompt_loop(void)
 		toks = tokenize(cmds);
 		display_ll(toks);
 		toks_groups = split_commands(toks, SCL);
+		free_token_list(toks);
 		curr = toks_groups;
 		while (*curr)
 		{
 			dispatch(*curr);
 			curr++;
 		}
+		free_token_group(toks_groups);
 	}
 	return (1);
 }

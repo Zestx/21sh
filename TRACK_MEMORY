@@ -20,4 +20,6 @@ IV. SPLIT_COMMAND (;)
 		* Each element of the array is set to NULL.
 	- The original list is split regarding semicolumns into
 	  the newly created array.
+	- !!! We free the original tokens list with free_token_list();
+	- returning the newly splitted array.
 

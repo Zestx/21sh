@@ -79,6 +79,5 @@ t_tokens		**split_commands(t_tokens *toks, int splitter)
 			curr_group++;
 		curr_list = curr_list->next;
 	}
-	free_token_list(toks);
 	return (toks_groups);
 }

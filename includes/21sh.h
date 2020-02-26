@@ -106,6 +106,7 @@ void		free_token_list(t_tokens *list);
 t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs);
 void		free_pnode_list(t_pnode *list);
 size_t		count_nodes(t_tokens *list);
+void		free_token_group(t_tokens **list);
 
 /*
 ** tokens_main.c
