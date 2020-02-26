@@ -21,7 +21,6 @@ static int	dispatch(t_tokens *cmd_group)
 	char		**args;
 
 	pipeline_cmds = split_commands(cmd_group, PIP);
-	free_token_list(cmd_group);
 	curr = pipeline_cmds;
 	pipeline_full = NULL;
 	while (*curr)
@@ -32,7 +31,6 @@ static int	dispatch(t_tokens *cmd_group)
 		curr++;
 	}
 	execute_main(pipeline_full);
-	free_pnode_list(pipeline_full);
 	return (1);
 }
 
@@ -49,18 +47,14 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks = tokenize(cmds);
-		free(cmds);
 		display_ll(toks);
 		toks_groups = split_commands(toks, SCL);
-		free_token_list(toks);
 		curr = toks_groups;
 		while (*curr)
 		{
 			dispatch(*curr);
-			free_token_list(toks);
 			curr++;
 		}
-		free(toks_groups);
 	}
 	return (1);
 }

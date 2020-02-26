@@ -95,7 +95,7 @@ static t_tokens	*get_redirect(char *c, t_tokens *toks, int *og_len)
 		c++;
 	str = ft_strjoin(str, get_full_word(c, og_len));
 	toks = add_token_node(toks, str, RED);
-	*og_len = ft_strlen(str);
+	*og_len = ft_strlen(str) + 1;
 	return (toks);
 }
 
