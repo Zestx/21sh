@@ -1,0 +1,23 @@
+I. GET_INPUT
+	- Getting new lines at get_all_lines() with get_next_line().
+		* Each extra lines is freed, only returning full_input.
+	- Checking the full_input for syntax errors
+		* If there's one, full_input is freed and null is returned.
+	- If it's empty, just returning null.
+	- The full_input (now just input) is returned.
+
+II. TOKENIZE
+	- We put a pointer on input to roam it and get tokens.
+	- We get new tokens (see next step)
+	- We free the original input and return a linked list of tokens.
+
+III. GET_NEXT_TOKENS
+	- Each token is lexed and allocated a node into a list of tokens.
+
+IV. SPLIT_COMMAND (;)
+	- init_tokens_group() is called
+		* Allocating an array of t_tokens lists.
+		* Each element of the array is set to NULL.
+	- The original list is split regarding semicolumns into
+	  the newly created array.
+

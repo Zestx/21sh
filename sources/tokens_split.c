@@ -31,17 +31,30 @@ static size_t	get_groups_number(t_tokens *toks, int splitter)
 static t_tokens	**init_tokens_groups(size_t size)
 {
 	t_tokens **toks_groups;
-	t_tokens **curr;
 
 	if (!(toks_groups = malloc(sizeof(toks_groups) * size + 1)))
 		exit(EXIT_FAILURE);
-	curr = toks_groups;
 	while (size + 1)
 	{
 		toks_groups[size] = NULL;
 		size--;
 	}
 	return (toks_groups);
+}
+
+void		display_split(t_tokens **groups)
+{
+	t_tokens **curr;
+
+	if (!groups)
+		return ;
+	curr = groups;
+	while (*curr)
+	{
+		display_ll(*curr);
+		curr++;
+	}
+	return ;
 }
 
 t_tokens		**split_commands(t_tokens *toks, int splitter)
@@ -66,5 +79,6 @@ t_tokens		**split_commands(t_tokens *toks, int splitter)
 			curr_group++;
 		curr_list = curr_list->next;
 	}
+	free_token_list(toks);
 	return (toks_groups);
 }

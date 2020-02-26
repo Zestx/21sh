@@ -21,7 +21,7 @@ int		is_redirection(char *ptr)
 {
 	if (*ptr == '<' || *ptr == '>')
 		return (1);
-	if (ft_isdigit(*ptr) && (*(ptr + 1) == '>' || *(ptr + 1) == '>'))
+	if (ft_isdigit(*ptr) && (*(ptr + 1) == '<' || *(ptr + 1) == '>'))
 		return (1);
 	if (*ptr == '&' && *(ptr + 1) == '>')
 		return (1);

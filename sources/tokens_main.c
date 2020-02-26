@@ -78,13 +78,13 @@ t_tokens	*tokenize(char *input)
 	char		*ptr;
 	int		esc;
 	int		og_len;
-	char		*init;
+
+	if (!input)
+		return (NULL);
 	og_len = 0;
 	toks = NULL;
 	esc = 0;
 	ptr = input;
-	init = ptr;
-	printf("init_pointer position: %ld\n", ptr - init);
 	while (*ptr)
 	{
 		while (ft_isspacer(*ptr))
@@ -94,7 +94,7 @@ t_tokens	*tokenize(char *input)
 		toks = get_next_token(ptr, toks, esc, &og_len);
 		ptr += og_len;
 		esc = 0;
-		printf("pointer position: %ld\n", ptr - init);
 	}
+	free(input);
 	return (toks);
 }

@@ -44,11 +44,11 @@ void		free_token_list(t_tokens *list)
 	ptr = list;
 	while (ptr)
 	{
-		tmp = ptr;
+		tmp = ptr->next;
 		if (ptr->string)
 			free(ptr->string);
 		free(ptr);
-		ptr = tmp->next;
+		ptr = tmp;
 	}
 }
 

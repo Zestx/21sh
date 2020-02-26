@@ -44,26 +44,26 @@ static int	get_input_fd(char *l_value)
 		return (-1);
 }
 
-static int	get_output_fd(char *r_value)
+static int	get_input_fd(char *r_value)
 {
 	if (ft_strlen(r_value) == 0)
 	{
 		ft_putendl("error: r_value is empty.");
 		return (-1);
-	}
+	}}
+	else if (r_value[0] == '&' && ft_isdigit(r_value[1]) && r_value[2] == '\0')
 	else if (r_value[0] == '&' && ft_isdigit(r_value[1]) && r_value[2] == '\0')
 		return (r_value[1]);
 	return (open_file(r_value));
 }
 
-int			apply_output_redir(char *operand, char *l_value, char *r_value)
+int		apply_input_redir(char *operand, char *l_value, char *r_value)
 {
 	int output_fd;
 	int input_fd;
 
-	ft_putendl("apply output redirs");
-	output_fd = get_output_fd(r_value);
-	input_fd = get_input_fd(l_value);
+	output_fd = get_input_fd(r_value);
+	input_fd = get_output_fd(l_value);
 	if (output_fd < 0)
 	{
 		ft_putendl("output_fd error!");
