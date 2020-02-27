@@ -82,6 +82,8 @@ int			is_only_whitespaces(char *str);
 */
 int			apply_output_redir
 			(char *operand, char *l_value, char *r_value);
+int			apply_input_redir
+			(char *operand, char *l_value, char *r_value);
 /* 
 ** redirect_parse.c
 */

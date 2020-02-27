@@ -101,9 +101,8 @@ void		free_pnode_list(t_pnode *list)
 	while (ptr)
 	{
 		tmp = ptr->next;
-		ft_free_tab2(ptr->cmds);
-		free_token_list(ptr->reds);
-		free(ptr);
+		if (ptr->reds)
+			free_token_list(ptr->reds);
 		ptr = tmp;
 	}
 }

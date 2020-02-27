@@ -43,10 +43,10 @@ static void	execute_pipeline(t_pnode *cmd_list)
 			err_handler("fork error: ");
 		else if (pid == 0)
 		{
-			redirect(curr->reds);
 			close(p[0]);
 			dup2(p[1], 1);
 			close(p[1]);
+			display_ll(curr->reds);
 			execute(curr->cmds);
 			perror("exec error: ");
 			exit(EXIT_FAILURE);

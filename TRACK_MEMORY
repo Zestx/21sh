@@ -23,3 +23,15 @@ IV. SPLIT_COMMAND (;)
 	- !!! We free the original tokens list with free_token_list();
 	- returning the newly splitted array.
 
+V. DISPATCH
+	- the lists of toks_groups are sent one by one to dispatch
+	- dispatch split each list into pipe nodes (see prev. step) put in
+	  pipeline_cmds
+	- we do not free the original list since they're freed in prompt_loop()
+	  with free_token_group().
+	- we iterate on pipeline_cmds to transform each list into a t_pnode
+	  node.
+		* all redir tokens of a node are put into a t_tokens*;
+		* all args tokens of a node are put into a char**
+VI. GATHER_REDIR_TOKENS
+	- 

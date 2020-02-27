@@ -58,6 +58,7 @@ static int	get_output_fd(char *r_value)
 
 int			apply_output_redir(char *operand, char *l_value, char *r_value)
 {
+	printf("HELLO OUTPUT\n");
 	int output_fd;
 	int input_fd;
 

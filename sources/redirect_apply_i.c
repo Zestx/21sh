@@ -16,16 +16,21 @@ static int	open_file(char *r_value)
 {
 	int fd;
 
+	fd = -1;
 	printf("opening [%s]\n", r_value);
 	if (access(r_value, F_OK))
-		fd = creat(r_value, 0644);
-	else if (access(r_value, W_OK))
 	{
-		perror("access W_OK error: ");
+		ft_putendl("file does not exist!");
+		return (0);
+	}
+	else if (access(r_value, R_OK))
+	{
+		perror("access R_OK error: ");
 		return (-1);
 	}
-	else if ((fd = open(r_value, 0644) < 0))
+	fd = open(r_value, O_RDONLY);
 		ft_putendl("bad fd.");
+	printf("FD: %d", fd);
 	if (fd < 0)
 	{
 		ft_putendl("error: negative fd.\n");
@@ -34,7 +39,7 @@ static int	open_file(char *r_value)
 	return (fd);
 }
 
-static int	get_input_fd(char *l_value)
+static int	get_output_fd(char *l_value)
 {
 	if (!ft_strlen(l_value))
 		return (1);
@@ -50,34 +55,31 @@ static int	get_input_fd(char *r_value)
 	{
 		ft_putendl("error: r_value is empty.");
 		return (-1);
-	}}
-	else if (r_value[0] == '&' && ft_isdigit(r_value[1]) && r_value[2] == '\0')
-	else if (r_value[0] == '&' && ft_isdigit(r_value[1]) && r_value[2] == '\0')
-		return (r_value[1]);
+	}
+	else if (ft_isdigit(r_value[1]) && r_value[2] == '\0')
+		return (ft_atoi(&(r_value[1])));
 	return (open_file(r_value));
 }
 
 int		apply_input_redir(char *operand, char *l_value, char *r_value)
 {
-	int output_fd;
 	int input_fd;
 
-	output_fd = get_input_fd(r_value);
-	input_fd = get_output_fd(l_value);
-	if (output_fd < 0)
+	input_fd = get_input_fd(r_value);
+	if (input_fd < 0)
 	{
-		ft_putendl("output_fd error!");
+		ft_putendl("input_fd error!");
 		return (0);
 	}
-	if (output_fd > 0)
+	if (input_fd > 0)
 	{
-		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
 		return (0);
 	}
 	else
 	{
-		ft_putendl("output_fd is 0");
+		ft_putendl("input_fd is 0");
 		return (0);
 	}
 	return (1);

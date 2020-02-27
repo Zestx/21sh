@@ -40,6 +40,7 @@ static t_redirect	*extract_redir_values(char *unlexd_redir)
 
 static int			apply_redirections(t_redirect *redir_toks)
 {
+
 	if (!redir_toks)
 		return (0);
 	printf("---------------\n");
@@ -47,14 +48,20 @@ static int			apply_redirections(t_redirect *redir_toks)
 	printf("| operand is %s\n", redir_toks->operand);
 	printf("| r_value is %s\n", redir_toks->r_value);
 	printf("---------------\n");
-	if (ft_strcmp(redir_toks->operand, ">")
-		|| ft_strcmp(redir_toks->operand, ">>"))
+	if (!ft_strcmp(redir_toks->operand, ">")
+		|| !ft_strcmp(redir_toks->operand, ">>"))
+	{
+		printf("[%s] its output\n", redir_toks->operand);
 		apply_output_redir(redir_toks->operand, redir_toks->l_value,
-				redir_toks->r_value);/*
-	else if (ft_strcmp(redir_toks->operand, "<")
-		|| ft_strcmp(redir_toks->operand, "<<"))
+				redir_toks->r_value);
+	}
+	else if (!ft_strcmp(redir_toks->operand, "<")
+		|| !ft_strcmp(redir_toks->operand, "<<"))
+	{
+		printf("[%s] its input\n", redir_toks->operand);
 		apply_input_redir(redir_toks->operand, redir_toks->l_value,
-				redir_toks->r_value);*/
+				redir_toks->r_value);
+	}
 	return (1);
 }
 
@@ -62,13 +69,12 @@ void				redirect(t_tokens *redirections)
 {
 	t_tokens	*curr;
 	t_redirect	*redir_toks;
-
+	
 	if (!redirections)
 		return ;
 	curr = redirections;
 	while (curr)
 	{
-		printf("LOOP: [%s]\n", curr->string);
 		redir_toks = extract_redir_values(curr->string);
 		if (!(apply_redirections(redir_toks)))
 		{
