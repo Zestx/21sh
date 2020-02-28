@@ -12,6 +12,13 @@
 
 #include "../includes/21sh.h"
 
+/*
+	printf("---------------\n");
+	printf("| l_value is %s\n", redir_toks->l_value);
+	printf("| operand is %s\n", redir_toks->operand);
+	printf("| r_value is %s\n", redir_toks->r_value);
+	printf("---------------\n");
+*/
 static t_redirect	*extract_redir_values(char *unlexd_redir)
 {
 	t_redirect	*lexd_redir;
@@ -43,11 +50,6 @@ static int			apply_redirections(t_redirect *redir_toks)
 
 	if (!redir_toks)
 		return (0);
-	printf("---------------\n");
-	printf("| l_value is %s\n", redir_toks->l_value);
-	printf("| operand is %s\n", redir_toks->operand);
-	printf("| r_value is %s\n", redir_toks->r_value);
-	printf("---------------\n");
 	if (!ft_strcmp(redir_toks->operand, ">")
 		|| !ft_strcmp(redir_toks->operand, ">>"))
 	{

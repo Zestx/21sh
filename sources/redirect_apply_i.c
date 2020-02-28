@@ -28,9 +28,8 @@ static int	open_file(char *r_value)
 		perror("access R_OK error: ");
 		return (-1);
 	}
-	fd = open(r_value, O_RDONLY);
-		ft_putendl("bad fd.");
-	printf("FD: %d", fd);
+	if ((fd = open(r_value, O_RDONLY)) < 0)
+		printf("FD: %d", fd);
 	if (fd < 0)
 	{
 		ft_putendl("error: negative fd.\n");
@@ -56,8 +55,6 @@ static int	get_input_fd(char *r_value)
 		ft_putendl("error: r_value is empty.");
 		return (-1);
 	}
-	else if (ft_isdigit(r_value[1]) && r_value[2] == '\0')
-		return (ft_atoi(&(r_value[1])));
 	return (open_file(r_value));
 }
 
