@@ -18,10 +18,10 @@ int	is_blank_char(char c)
 }
 
 int	is_operator(char *c)
-{ 
+{
 	if (*c == '|' || *c == ';' || *c == '<' || *c == '>')
 		return (1);
-	if (ft_isdigit(*c) && (*c == '<' || *c == '>'))
+	if (ft_isdigit(*c) && (*(c + 1) == '<' || *(c + 1) == '>'))
 		return (1);
 	return (0);
 }
@@ -43,8 +43,6 @@ int	update_quoted_state(int esc, int *quoted, char **curr_c)
 		*quoted = 0;
 	else
 		ret = 0;
-	if (tmp != *quoted)
-		(*curr_c)++;
 	return (ret);
 }
 
@@ -53,7 +51,6 @@ int	update_escape_state(int *esc, int quoted, char **curr_c)
 		if (*esc == 0  && **curr_c == '\\' && quoted != S_QUOTE)
 		{
 			*esc = 1;
-			(*curr_c)++;
 			return (1);
 		}
 		return (0);
@@ -150,6 +147,7 @@ t_tokens	*get_next_token(char *input)
 			else if (is_part_operator(curr_c, operator) == 0)
 			{
 				ft_putendl("	end operator");
+				curr_c--;
 				operator = 0;
 			}
 			else if (is_part_operator(curr_c, operator) == -1)
@@ -177,8 +175,6 @@ t_tokens	*get_next_token(char *input)
 		{
 			ft_putendl("	blanks");
 			word = 0;
-			while (is_blank_char(*(curr_c + 1)))
-				curr_c++;
 		}
 		//08
 		else if (word)
@@ -194,7 +190,6 @@ t_tokens	*get_next_token(char *input)
 			toks = add_token_node(toks, ctos(*curr_c), WORD);
 			curr_tok = last_node(toks);
 		}
-		//--
 		curr_c++;
 	}
 	return (toks);
