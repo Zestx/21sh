@@ -1,3 +1,0 @@
-
-- when checking for multiple semicolumns one after the other (which is a syntax error), in input.c, 
-  it only complain about the error if it's the first semi-column that is concerned.
