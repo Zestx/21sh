@@ -1,0 +1,2 @@
+lexing BUG when typing
+	ls -l ; node | subtype <nope
