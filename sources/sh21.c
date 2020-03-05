@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
-
+/*
 static int	dispatch(t_tokens *cmd_group)
 {
 	t_pnode		*pipeline_full;
@@ -35,13 +35,11 @@ static int	dispatch(t_tokens *cmd_group)
 	execute_main(pipeline_full);
 	return (1);
 }
-
+*/
 static int	prompt_loop(void)
 {
 	char		*cmds;
 	t_tokens	*toks;
-	t_tokens	**toks_groups;
-	t_tokens	**curr;
 
 	while (1)
 	{
@@ -49,15 +47,8 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks = tokenize(cmds);
-		toks_groups = split_commands(toks, SCL);
+		display_ll(toks);
 		free_token_list(toks);
-		curr = toks_groups;
-		while (*curr)
-		{
-			dispatch(*curr);
-			curr++;
-		}
-		free_token_group(toks_groups);
 	}
 	return (1);
 }
@@ -65,9 +56,7 @@ static int	prompt_loop(void)
 int			main(void)
 {
 	extern char	**environ;
-	char		**env_cpy;
 
-	env_cpy = get_env(environ);
 	title();
 	prompt_loop();
 	return (0);

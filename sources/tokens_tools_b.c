@@ -69,15 +69,9 @@ void	display_ll(t_tokens *toks)
 	{
 		printf("%d. [%s] ", n, ptr->string);
 		if (ptr->type == 1)
-			printf("REG\n");
+			printf("OPER\n");
 		if (ptr->type == 2)
-			printf("QOT\n");
-		if (ptr->type == 3)
-			printf("PIP\n");
-		if (ptr->type == 4)
-			printf("RED\n");
-		if (ptr->type == 5)
-			printf("SCL\n");
+			printf("WORD\n");
 		ptr = ptr->next;
 		n++;
 	}

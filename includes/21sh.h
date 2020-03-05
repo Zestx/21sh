@@ -100,7 +100,7 @@ t_tokens	*gather_redir_tokens(t_tokens *group);
 /*
 ** tokens_get.c
 */
-t_tokens	*get_next_token(char *c, t_tokens *toks, int esc, int *og_len);
+t_tokens	*get_next_token(char *input);
 
 /*
 ** tokens_list.c

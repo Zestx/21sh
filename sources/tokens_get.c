@@ -26,12 +26,13 @@ int	is_operator(char *c)
 	return (0);
 }
 
-void	update_quoted_state(int esc, int *quoted, char **curr_c)
+int	update_quoted_state(int esc, int *quoted, char **curr_c)
 {
 	int	tmp;
+	int	ret;
 
 	tmp = *quoted;
-
+	ret = 1;
 	if (!esc && !(*quoted) && **curr_c == '\'')
 		*quoted = S_QUOTE;
 	else if (!esc && !(*quoted) && **curr_c == '\"')
@@ -40,17 +41,22 @@ void	update_quoted_state(int esc, int *quoted, char **curr_c)
 		*quoted = 0;
 	else if (!esc && *quoted == D_QUOTE && **curr_c == '\"')
 		*quoted = 0;
+	else
+		ret = 0;
 	if (tmp != *quoted)
 		(*curr_c)++;
+	return (ret);
 }
 
-void	update_escape_state(int *esc, int quoted, char **curr_c)
+int	update_escape_state(int *esc, int quoted, char **curr_c)
 {
 		if (*esc == 0  && **curr_c == '\\' && quoted != S_QUOTE)
 		{
 			*esc = 1;
 			(*curr_c)++;
+			return (1);
 		}
+		return (0);
 }
 
 char	*ctos(char c)
@@ -77,21 +83,22 @@ t_tokens *last_node(t_tokens *head)
 	return (curr);
 }
 
-char	*add_char_to_token(char *org_str, char c)
+void	add_char_to_token(t_tokens *tok, char c)
 {
 	char	*new_str;
 	char	*org_ptr;
 	char	*new_ptr;
 
-	if (!(new_str = malloc(ft_strlen(org_str) + 2)))
+	if (!(new_str = malloc(ft_strlen(tok->string) + 2)))
 		exit(EXIT_FAILURE);
-	org_ptr = org_str;
+	org_ptr = tok->string;
 	new_ptr = new_str;
 	while (*org_ptr != '\0')
 		*(new_ptr++) = *(org_ptr++);
 	*(new_ptr++) = c;
 	*new_ptr = '\0';
-	return (new_str);
+	free(tok->string);
+	tok->string = new_str;
 }
 
 int	is_part_operator(char *curr_c, int op)
@@ -108,33 +115,41 @@ int	is_part_operator(char *curr_c, int op)
 		return (0);
 }
 
-t_tokens	*get_tokens(char *input)
+t_tokens	*get_next_token(char *input)
 {
 	int		esc;
 	int		quoted;
 	int		operator;
+	int		word;
 	t_tokens	*toks;
 	t_tokens	*curr_tok;
 	char		*curr_c;
 
+	esc = 0;
+	quoted = 0;
 	curr_c = input;
 	operator = 0;
+	word = 0;
+	toks = NULL;
 	while (1)
 	{
+		printf("Loop [%c]\n", *curr_c);
 		//01
 		if (*curr_c == '\0')
 			return (toks);
-		if (!esc && !quoted && operator && curr_c > input)
+		else if (!esc && !quoted && operator && curr_c > input)
 		{
 			//02
 			if (is_part_operator(curr_c, operator) == 1)
 			{
-				add_char_to_token(curr_tok->string, *curr_c);
+				ft_putendl("	add operator");
+				add_char_to_token(curr_tok, *curr_c);
 				operator++;
 			}
 			//03
 			else if (is_part_operator(curr_c, operator) == 0)
 			{
+				ft_putendl("	end operator");
 				operator = 0;
 			}
 			else if (is_part_operator(curr_c, operator) == -1)
@@ -144,24 +159,38 @@ t_tokens	*get_tokens(char *input)
 			}
 		}
 		//04
-		update_quoted_state(esc, &quoted, &curr_c);
-		update_escape_state(&esc, quoted, &curr_c);
+		else if (update_quoted_state(esc, &quoted, &curr_c))
+			;
+		else if (update_escape_state(&esc, quoted, &curr_c))
+			;
 		//06
-		if (!esc && !quoted && is_operator(curr_c) && !operator)
+		else if (!esc && !quoted && is_operator(curr_c) && !operator)
 		{
+			ft_putendl("	new operator");
+			word = 0;
 			toks = add_token_node(toks, ctos(*curr_c), OPER);
 			curr_tok = last_node(toks);
 			operator = 1;
 		}
 		//07
-		if (!esc && !quoted && is_blank_char(*curr_c))
+		else if (!esc && !quoted && is_blank_char(*curr_c))
 		{
-			while (is_blank_char(*curr_c))
+			ft_putendl("	blanks");
+			word = 0;
+			while (is_blank_char(*(curr_c + 1)))
 				curr_c++;
+		}
+		//08
+		else if (word)
+		{
+			ft_putendl("	add word");
+			add_char_to_token(curr_tok, *curr_c);
 		}
 		//10
 		else
 		{
+			ft_putendl("	new word");
+			word = 1;
 			toks = add_token_node(toks, ctos(*curr_c), WORD);
 			curr_tok = last_node(toks);
 		}
