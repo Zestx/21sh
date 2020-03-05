@@ -64,6 +64,10 @@ static int	prompt_loop(void)
 
 int			main(void)
 {
+	extern char	**environ;
+	char		**env_cpy;
+
+	env_cpy = get_env(environ);
 	title();
 	prompt_loop();
 	return (0);

@@ -51,8 +51,6 @@ static int	get_output_fd(char *r_value)
 		ft_putendl("error: r_value is empty.");
 		return (-1);
 	}
-	else if (r_value[0] == '&' && ft_isdigit(r_value[1]) && r_value[2] == '\0')
-		return (r_value[1]);
 	return (open_file(r_value));
 }
 

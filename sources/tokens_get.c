@@ -12,116 +12,161 @@
 
 #include "../includes/21sh.h"
 
-static char		*get_full_word(char *start, int *og_len)
+int	is_blank_char(char c)
 {
-	char	*full_word;
-	char	*end;
-	int		esc;
-
-	esc = 0;
-	end = start;
-	full_word = NULL;
-	while (*end && ((!is_redirection(end) && !is_quote(end) &&
-		!ft_isspacer(*end) && !is_special(end)) || esc))
-	{
-		if (!esc && *end == '\\')
-		{
-			esc = 1;
-			end++;
-			continue ;
-		}
-		full_word = add_char(full_word, *end);
-		esc = 0;
-		end++;
-	}
-	*og_len = end - start;
-	return (full_word);
+	return (c == ' ' || c == '\t' || c == '\v');
 }
 
-static char		*get_full_quote(char *ptr, int *og_len)
-{
-	char	*end;
-	int		esc;
-
-	end = ptr + 1;
-	esc = 0;
-	while (*end)
-	{
-		if (!esc && *end == '\\')
-		{
-			esc = 1;
-			end++;
-			continue ;
-		}
-		if (*end == *ptr && (*ptr == '\'' || !esc))
-		{
-			*og_len = end - ptr + 1;
-			return (*end == '\"' ? copy_dquote(ptr + 1, get_dquote_len(ptr + 1))
-					: copy_squote(ptr + 1, get_squote_len(ptr + 1)));
-		}
-		esc = 0;
-		end++;
-	}
-	og_len = 0;
-	return (NULL);
+int	is_operator(char *c)
+{ 
+	if (*c == '|' || *c == ';' || *c == '<' || *c == '>')
+		return (1);
+	if (ft_isdigit(*c) && (*c == '<' || *c == '>'))
+		return (1);
+	return (0);
 }
 
-static t_tokens	*get_special(char *c, t_tokens *toks, int *og_len)
+void	update_quoted_state(int esc, int *quoted, char **curr_c)
 {
-	if (*c == '|' || *c == ';')
-	{
-		toks = add_singlechar_token(c, toks);
-		*og_len = 1;
-	}
-	return (toks);
+	int	tmp;
+
+	tmp = *quoted;
+
+	if (!esc && !(*quoted) && **curr_c == '\'')
+		*quoted = S_QUOTE;
+	else if (!esc && !(*quoted) && **curr_c == '\"')
+		*quoted = D_QUOTE;
+	else if (*quoted == S_QUOTE && **curr_c == '\'')
+		*quoted = 0;
+	else if (!esc && *quoted == D_QUOTE && **curr_c == '\"')
+		*quoted = 0;
+	if (tmp != *quoted)
+		(*curr_c)++;
 }
 
-static t_tokens	*get_redirect(char *c, t_tokens *toks, int *og_len)
+void	update_escape_state(int *esc, int quoted, char **curr_c)
 {
-	char	*str;
-	char	*c_ptr;
+		if (*esc == 0  && **curr_c == '\\' && quoted != S_QUOTE)
+		{
+			*esc = 1;
+			(*curr_c)++;
+		}
+}
 
-	if (!(str = malloc(6)))
+char	*ctos(char c)
+{
+	char *str;
+
+	if (!(str = malloc(2)))
 		exit(EXIT_FAILURE);
-	c_ptr = str;
-	if (*c == '&' || ft_isdigit(*c))
-		*(c_ptr++) = *(c++);
-	if (*c == '>' || *c == '<')
-		*(c_ptr++) = *(c++);
-	if (*c == '>' || *c == '<')
-		*(c_ptr++) = *(c++);
-	*(c_ptr++) = '\0';
-	while (ft_isspacer(*c))
-		c++;
-	str = ft_strjoin(str, get_full_word(c, og_len));
-	toks = add_token_node(toks, str, RED);
-	*og_len = ft_strlen(str) + 1;
-	return (toks);
+	str[0] = c;
+	str[1] = '\0';
+
+	return (str);
 }
 
-t_tokens		*get_next_token(char *c, t_tokens *toks, int esc, int *og_len)
+t_tokens *last_node(t_tokens *head)
 {
-	char	*str;
+	t_tokens *curr;
 
-	if (!esc && is_special(c))
-	{
-		toks = get_special(c, toks, og_len);
-	}
-	else if (!esc && is_redirection(c))
-	{
-		toks = get_redirect(c, toks, og_len);
-	}
-	else if (!esc && is_quote(c))
-	{
-		str = get_full_quote(c, og_len);
-		toks = add_token_node(toks, str, QOT);
-		free(str);
-	}
+	if (!head)
+		return (NULL);
+	curr = head;
+	while (curr->next)
+		curr = curr->next;
+	return (curr);
+}
+
+char	*add_char_to_token(char *org_str, char c)
+{
+	char	*new_str;
+	char	*org_ptr;
+	char	*new_ptr;
+
+	if (!(new_str = malloc(ft_strlen(org_str) + 2)))
+		exit(EXIT_FAILURE);
+	org_ptr = org_str;
+	new_ptr = new_str;
+	while (*org_ptr != '\0')
+		*(new_ptr++) = *(org_ptr++);
+	*(new_ptr++) = c;
+	*new_ptr = '\0';
+	return (new_str);
+}
+
+int	is_part_operator(char *curr_c, int op)
+{
+	if (op == 1 && ft_isdigit(*(curr_c - 1)) 
+			&& (*curr_c == '<' || *curr_c == '>'))
+		return (1);
+	if ((op == 1 || op == 2) && (*(curr_c - 1) == '<' || *(curr_c - 1) == '>') 
+			&& (*(curr_c - 1) == *curr_c || *curr_c == '&'))
+		return (1);
+	if (op > 2 && (*curr_c == '<' || *curr_c == '>'))
+		return (-1);
 	else
+		return (0);
+}
+
+t_tokens	*get_tokens(char *input)
+{
+	int		esc;
+	int		quoted;
+	int		operator;
+	t_tokens	*toks;
+	t_tokens	*curr_tok;
+	char		*curr_c;
+
+	curr_c = input;
+	operator = 0;
+	while (1)
 	{
-		str = get_full_word(c, og_len);
-		toks = add_token_node(toks, str, REG);
-		free(str);
+		//01
+		if (*curr_c == '\0')
+			return (toks);
+		if (!esc && !quoted && operator && curr_c > input)
+		{
+			//02
+			if (is_part_operator(curr_c, operator) == 1)
+			{
+				add_char_to_token(curr_tok->string, *curr_c);
+				operator++;
+			}
+			//03
+			else if (is_part_operator(curr_c, operator) == 0)
+			{
+				operator = 0;
+			}
+			else if (is_part_operator(curr_c, operator) == -1)
+			{
+				ft_putendl_fd("21sh: error: syntax error", 2);
+				return (NULL);
+			}
+		}
+		//04
+		update_quoted_state(esc, &quoted, &curr_c);
+		update_escape_state(&esc, quoted, &curr_c);
+		//06
+		if (!esc && !quoted && is_operator(curr_c) && !operator)
+		{
+			toks = add_token_node(toks, ctos(*curr_c), OPER);
+			curr_tok = last_node(toks);
+			operator = 1;
+		}
+		//07
+		if (!esc && !quoted && is_blank_char(*curr_c))
+		{
+			while (is_blank_char(*curr_c))
+				curr_c++;
+		}
+		//10
+		else
+		{
+			toks = add_token_node(toks, ctos(*curr_c), WORD);
+			curr_tok = last_node(toks);
+		}
+		//--
+		curr_c++;
 	}
 	return (toks);
 }

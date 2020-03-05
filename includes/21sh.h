@@ -13,12 +13,14 @@
 #ifndef TOSH_H
 # define TOSH_H
 
-# define REG 1
-# define QOT 2
-# define PIP 3
-# define RED 4
-# define SCL 5
-# define TIL 6
+
+# define S_QUOTE 1
+# define D_QUOTE 2
+
+
+# define OPER 1
+# define WORD 2
+
 
 # define MAG "\x1B[35m"
 # define CYAN "\x1B[36m"
