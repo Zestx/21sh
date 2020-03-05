@@ -23,6 +23,7 @@ t_tokens	*add_token_node(t_tokens *list, char *str, int tp)
 		exit(EXIT_FAILURE);
 	if (!(node->string = ft_strdup(str)))
 		exit(EXIT_FAILURE);
+	free(str);
 	node->type = tp;
 	node->next = NULL;
 	if (!list)
