@@ -151,7 +151,7 @@ t_tokens	*get_next_token(char *input)
 		else if (!esc && !quoted && is_operator(curr_c) && !operator)
 		{
 			word = 0;
-			toks = add_token_node(toks, ctos(*curr_c), OPER);
+			toks = add_token_node(toks, ctos(*curr_c), OPER, 0);
 			curr_tok = last_node(toks);
 			operator = 1;
 		}
@@ -162,7 +162,7 @@ t_tokens	*get_next_token(char *input)
 		else
 		{
 			word = 1;
-			toks = add_token_node(toks, ctos(*curr_c), WORD);
+			toks = add_token_node(toks, ctos(*curr_c), WORD, 0);
 			curr_tok = last_node(toks);
 		}
 		if (esc == 1)

@@ -12,7 +12,7 @@
 
 #include "../includes/21sh.h"
 
-t_tokens	*add_token_node(t_tokens *list, char *str, int tp)
+t_tokens	*add_token_node(t_tokens *list, char *str, int tp, int sub)
 {
 	t_tokens *node;
 	t_tokens *roam;
@@ -23,8 +23,8 @@ t_tokens	*add_token_node(t_tokens *list, char *str, int tp)
 		exit(EXIT_FAILURE);
 	if (!(node->string = ft_strdup(str)))
 		exit(EXIT_FAILURE);
-	free(str);
 	node->type = tp;
+	node->subtype = sub;
 	node->next = NULL;
 	if (!list)
 		return (node);

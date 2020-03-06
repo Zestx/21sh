@@ -95,7 +95,7 @@ t_tokens	*get_next_token(char *input);
 /*
 ** tokens_list.c
 */
-t_tokens	*add_token_node(t_tokens *list, char *string, int type);
+t_tokens	*add_token_node(t_tokens *list, char *string, int tp, int sub);
 void		free_token_list(t_tokens *list);
 size_t		count_nodes(t_tokens *list);
 void		free_token_group(t_tokens **list);
@@ -111,7 +111,8 @@ t_tokens	*add_singlechar_token(char *c, t_tokens *toks);
 /*
 ** tokens_split.c
 */
-t_tokens	**split_commands(t_tokens *toks, int splitter);
+t_tokens	**split_tokens(t_tokens *toks, int splitter);
+void		display_split(t_tokens **toks_grp);
 
 /*
 ** tokens_tools_a.c

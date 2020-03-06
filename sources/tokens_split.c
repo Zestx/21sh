@@ -42,13 +42,13 @@ static t_tokens	**init_tokens_groups(size_t size)
 	return (toks_groups);
 }
 
-void		display_split(t_tokens **groups)
+void		display_split(t_tokens **toks_grp)
 {
 	t_tokens **curr;
 
-	if (!groups)
+	if (!toks_grp)
 		return ;
-	curr = groups;
+	curr = toks_grp;
 	while (*curr)
 	{
 		display_ll(*curr);
@@ -57,27 +57,33 @@ void		display_split(t_tokens **groups)
 	return ;
 }
 
-t_tokens		**split_commands(t_tokens *toks, int splitter)
+t_tokens		**split_tokens(t_tokens *toks_all, int splitter)
 {
 	t_tokens	**toks_groups;
 	t_tokens	*curr_tok;
 	t_tokens	**curr_grp;
 
-	if (!toks)
+	if (!toks_all)
 		return (NULL);
-	toks_groups = init_tokens_groups(get_groups_number(toks, splitter));
-	curr_tok = toks;
+	toks_groups = init_tokens_groups(get_groups_number(toks_all, splitter));
+	curr_tok = toks_all;
 	curr_grp = toks_groups;
 	while (curr_tok)
 	{
-		if (curr_tok->type != splitter)
+		if (curr_tok->subtype != splitter)
 		{
-			*curr_group =
-				add_token_node(*curr_group, curr_tok->string, curr_tok->type);
+			*curr_grp = add_token_node
+				(*curr_grp, curr_tok->string, 
+				 curr_tok->type, curr_tok->subtype);
 		}
 		else
-			curr_group++;
-		curr_list = curr_list->next;
+		{
+			while(curr_tok->next->subtype == splitter)
+				curr_tok = curr_tok->next;
+			curr_grp++;
+		}
+		curr_tok = curr_tok->next;
 	}
+	free_token_list(toks_all);
 	return (toks_groups);
 }

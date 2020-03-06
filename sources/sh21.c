@@ -40,6 +40,7 @@ static int	prompt_loop(void)
 {
 	char		*cmds;
 	t_tokens	*toks_all;
+	t_tokens	**toks_grp;
 
 	while (1)
 	{
@@ -47,8 +48,8 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks_all = tokenize(cmds);
-		display_ll(toks_all);
-		free_token_list(toks_all);
+		toks_grp = split_tokens(toks_all, SMCL);
+		display_split(toks_grp);
 	}
 	return (1);
 }
