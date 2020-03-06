@@ -22,6 +22,7 @@ static void	execute(t_tokens *pnode)
 {
 	char	**full_cmd;
 
+	redirect(pnode);
 	full_cmd = gather_cmds_tokens(pnode);
 	execvp(full_cmd[0], full_cmd);
 	perror("exec error: ");

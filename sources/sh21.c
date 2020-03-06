@@ -34,7 +34,6 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks_all = tokenize(cmds);
-		display_ll(toks_all);
 		toks_grp = split_tokens(toks_all, SMCL);
 		curr_grp = toks_grp;
 		while (*curr_grp)

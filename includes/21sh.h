@@ -79,7 +79,7 @@ int			apply_input_redir
 /* 
 ** redirect_parse.c
 */
-void		redirect(t_tokens *redirections);
+void		redirect(t_tokens *pnode);
 
 /*
 ** tokens_gather.c
