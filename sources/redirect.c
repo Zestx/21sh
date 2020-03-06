@@ -12,12 +12,17 @@
 
 #include "../includes/21sh.h"
 
-int	get_file_fd(char *path)
+int	get_file_fd(char *path, char *curr_c)
 {
 	int fd;
 
-	printf("filepath: %s\n", path);
-	fd = open(path, O_RDWR|O_CREAT, 0666);
+	fd = -1;
+	if (*curr_c == '>' && *(curr_c + 1 ) == '\0')
+		fd = open(path, O_WRONLY|O_CREAT, 0666);
+	else if (*curr_c == '>' && *(curr_c + 1) == '>')
+		fd = open(path, O_WRONLY|O_CREAT|O_APPEND, 0666);
+	else if (*curr_c == '<' && *(curr_c + 1) == '\0')
+		fd = open(path, O_RDONLY|O_CREAT, 0666);
 	if (fd < 0)
 		perror("open error: ");
 	return (fd);
@@ -41,7 +46,7 @@ void	apply_redirection(t_tokens *pnode)
 		fd_l = 0;
 	else
 		ft_putendl_fd("redirection format error.", 2);
-	if ((fd_r = get_file_fd(pnode->next->string)) < 0)
+	if ((fd_r = get_file_fd(pnode->next->string, curr_c)) < 0)
 		return ;
 	dup2(fd_r, fd_l);
 	close(fd_r);
