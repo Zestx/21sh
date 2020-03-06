@@ -147,5 +147,7 @@ void		print_tab(char **tab);
 
 /*
 ** execute.c
-*/ 
+*/
+void		execute_pseq(t_tokens **pseq);
+
 #endif

@@ -15,15 +15,9 @@
 static int	dispatch(t_tokens *cmd_group)
 {
 	t_tokens	**toks_pseq;
-	t_tokens	**curr_pseq;
 
 	toks_pseq = split_tokens(cmd_group, PIPE);
-	curr_pseq = toks_pseq;
-	while (*curr_pseq)
-	{
-		execute_pseq(*curr_pseq);
-		curr_pseq++;
-	}
+	execute_pseq(toks_pseq);
 	return (1);
 }
 

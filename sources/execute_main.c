@@ -18,23 +18,24 @@ static int	err_handler(char *err_msg)
 	exit(EXIT_FAILURE);
 }
 
-static void	execute(char **cmd_list)
+static void	execute(t_tokens *pnode)
 {
-	execvp(cmd_list[0], cmd_list);
+	char	**full_cmd;
+
+	full_cmd = gather_cmds_tokens(pnode);
+	execvp(full_cmd[0], full_cmd);
 	perror("exec error: ");
 	exit(EXIT_FAILURE);
 }
 
-static void	execute_pipeline(t_pnode *cmd_list)
+static void	execute_pipeline(t_tokens **pseq)
 {
 	int		p[2];
-	pid_t	pid;
-	t_pnode	*curr;
+	pid_t		pid;
+	t_tokens	**curr;
 
-	if (!cmd_list)
-		return ;
-	curr = cmd_list;
-	while (curr->next)
+	curr = pseq;
+	while (*(curr + 1))
 	{
 		if (pipe(p) < 0)
 			err_handler("pipe error: ");
@@ -46,10 +47,7 @@ static void	execute_pipeline(t_pnode *cmd_list)
 			close(p[0]);
 			dup2(p[1], 1);
 			close(p[1]);
-			display_ll(curr->reds);
-			execute(curr->cmds);
-			perror("exec error: ");
-			exit(EXIT_FAILURE);
+			execute(*curr);
 		}
 		else if (pid > 0)
 		{
@@ -58,31 +56,22 @@ static void	execute_pipeline(t_pnode *cmd_list)
 			close(p[0]);
 			wait(&pid);
 		}
-		curr = curr->next;
+		curr++;
 	}
-	execute(curr->cmds);
+	execute(*curr);
 }
 
-void		execute_main(t_tokens **pseq)
+void		execute_pseq(t_tokens **pseq)
 {
 	pid_t	pid;
-	char	**gather_cmd
-	if (!cmd_group)
+
+	if (!pseq || !pseq[0])
 		return ;
 	pid = fork();
 	if (pid < 0)
 		err_handler("fork error: ");
 	else if (pid == 0)
-	{
-		if (cmd_list->next == NULL)
-		{
-			execute(cmd_list->cmds);
-			perror("exec error: ");
-			exit(EXIT_FAILURE);
-		}
-		else
-			execute_pipeline(cmd_list);
-	}
+			execute_pipeline(pseq);
 	else if (pid > 0)
 		wait(&pid);
 }
