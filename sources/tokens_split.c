@@ -71,17 +71,12 @@ t_tokens		**split_tokens(t_tokens *toks_all, int splitter)
 	while (curr_tok)
 	{
 		if (curr_tok->subtype != splitter)
-		{
 			*curr_grp = add_token_node
 				(*curr_grp, curr_tok->string, 
 				 curr_tok->type, curr_tok->subtype);
-		}
-		else
-		{
+		else if (curr_grp++)
 			while(curr_tok->next->subtype == splitter)
 				curr_tok = curr_tok->next;
-			curr_grp++;
-		}
 		curr_tok = curr_tok->next;
 	}
 	free_token_list(toks_all);

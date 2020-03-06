@@ -11,36 +11,23 @@
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
-/*
+
 static int	dispatch(t_tokens *cmd_group)
 {
-	t_pnode		*pipeline_full;
-	t_tokens	**pipeline_cmds;
-	t_tokens	**curr;
-	t_tokens	*redirs;
-	char		**args;
+	t_tokens	**toks_pseq;
 
-	pipeline_cmds = split_commands(cmd_group, PIP);
-	curr = pipeline_cmds;
-	pipeline_full = NULL;
-	while (*curr)
-	{
-		redirs = gather_redir_tokens(*curr);
-		display_ll(redirs);
-		args = gather_cmds_tokens(*curr);
-		pipeline_full = add_pnode(pipeline_full, args, redirs);
-		curr++;
-	}
-	free_token_group(pipeline_cmds);
-	execute_main(pipeline_full);
+	toks_pseq = split_tokens(cmd_group, PIPE);
+	display_split(toks_pseq);
+
 	return (1);
 }
-*/
+
 static int	prompt_loop(void)
 {
 	char		*cmds;
 	t_tokens	*toks_all;
 	t_tokens	**toks_grp;
+	t_tokens	**curr_grp;
 
 	while (1)
 	{
@@ -49,7 +36,13 @@ static int	prompt_loop(void)
 			continue ;
 		toks_all = tokenize(cmds);
 		toks_grp = split_tokens(toks_all, SMCL);
-		display_split(toks_grp);
+		curr_grp = toks_grp;
+		while (*curr_grp)
+		{
+			printf("**************\n");
+			dispatch(*curr_grp);
+			curr_grp++;
+		}
 	}
 	return (1);
 }
