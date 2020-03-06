@@ -12,60 +12,23 @@
 
 #include "../includes/21sh.h"
 
-static size_t	count_spec_nodes(t_tokens *toks, int spec)
+char			**gather_cmds_tokens(t_tokens *cmd_group)
 {
-	size_t		count;
-	t_tokens	*curr;
+	char		**full_cmd = NULL;
+	t_tokens	*curr = cmd_group;
+	int		redir = 0;;
 
-	if (!toks)
-		return (0);
-	curr = toks;
-	count = 0;
-	while (curr)
-	{
-		if (curr->type == spec)
-			count++;
-		curr = curr->next;
-	}
-	return (count);
-}
-
-t_tokens		*gather_redir_tokens(t_tokens *group)
-{
-	t_tokens	*gathered;
-	t_tokens	*curr;
-	size_t		size;
-
-	if (!group)
+	if (!cmd_group)
 		return (NULL);
-	size = count_spec_nodes(group, RED);
-	if (!(gathered = malloc(sizeof(curr) * size)))
-		exit(EXIT_FAILURE);
-	gathered = NULL;
-	curr = group;
 	while (curr)
 	{
-		if (curr->type == RED)
-			gathered = add_token_node(gathered, curr->string, RED);
+		if (curr->subtype == REDI)
+			redir = 1;
+		if (!redir && curr->type == WORD)
+			full_cmd = ft_realloc_tab(full_cmd, curr->string);
+		if (redir && curr->type == WORD)
+			redir = 0;
 		curr = curr->next;
 	}
-	return (gathered);
-}
-
-char			**gather_cmds_tokens(t_tokens *group)
-{
-	char		**gathered;
-	t_tokens	*curr;
-
-	if (!group)
-		return (NULL);
-	gathered = NULL;
-	curr = group;
-	while (curr)
-	{
-		if (curr->type == REG || curr->type == QOT)
-			gathered = ft_realloc_tab(gathered, curr->string);
-		curr = curr->next;
-	}
-	return (gathered);
+	return (full_cmd);
 }

@@ -18,10 +18,11 @@ SRCS = sources/sh21.c sources/display.c sources/input_main.c \
 	   sources/input_tools.c sources/util_tab.c \
 	   sources/tokens_list.c sources/tokens_get.c \
 	   sources/tokens_main.c sources/util_env.c \
-	   sources/tokens_tools.c sources/tokens_split.c
+	   sources/tokens_tools.c sources/tokens_split.c \
+	   sources/tokens_gather.c
 OBJS = sh21.o display.o input_main.o input_tools.o util_tab.o \
 	   tokens_list.o tokens_get.o tokens_main.o tokens_tools.o \
-	   util_env.o tokens_split.o \
+	   util_env.o tokens_split.o tokens_gather.o \
 
 all: $(NAME)
 

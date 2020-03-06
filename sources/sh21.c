@@ -15,10 +15,15 @@
 static int	dispatch(t_tokens *cmd_group)
 {
 	t_tokens	**toks_pseq;
+	t_tokens	**curr_pseq;
 
 	toks_pseq = split_tokens(cmd_group, PIPE);
-	display_split(toks_pseq);
-
+	curr_pseq = toks_pseq;
+	while (*curr_pseq)
+	{
+		execute_pseq(*curr_pseq);
+		curr_pseq++;
+	}
 	return (1);
 }
 
@@ -35,11 +40,11 @@ static int	prompt_loop(void)
 		if (!(cmds = get_input()))
 			continue ;
 		toks_all = tokenize(cmds);
+		display_ll(toks_all);
 		toks_grp = split_tokens(toks_all, SMCL);
 		curr_grp = toks_grp;
 		while (*curr_grp)
 		{
-			printf("**************\n");
 			dispatch(*curr_grp);
 			curr_grp++;
 		}
@@ -49,8 +54,6 @@ static int	prompt_loop(void)
 
 int			main(void)
 {
-	extern char	**environ;
-
 	title();
 	prompt_loop();
 	return (0);

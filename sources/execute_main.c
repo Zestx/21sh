@@ -63,11 +63,11 @@ static void	execute_pipeline(t_pnode *cmd_list)
 	execute(curr->cmds);
 }
 
-void		execute_main(t_pnode *cmd_list)
+void		execute_main(t_tokens **pseq)
 {
 	pid_t	pid;
-
-	if (!cmd_list)
+	char	**gather_cmd
+	if (!cmd_group)
 		return ;
 	pid = fork();
 	if (pid < 0)
@@ -76,7 +76,6 @@ void		execute_main(t_pnode *cmd_list)
 	{
 		if (cmd_list->next == NULL)
 		{
-			redirect(cmd_list->reds);
 			execute(cmd_list->cmds);
 			perror("exec error: ");
 			exit(EXIT_FAILURE);
