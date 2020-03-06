@@ -39,16 +39,16 @@ static int	dispatch(t_tokens *cmd_group)
 static int	prompt_loop(void)
 {
 	char		*cmds;
-	t_tokens	*toks;
+	t_tokens	*toks_all;
 
 	while (1)
 	{
 		prompt();
 		if (!(cmds = get_input()))
 			continue ;
-		toks = tokenize(cmds);
-		display_ll(toks);
-		free_token_list(toks);
+		toks_all = tokenize(cmds);
+		display_ll(toks_all);
+		free_token_list(toks_all);
 	}
 	return (1);
 }

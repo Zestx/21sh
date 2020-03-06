@@ -21,7 +21,7 @@ static size_t	get_groups_number(t_tokens *toks, int splitter)
 	n = 1;
 	while (curr)
 	{
-		if (curr->type == splitter && curr->next)
+		if (curr->subtype == splitter && curr->next)
 			n++;
 		curr = curr->next;
 	}
@@ -60,20 +60,20 @@ void		display_split(t_tokens **groups)
 t_tokens		**split_commands(t_tokens *toks, int splitter)
 {
 	t_tokens	**toks_groups;
-	t_tokens	*curr_list;
-	t_tokens	**curr_group;
+	t_tokens	*curr_tok;
+	t_tokens	**curr_grp;
 
 	if (!toks)
 		return (NULL);
 	toks_groups = init_tokens_groups(get_groups_number(toks, splitter));
-	curr_list = toks;
-	curr_group = toks_groups;
-	while (curr_list)
+	curr_tok = toks;
+	curr_grp = toks_groups;
+	while (curr_tok)
 	{
-		if (curr_list->type != splitter)
+		if (curr_tok->type != splitter)
 		{
 			*curr_group =
-				add_token_node(*curr_group, curr_list->string, curr_list->type);
+				add_token_node(*curr_group, curr_tok->string, curr_tok->type);
 		}
 		else
 			curr_group++;

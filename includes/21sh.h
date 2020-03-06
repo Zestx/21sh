@@ -18,9 +18,6 @@
 # define D_QUOTE 2
 
 
-# define OPER 1
-# define WORD 2
-
 
 # define MAG "\x1B[35m"
 # define CYAN "\x1B[36m"
@@ -36,27 +33,21 @@
 # include <sys/wait.h>
 # include "../libft/libft.h"
 
+//type
+# define OPER 1
+# define WORD 2
+//subtype
+# define REDI 1
+# define PIPE 2
+# define SMCL 3
 typedef struct	s_tokens
 {
+	int			type;
+	int			subtype;
 	char			*string;
-	int				type;
-	struct s_tokens	*next;
+	struct s_tokens		*next;
 
-}				t_tokens;
-
-typedef struct	s_pnode
-{
-	char			**cmds;
-	struct s_tokens *reds;
-	struct s_pnode	*next;
-}				t_pnode;
-
-typedef struct	s_redirect
-{
-	char	*l_value;
-	char	*r_value;
-	char	*operand;
-}		t_redirect;
+}		t_tokens;
 
 /*
 ** display.c
@@ -68,7 +59,6 @@ void		title(void);
 /*
 ** execute_main.c
 */
-void		execute_main(t_pnode *cmd_list);
 
 /*
 ** input_main.c
@@ -107,8 +97,6 @@ t_tokens	*get_next_token(char *input);
 */
 t_tokens	*add_token_node(t_tokens *list, char *string, int type);
 void		free_token_list(t_tokens *list);
-t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs);
-void		free_pnode_list(t_pnode *list);
 size_t		count_nodes(t_tokens *list);
 void		free_token_group(t_tokens **list);
 

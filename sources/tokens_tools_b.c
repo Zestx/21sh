@@ -58,21 +58,28 @@ int		ft_isbquote(char c)
 
 void	display_ll(t_tokens *toks)
 {
-	t_tokens	*ptr;
-	int			n;
+	t_tokens	*curr_t;
+	int		n;
 
 	if (!toks)
 		return ;
 	n = 0;
-	ptr = toks;
-	while (ptr)
+	curr_t = toks;
+	while (curr_t)
 	{
-		printf("%d. [%s] ", n, ptr->string);
-		if (ptr->type == 1)
-			printf("OPER\n");
-		if (ptr->type == 2)
-			printf("WORD\n");
-		ptr = ptr->next;
+		printf("%d. [%s] ", n, curr_t->string);
+		if (curr_t->type == 1)
+		{
+			if (curr_t->subtype == 1)
+				printf("(REDI)\n");
+			if (curr_t->subtype == 2)
+				printf("(PIPE)\n");
+			if (curr_t->subtype == 3)
+				printf("(SMCL)\n");
+		}
+		if (curr_t->type == 2)
+			printf("(WORD)\n");
+		curr_t = curr_t->next;
 		n++;
 	}
 	printf("=================\n");

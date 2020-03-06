@@ -70,44 +70,6 @@ void		free_token_group(t_tokens **list)
 	return ;
 }
 
-t_pnode		*add_pnode(t_pnode *list, char **args, t_tokens *redirs)
-{
-	t_pnode	*node;
-	t_pnode *curr;
-
-	if (!args && !redirs)
-		return (list);
-	if (!(node = malloc(sizeof(node))))
-		exit(EXIT_FAILURE);
-	node->cmds = args;
-	node->reds = redirs;
-	node->next = NULL;
-	if (!list)
-		return (node);
-	curr = list;
-	while (curr->next)
-		curr = curr->next;
-	curr->next = node;
-	return (list);
-}
-
-void		free_pnode_list(t_pnode *list)
-{
-	t_pnode *ptr;
-	t_pnode *tmp;
-
-	if (!list)
-		return ;
-	ptr = list;
-	while (ptr)
-	{
-		tmp = ptr->next;
-		if (ptr->reds)
-			free_token_list(ptr->reds);
-		ptr = tmp;
-	}
-}
-
 size_t		count_nodes(t_tokens *list)
 {
 	size_t		i;
