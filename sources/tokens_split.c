@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 17:13:03 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 17:04:39 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/03/09 15:51:20 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_tokens		**split_tokens(t_tokens *toks_all, int splitter)
 	while (curr_tok)
 	{
 		if (curr_tok->subtype != splitter)
-			*curr_grp = add_token_node
+			*curr_grp = add_token_node_str
 				(*curr_grp, curr_tok->string, 
 				 curr_tok->type, curr_tok->subtype);
 		else if (curr_grp++)

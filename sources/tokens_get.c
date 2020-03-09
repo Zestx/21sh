@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 18:36:09 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 17:00:31 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/03/09 18:41:07 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,33 +26,40 @@ int	is_operator(char *c)
 	return (0);
 }
 
-int	update_quoted_state(int esc, int *quoted, char **curr_c)
+int	update_quoted_state(int esc, int *quoted, char curr_c)
 {
 	int	tmp;
 	int	ret;
 
 	tmp = *quoted;
 	ret = 1;
-	if (!esc && !(*quoted) && **curr_c == '\'')
+	if (esc != 1 && !(*quoted) && curr_c == '\'')
 		*quoted = S_QUOTE;
-	else if (!esc && !(*quoted) && **curr_c == '\"')
+	else if (esc != 1 && !(*quoted) && curr_c == '\"')
+	{
+		printf("DQUOTE\n");
 		*quoted = D_QUOTE;
-	else if (*quoted == S_QUOTE && **curr_c == '\'')
+	}
+	else if (*quoted == S_QUOTE && curr_c == '\'')
 		*quoted = 0;
-	else if (!esc && *quoted == D_QUOTE && **curr_c == '\"')
+	else if (esc != 1 && *quoted == D_QUOTE && curr_c == '\"')
 		*quoted = 0;
 	else
 		ret = 0;
 	return (ret);
 }
 
-int	update_escape_state(int *esc, int quoted, char **curr_c)
+int	update_escape_state(int *esc, int quoted, char curr_c)
 {
-		if (*esc == 0  && **curr_c == '\\' && quoted != S_QUOTE)
+		if (*esc != 1 && curr_c == '\\' && quoted != S_QUOTE)
 		{
 			*esc = 1;
 			return (1);
 		}
+		else if (*esc == 1)
+			*esc += 1;
+		else
+			*esc = 0;
 		return (0);
 }
 
@@ -112,63 +119,58 @@ int	is_part_operator(char *curr_c, int op)
 		return (0);
 }
 
-t_tokens	*get_next_token(char *input)
+void get_operator(char **curr_c, t_tokens *toks)
+{
+	char		*curr;
+	t_tokens	*working_tok;
+
+	toks = add_token_node(toks, **curr_c, OPER, 0);
+	working_tok = last_node(toks);
+	curr = *curr_c;
+	curr++;
+	while (is_part_operator(curr, curr - *curr_c))
+	{
+		add_char_to_token(working_tok, *curr);
+		curr++;
+	}
+	*curr_c = curr - 1;
+}
+
+int			update_inhibitors(int *esc, int *quoted, char curr_c)
+{
+	if (update_quoted_state(*esc, quoted, curr_c))
+		return (1);
+	else if (update_escape_state(esc, *quoted, curr_c))
+		return (1);
+	else
+		return (0);
+}
+
+t_tokens	*get_next_token(char *curr_c)
 {
 	int		esc = 0;
 	int		quoted = 0;
-	int		operator = 0;
 	int		word = 0;
 	t_tokens	*toks = NULL;
-	t_tokens	*curr_tok;
-	char		*curr_c = input;
 
-	while (1)
+	while (*curr_c)
 	{
-		if (*curr_c == '\0')
-			return (toks);
-		else if (!esc && !quoted && operator && curr_c > input)
-		{
-			if (is_part_operator(curr_c, operator) == 1)
-			{
-				add_char_to_token(curr_tok, *curr_c);
-				operator++;
-			}
-			else if (is_part_operator(curr_c, operator) == 0)
-			{
-				curr_c--;
-				operator = 0;
-			}
-			else if (is_part_operator(curr_c, operator) == -1)
-			{
-				ft_putendl_fd("21sh: error: syntax error", 2);
-				return (NULL);
-			}
-		}
-		else if (update_quoted_state(esc, &quoted, &curr_c))
+		if (update_inhibitors(&esc, &quoted, *curr_c))
 			;
-		else if (update_escape_state(&esc, quoted, &curr_c))
-			;
-		else if (!esc && !quoted && is_operator(curr_c) && !operator)
+		else if (!esc  && !quoted && is_operator(curr_c))
 		{
 			word = 0;
-			toks = add_token_node(toks, ctos(*curr_c), OPER, 0);
-			curr_tok = last_node(toks);
-			operator = 1;
+			get_operator(&curr_c, toks);
 		}
-		else if (!esc && !quoted && is_blank_char(*curr_c))
+		else if (!esc  && !quoted && is_blank_char(*curr_c))
 			word = 0;
 		else if (word)
-			add_char_to_token(curr_tok, *curr_c);
+			add_char_to_token(last_node(toks), *curr_c);
 		else
 		{
 			word = 1;
-			toks = add_token_node(toks, ctos(*curr_c), WORD, 0);
-			curr_tok = last_node(toks);
+			toks = add_token_node(toks, *curr_c, WORD, 0);
 		}
-		if (esc == 1)
-			esc++;
-		else
-			esc = 0;
 		curr_c++;
 	}
 	return (toks);

@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 18:20:51 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 16:44:39 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/03/09 15:51:26 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,14 @@ t_tokens	*gather_redir_tokens(t_tokens *group);
 /*
 ** tokens_get.c
 */
+char		*ctos(char c);
 t_tokens	*get_next_token(char *input);
 
 /*
 ** tokens_list.c
 */
-t_tokens	*add_token_node(t_tokens *list, char *string, int tp, int sub);
+t_tokens	*add_token_node(t_tokens *list, char fc, int tp, int sub);
+t_tokens	*add_token_node_str(t_tokens *list, char *str, int tp, int sub);
 void		free_token_list(t_tokens *list);
 size_t		count_nodes(t_tokens *list);
 void		free_token_group(t_tokens **list);
