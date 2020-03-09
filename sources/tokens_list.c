@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:49:43 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/03/09 15:52:14 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/03/09 19:12:06 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,6 @@ void		free_token_list(t_tokens *list)
 	}
 }
 
-void		free_token_group(t_tokens **list)
-{
-	t_tokens	**curr;
-
-	if (!list)
-		return ;
-	curr = list;
-	while (*curr)
-	{
-		curr++;
-	}
-	return ;
-}
-
 size_t		count_nodes(t_tokens *list)
 {
 	size_t		i;
@@ -105,4 +91,16 @@ size_t		count_nodes(t_tokens *list)
 		i++;
 	}
 	return (i);
+}
+
+t_tokens	*last_node(t_tokens *head)
+{
+	t_tokens *curr;
+
+	if (!head)
+		return (NULL);
+	curr = head;
+	while (curr->next)
+		curr = curr->next;
+	return (curr);
 }

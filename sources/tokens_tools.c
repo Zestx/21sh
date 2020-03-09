@@ -1,43 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenize_tools_b.c                                 :+:      :+:    :+:   */
+/*   get_tokens.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/25 15:59:54 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 17:05:20 by qbackaer         ###   ########.fr       */
+/*   Created: 2020/01/23 18:36:09 by qbackaer          #+#    #+#             */
+/*   Updated: 2020/03/09 19:13:05 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-void	display_ll(t_tokens *toks)
+int			is_blank_char(char c)
 {
-	t_tokens	*curr_t;
-	int		n;
-
-	if (!toks)
-		return ;
-	n = 0;
-	curr_t = toks;
-	while (curr_t)
-	{
-		printf("%d. ", n);
-		if (curr_t->type == 1)
-		{
-			if (curr_t->subtype == 1)
-				printf("{REDI}");
-			if (curr_t->subtype == 2)
-				printf("{PIPE}");
-			if (curr_t->subtype == 3)
-				printf("{SMCL}");
-		}
-		if (curr_t->type == 2)
-			printf("(WORD)");
-		printf(" [%s]\n", curr_t->string);
-		curr_t = curr_t->next;
-		n++;
-	}
-	printf("=================\n");
+	return (c == ' ' || c == '\t' || c == '\v');
 }
+
+int			is_operator(char *c)
+{
+	if (*c == '|' || *c == ';' || *c == '<' || *c == '>')
+		return (1);
+	if (ft_isdigit(*c) && (*(c + 1) == '<' || *(c + 1) == '>'))
+		return (1);
+	return (0);
+}
+
+char		*ctos(char c)
+{
+	char *str;
+
+	if (!(str = malloc(2)))
+		exit(EXIT_FAILURE);
+	str[0] = c;
+	str[1] = '\0';
+	return (str);
+}
+
+
+void		add_char_to_token(t_tokens *tok, char c)
+{
+	char	*new_str;
+	char	*org_ptr;
+	char	*new_ptr;
+
+	if (!(new_str = malloc(ft_strlen(tok->string) + 2)))
+		exit(EXIT_FAILURE);
+	org_ptr = tok->string;
+	new_ptr = new_str;
+	while (*org_ptr != '\0')
+		*(new_ptr++) = *(org_ptr++);
+	*(new_ptr++) = c;
+	*new_ptr = '\0';
+	free(tok->string);
+	tok->string = new_str;
+}
+
+int			is_part_operator(char *curr_c, int op)
+{
+	if (op == 1 && ft_isdigit(*(curr_c - 1))
+			&& (*curr_c == '<' || *curr_c == '>'))
+		return (1);
+	if ((op == 1 || op == 2) && (*(curr_c - 1) == '<' || *(curr_c - 1) == '>')
+			&& (*(curr_c - 1) == *curr_c || *curr_c == '&'))
+		return (1);
+	if (op > 2 && (*curr_c == '<' || *curr_c == '>'))
+		return (-1);
+	else
+		return (0);
+}
+
+

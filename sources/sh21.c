@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:38:16 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/03/09 16:18:29 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/03/09 19:01:59 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	prompt_loop(void)
 		prompt();
 		if (!(cmds = get_input()))
 			continue ;
-		toks_all = tokenize(cmds);
+		toks_all = lexer(cmds);
 		display_ll(toks_all);
 		toks_grp = split_tokens(toks_all, SMCL);
 		curr_grp = toks_grp;

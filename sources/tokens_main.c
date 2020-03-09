@@ -6,13 +6,13 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 17:35:59 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/02/25 17:01:55 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/03/09 19:10:56 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/21sh.h"
 
-void		fill_subtype(t_tokens *tok)
+void			fill_subtype(t_tokens *tok)
 {
 	if (!ft_strcmp(tok->string, ";"))
 			tok->subtype = SMCL;
@@ -22,7 +22,7 @@ void		fill_subtype(t_tokens *tok)
 			tok->subtype = REDI;
 }
 
-t_tokens	*get_subtypes(t_tokens *toks)
+t_tokens		*get_subtypes(t_tokens *toks)
 {
 	t_tokens	*curr_t;
 
@@ -38,14 +38,101 @@ t_tokens	*get_subtypes(t_tokens *toks)
 	return (toks);
 }
 
-t_tokens	*tokenize(char *input)
+static int		update_quoted_state(int esc, int *quoted, char curr_c)
+{
+	int	tmp;
+	int	ret;
+
+	tmp = *quoted;
+	ret = 1;
+	if (esc != 1 && !(*quoted) && curr_c == '\'')
+		*quoted = S_QUOTE;
+	else if (esc != 1 && !(*quoted) && curr_c == '\"')
+		*quoted = D_QUOTE;
+	else if (*quoted == S_QUOTE && curr_c == '\'')
+		*quoted = 0;
+	else if (esc != 1 && *quoted == D_QUOTE && curr_c == '\"')
+		*quoted = 0;
+	else
+		ret = 0;
+	return (ret);
+}
+
+static int		update_escape_state(int *esc, int quoted, char curr_c)
+{
+	if (*esc != 1 && curr_c == '\\' && quoted != S_QUOTE)
+	{
+		*esc = 1;
+		return (1);
+	}
+	else if (*esc == 1)
+		*esc += 1;
+	else
+		*esc = 0;
+	return (0);
+}
+
+static int		update_inhibitors(int *esc, int *quoted, char curr_c)
+{
+	if (update_quoted_state(*esc, quoted, curr_c))
+		return (1);
+	else if (update_escape_state(esc, *quoted, curr_c))
+		return (1);
+	else
+		return (0);
+}
+
+static void		get_operator(char **curr_c, t_tokens *toks)
+{
+	char		*curr;
+	t_tokens	*working_tok;
+
+	toks = add_token_node(toks, **curr_c, OPER, 0);
+	working_tok = last_node(toks);
+	curr = *curr_c;
+	curr++;
+	while (is_part_operator(curr, curr - *curr_c))
+	{
+		add_char_to_token(working_tok, *curr);
+		curr++;
+	}
+	*curr_c = curr - 1;
+}
+
+static t_tokens	*get_tokens(char *curr_c, t_tokens *toks)
+{
+	int		esc;
+	int		quoted;
+	int		word;
+
+	esc = 0;
+	quoted = 0;
+	word = 0;
+	while (*curr_c)
+	{
+		if (update_inhibitors(&esc, &quoted, *curr_c))
+			;
+		else if (!esc && !quoted && is_operator(curr_c) && (!(word = 0)))
+			get_operator(&curr_c, toks);
+		else if (!esc && !quoted && is_blank_char(*curr_c))
+			word = 0;
+		else if (word)
+			add_char_to_token(last_node(toks), *curr_c);
+		else if ((word = 1))
+			toks = add_token_node(toks, *curr_c, WORD, 0);
+		curr_c++;
+	}
+	return (toks);
+}
+
+t_tokens		*lexer(char *input)
 {
 	t_tokens	*toks;
 
 	if (!input)
 		return (NULL);
 	toks = NULL;
-	toks = get_next_token(input);
+	toks = get_tokens(input, toks);
 	toks = get_subtypes(toks);
 	free(input);
 	return (toks);

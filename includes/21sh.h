@@ -6,7 +6,7 @@
 /*   By: qbackaer <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/05 18:20:51 by qbackaer          #+#    #+#             */
-/*   Updated: 2020/03/09 15:51:26 by qbackaer         ###   ########.fr       */
+/*   Updated: 2020/03/09 19:15:38 by qbackaer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,6 @@ char 		**gather_cmds_tokens(t_tokens *group);
 t_tokens	*gather_redir_tokens(t_tokens *group);
 
 /*
-** tokens_get.c
-*/
-char		*ctos(char c);
-t_tokens	*get_next_token(char *input);
-
-/*
 ** tokens_list.c
 */
 t_tokens	*add_token_node(t_tokens *list, char fc, int tp, int sub);
@@ -101,14 +95,21 @@ t_tokens	*add_token_node_str(t_tokens *list, char *str, int tp, int sub);
 void		free_token_list(t_tokens *list);
 size_t		count_nodes(t_tokens *list);
 void		free_token_group(t_tokens **list);
+t_tokens	*last_node(t_tokens *toks);
 
 /*
 ** tokens_main.c
 */
-t_tokens	*tokenize(char *input);
-char		*copy_dquote(char *start, int len);
-char		*copy_squote(char *start, int len);
-t_tokens	*add_singlechar_token(char *c, t_tokens *toks);
+t_tokens	*lexer(char *input);
+
+/*
+** tokens_get.c
+*/
+int			is_blank_char(char c);
+int			is_operator(char *c);
+int			is_part_operator(char *curr_c, int op);
+char		*ctos(char c);
+void		add_char_to_token(t_tokens *tok, char c);
 
 /*
 ** tokens_split.c
