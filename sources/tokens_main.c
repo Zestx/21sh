@@ -99,6 +99,16 @@ static void		get_operator(char **curr_c, t_tokens *toks)
 	*curr_c = curr - 1;
 }
 
+static int is_expandable(char *curr_c)
+{
+	if (*curr_c == '~' && 
+			(curr_c[1] == 0 || ft_isblank(curr_c[1]) || curr_c[1] == '/'))
+		return (1);
+	if (*curr_c == '$' && curr_c[1] != '&')
+		return (1);
+	return (0);
+}
+
 static t_tokens	*get_tokens(char *curr_c, t_tokens *toks)
 {
 	int		esc;
@@ -112,6 +122,8 @@ static t_tokens	*get_tokens(char *curr_c, t_tokens *toks)
 	{
 		if (update_inhibitors(&esc, &quoted, *curr_c))
 			;
+		else if (!esc && quoted != 1 && is_expandable(curr_c) && (!(word = 0)))
+			get_expanded(&curr_c, toks);
 		else if (!esc && !quoted && is_operator(curr_c) && (!(word = 0)))
 			get_operator(&curr_c, toks);
 		else if (!esc && !quoted && is_blank_char(*curr_c))
