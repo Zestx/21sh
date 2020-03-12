@@ -21,7 +21,7 @@ static int	dispatch(t_tokens *cmd_group)
 	return (1);
 }
 
-static int	prompt_loop(void)
+static int	prompt_loop(char **env)
 {
 	char		*cmds;
 	t_tokens	*toks_all;
@@ -33,7 +33,7 @@ static int	prompt_loop(void)
 		prompt();
 		if (!(cmds = get_input()))
 			continue ;
-		toks_all = lexer(cmds);
+		toks_all = lexer(cmds, env);
 		display_ll(toks_all);
 		toks_grp = split_tokens(toks_all, SMCL);
 		curr_grp = toks_grp;
@@ -48,7 +48,12 @@ static int	prompt_loop(void)
 
 int			main(void)
 {
+	extern char	**environ;
+	char		**env;
+
+	if (!(env = get_env(environ)))
+		return (-1);
 	title();
-	prompt_loop();
+	prompt_loop(env);
 	return (0);
 }

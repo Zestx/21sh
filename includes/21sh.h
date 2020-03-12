@@ -100,16 +100,17 @@ t_tokens	*last_node(t_tokens *toks);
 /*
 ** tokens_main.c
 */
-t_tokens	*lexer(char *input);
-
+t_tokens	*lexer(char *input, char **env);
+int		expand(char **curr_c, char **env, char **input);
 /*
 ** tokens_get.c
 */
 int			is_blank_char(char c);
 int			is_operator(char *c);
 int			is_part_operator(char *curr_c, int op);
-char		*ctos(char c);
-void		add_char_to_token(t_tokens *tok, char c);
+char			*ctos(char c);
+void			add_char_to_token(t_tokens *tok, char c);
+char			*add_char_to_string(char *str, char c);
 
 /*
 ** tokens_split.c
@@ -125,6 +126,7 @@ int			is_quote(char *ptr);
 int			get_dquote_len(char *start);
 int			get_squote_len(char *start);
 int			is_special(char *c);
+int			is_expandable(char *curr_c, char *input);
 
 /*
 ** tokens_tools_b.c

@@ -37,6 +37,24 @@ char		*ctos(char c)
 	return (str);
 }
 
+char		*add_char_to_string(char *str, char c)
+{
+	char	*new_str;
+	char	*new_ptr;
+	char	*org_ptr;
+
+	if (!(new_str = malloc(ft_strlen(str) + 2)))
+		exit(EXIT_FAILURE);
+	new_ptr = new_str;
+	org_ptr = str;
+	while (org_ptr && *org_ptr != '\0')
+		*(new_ptr++) = *(org_ptr++);
+	*(new_ptr++) = c;
+	*new_ptr = '\0';
+	if (str)
+		free(str);
+	return (new_str);
+}
 
 void		add_char_to_token(t_tokens *tok, char c)
 {
@@ -48,11 +66,12 @@ void		add_char_to_token(t_tokens *tok, char c)
 		exit(EXIT_FAILURE);
 	org_ptr = tok->string;
 	new_ptr = new_str;
-	while (*org_ptr != '\0')
+	while (org_ptr && *org_ptr != '\0')
 		*(new_ptr++) = *(org_ptr++);
 	*(new_ptr++) = c;
 	*new_ptr = '\0';
-	free(tok->string);
+	if (tok->string)
+		free(tok->string);
 	tok->string = new_str;
 }
 
@@ -70,4 +89,21 @@ int			is_part_operator(char *curr_c, int op)
 		return (0);
 }
 
+int is_expandable(char *curr_c, char *input)
+{
+	int ret;
+
+	ret = 0;
+	if (curr_c[0] == '~')
+	{
+		if (curr_c[1] == 0 || is_blank_char(curr_c[1]) || curr_c[1] == '/')
+			ret = 1;
+		if (curr_c > input)
+			if (!(is_blank_char(curr_c[-1]) || curr_c[-1] == '/'))
+				ret = 0;
+	}
+	if (curr_c[0] == '$' && curr_c[1] != '$')
+		ret = 2;
+	return (ret);
+}
 

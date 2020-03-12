@@ -99,31 +99,102 @@ static void		get_operator(char **curr_c, t_tokens *toks)
 	*curr_c = curr - 1;
 }
 
-static int is_expandable(char *curr_c)
+char	*get_var_name(char *curr_c)
 {
-	if (*curr_c == '~' && 
-			(curr_c[1] == 0 || ft_isblank(curr_c[1]) || curr_c[1] == '/'))
+	char *var_name;
+
+	var_name = NULL;
+	while (ft_isalpha(*curr_c) || ft_isdigit(*curr_c) || *curr_c == '_')
+	{
+		var_name = add_char_to_string(var_name, *curr_c);
+		curr_c++;
+	}
+	return (var_name);
+}
+
+char	*replace_var(char *input, char **curr_c, char *var_name, char *var_val)
+{
+	char	*new;
+	char	*new_ptr;
+	char	*new_curr;
+
+	if (!(new = malloc(ft_strlen(input + ft_strlen(var_val) + 1))))
+		exit(EXIT_FAILURE);
+	new_ptr = new;
+	while (input != *curr_c)
+	{
+		*new_ptr = *input;
+		new_ptr++;
+		input++;
+	}
+	*curr_c += ft_strlen(var_name) + 1;
+	while (*var_val)
+	{
+		*new_ptr = *var_val;
+		new_ptr++;
+		var_val++;
+	}
+	new_curr = *curr_c;
+	while (**curr_c)
+	{
+		*new_ptr = **curr_c;
+		new_ptr++;
+		*curr_c += 1;
+	}
+	*new_ptr = '\0';
+	*curr_c = new_curr + 1;
+	
+	printf("XPND: [%s]\n", new);
+
+	return(new);
+}
+
+int	expand(char **curr_c, char **env, char **input)
+{
+	int	ret;
+	char	*var_name;
+	char	*var_val;
+
+	ret = is_expandable(*curr_c, *input);
+	if (ret == 1)
+	{
+		var_val = get_env_var(env, "HOME");
+		*input = replace_var(*input, curr_c, "~", var_val);
+		free(var_val);
 		return (1);
-	if (*curr_c == '$' && curr_c[1] != '&')
+	}
+	if (ret == 2)
+	{
+		printf("EXPAND\n");
+		var_name = get_var_name((*curr_c) + 1);
+		var_val = get_env_var(env, var_name);
+		*input = replace_var(*input, curr_c, var_name, var_val);
 		return (1);
+	}
 	return (0);
 }
 
-static t_tokens	*get_tokens(char *curr_c, t_tokens *toks)
+static t_tokens	*get_tokens(char *input, t_tokens *toks, char **env)
 {
 	int		esc;
 	int		quoted;
 	int		word;
+	char		*curr_c;
 
 	esc = 0;
 	quoted = 0;
 	word = 0;
+	curr_c = input;
 	while (*curr_c)
 	{
+		printf("loop [%c]\n", *curr_c);
 		if (update_inhibitors(&esc, &quoted, *curr_c))
 			;
-		else if (!esc && quoted != 1 && is_expandable(curr_c) && (!(word = 0)))
-			get_expanded(&curr_c, toks);
+		else if (!esc && quoted != 1 && 
+				expand(&curr_c, env, &input) && (!(word = 0)))
+		{
+			printf("expansion done. now at (%s)\n", curr_c);
+		}
 		else if (!esc && !quoted && is_operator(curr_c) && (!(word = 0)))
 			get_operator(&curr_c, toks);
 		else if (!esc && !quoted && is_blank_char(*curr_c))
@@ -134,17 +205,18 @@ static t_tokens	*get_tokens(char *curr_c, t_tokens *toks)
 			toks = add_token_node(toks, *curr_c, WORD, 0);
 		curr_c++;
 	}
+	printf("end loop.\n");
 	return (toks);
 }
 
-t_tokens		*lexer(char *input)
+t_tokens		*lexer(char *input, char **env)
 {
 	t_tokens	*toks;
 
 	if (!input)
 		return (NULL);
 	toks = NULL;
-	toks = get_tokens(input, toks);
+	toks = get_tokens(input, toks, env);
 	toks = get_subtypes(toks);
 	free(input);
 	return (toks);
