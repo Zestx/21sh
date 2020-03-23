@@ -1,1 +1,1 @@
-get_var_name() OR get_env_var() needs to be debugged, it seems that the variable named parsing isn't done correctly. (try with $TERM)
+try with hello [$SHELL ~ nope lo $USER]
