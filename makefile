@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -Wall -Wextra 
 NAME = 21sh
 INCLUDES = 21sh.h
 SRCS = sources/sh21.c sources/display.c sources/input_main.c \

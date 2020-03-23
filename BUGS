@@ -1,4 +1,1 @@
-lexing BUG when typing
-	ls -l ; node | subtype <nope
-	..strangely enough, the bug only occur again if I c/c this, but not if I retype it by hand.
-	wtf?
+get_var_name() OR get_env_var() needs to be debugged, it seems that the variable named parsing isn't done correctly. (try with $TERM)

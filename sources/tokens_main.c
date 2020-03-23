@@ -116,36 +116,35 @@ char	*replace_var(char *input, char **curr_c, char *var_name, char *var_val)
 {
 	char	*new;
 	char	*new_ptr;
-	char	*new_curr;
+	char	*input_ptr;
+	size_t	len;
 
-	if (!(new = malloc(ft_strlen(input + ft_strlen(var_val) + 1))))
+	len = ft_strlen(input) - ft_strlen(var_name) + ft_strlen(var_val);
+	if (!(new = malloc(len)))
 		exit(EXIT_FAILURE);
 	new_ptr = new;
-	while (input != *curr_c)
+	input_ptr = input;
+	while (input_ptr != *curr_c)
 	{
-		*new_ptr = *input;
+		*new_ptr = *input_ptr;
 		new_ptr++;
-		input++;
+		input_ptr++;
 	}
-	*curr_c += ft_strlen(var_name) + 1;
+	*curr_c = new_ptr - 1;
 	while (*var_val)
 	{
 		*new_ptr = *var_val;
 		new_ptr++;
 		var_val++;
 	}
-	new_curr = *curr_c;
-	while (**curr_c)
+	input_ptr += ft_strlen(var_name) + 1;
+	while (*input_ptr)
 	{
-		*new_ptr = **curr_c;
+		*new_ptr = *input_ptr;
 		new_ptr++;
-		*curr_c += 1;
+		input_ptr += 1;
 	}
 	*new_ptr = '\0';
-	*curr_c = new_curr + 1;
-	
-	printf("XPND: [%s]\n", new);
-
 	return(new);
 }
 
@@ -165,10 +164,13 @@ int	expand(char **curr_c, char **env, char **input)
 	}
 	if (ret == 2)
 	{
-		printf("EXPAND\n");
 		var_name = get_var_name((*curr_c) + 1);
+		printf("\tvar_name: %s\n", var_name);
 		var_val = get_env_var(env, var_name);
+		printf("\tvar_val: %s\n", var_val);
+		printf("\tinput before: [%s]\n", *input);
 		*input = replace_var(*input, curr_c, var_name, var_val);
+		printf("\tinput after: [%s]\n", *input);
 		return (1);
 	}
 	return (0);
@@ -187,14 +189,11 @@ static t_tokens	*get_tokens(char *input, t_tokens *toks, char **env)
 	curr_c = input;
 	while (*curr_c)
 	{
-		printf("loop [%c]\n", *curr_c);
 		if (update_inhibitors(&esc, &quoted, *curr_c))
 			;
 		else if (!esc && quoted != 1 && 
 				expand(&curr_c, env, &input) && (!(word = 0)))
-		{
-			printf("expansion done. now at (%s)\n", curr_c);
-		}
+			;
 		else if (!esc && !quoted && is_operator(curr_c) && (!(word = 0)))
 			get_operator(&curr_c, toks);
 		else if (!esc && !quoted && is_blank_char(*curr_c))
@@ -205,7 +204,6 @@ static t_tokens	*get_tokens(char *input, t_tokens *toks, char **env)
 			toks = add_token_node(toks, *curr_c, WORD, 0);
 		curr_c++;
 	}
-	printf("end loop.\n");
 	return (toks);
 }
 
