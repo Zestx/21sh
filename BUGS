@@ -1,3 +1,0 @@
-There's a bug when expanding a tilde (~). Try this command and see:
-	
-	hello [$SHELL ~ nope lo $USER]

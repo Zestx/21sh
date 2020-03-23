@@ -125,25 +125,37 @@ char	*replace_var(char *input, char **curr_c, char *var_name, char *var_val)
 	new_ptr = new;
 	input_ptr = input;
 	while (input_ptr != *curr_c)
-	{
-		*new_ptr = *input_ptr;
-		new_ptr++;
-		input_ptr++;
-	}
+		*(new_ptr++) = *(input_ptr++);
 	*curr_c = new_ptr - 1;
 	while (*var_val)
-	{
-		*new_ptr = *var_val;
-		new_ptr++;
-		var_val++;
-	}
+		*(new_ptr++) = *(var_val++);
 	input_ptr += ft_strlen(var_name) + 1;
 	while (*input_ptr)
-	{
-		*new_ptr = *input_ptr;
-		new_ptr++;
-		input_ptr += 1;
-	}
+		*(new_ptr++) = *(input_ptr++);
+	*new_ptr = '\0';
+	return(new);
+}
+
+char	*replace_tilde(char *input, char **curr_c, char *var_val)
+{
+	char	*new;
+	char	*new_ptr;
+	char	*input_ptr;
+	size_t	len;
+
+	len = ft_strlen(input) - 1 + ft_strlen(var_val);
+	if (!(new = malloc(len)))
+		exit(EXIT_FAILURE);
+	new_ptr = new;
+	input_ptr = input;
+	while (input_ptr != *curr_c)
+		*(new_ptr++) = *(input_ptr++);
+	*curr_c = new_ptr - 1;
+	while (*var_val)
+		*(new_ptr++) = *(var_val++);
+	input_ptr += 2;
+	while (*input_ptr)
+		*(new_ptr++) = *(input_ptr++);
 	*new_ptr = '\0';
 	return(new);
 }
@@ -158,19 +170,15 @@ int	expand(char **curr_c, char **env, char **input)
 	if (ret == 1)
 	{
 		var_val = get_env_var(env, "HOME");
-		*input = replace_var(*input, curr_c, "~", var_val);
+		*input = replace_tilde(*input, curr_c, var_val);
 		free(var_val);
 		return (1);
 	}
 	if (ret == 2)
 	{
 		var_name = get_var_name((*curr_c) + 1);
-		printf("\tvar_name: %s\n", var_name);
 		var_val = get_env_var(env, var_name);
-		printf("\tvar_val: %s\n", var_val);
-		printf("\tinput before: [%s]\n", *input);
 		*input = replace_var(*input, curr_c, var_name, var_val);
-		printf("\tinput after: [%s]\n", *input);
 		return (1);
 	}
 	return (0);
@@ -178,21 +186,16 @@ int	expand(char **curr_c, char **env, char **input)
 
 static t_tokens	*get_tokens(char *input, t_tokens *toks, char **env)
 {
-	int		esc;
-	int		quoted;
-	int		word;
-	char		*curr_c;
+	int		esc = 0;
+	int		quoted = 0;
+	int		word = 0;
+	char		*curr_c = input;
 
-	esc = 0;
-	quoted = 0;
-	word = 0;
-	curr_c = input;
 	while (*curr_c)
 	{
 		if (update_inhibitors(&esc, &quoted, *curr_c))
 			;
-		else if (!esc && quoted != 1 && 
-				expand(&curr_c, env, &input) && (!(word = 0)))
+		else if (!esc && quoted != 1 && expand(&curr_c, env, &input))
 			;
 		else if (!esc && !quoted && is_operator(curr_c) && (!(word = 0)))
 			get_operator(&curr_c, toks);
