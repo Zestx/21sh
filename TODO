@@ -1,0 +1,20 @@
+- Adding the termcaps code 
+  (Robin S.)
+
+- Implementing the builtins functions
+  (see how it works in redirections and pipelines...)
+
+- Lots of freeing.. needs to be tested on a Linux VM to valgrind it 
+  (valgrind no longer works on Catalina)
+
+- Check for protections and error management everywhere.
+
+- Extensive testing needed 
+  (Building an automated test suite would be nice)
+
+- Format the code to the school norm.
+
+	-> By this point, 21sh should be done.
+	   42sh implementation can follow.
+
+- See for implementing a proper AST before anything else (priority)
