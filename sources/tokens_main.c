@@ -179,6 +179,8 @@ int	expand(char **curr_c, char **env, char **input)
 		var_name = get_var_name((*curr_c) + 1);
 		var_val = get_env_var(env, var_name);
 		*input = replace_var(*input, curr_c, var_name, var_val);
+		free(var_name);
+		free(var_val);
 		return (1);
 	}
 	return (0);

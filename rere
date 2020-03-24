@@ -1,0 +1,19 @@
+1) J'ai un tableau de 3 elements.
+
+2) J'alloue donc 3 + 1 elements (un NULL en plus à la fin marquant la fin)
+
+....
+
+1)  3 + 1 ok
+	toks3 = NULL
+	size--;
+2)  2 + 1 ok
+	toks2 = NULL
+	size--;
+3)  1 + 1 ok
+	toks1 = NULL
+	size--;
+4)  0 + 1 ok
+	toks0 = NULL
+	size--;
+5)  0 + 0 STOP
