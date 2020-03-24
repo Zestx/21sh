@@ -32,10 +32,11 @@ static t_tokens	**init_tokens_groups(size_t size)
 {
 	t_tokens **toks_groups;
 
-	if (!(toks_groups = malloc(sizeof(toks_groups) * size + 1)))
+	if (!(toks_groups = malloc(sizeof(toks_groups) * (size + 1))))
 		exit(EXIT_FAILURE);
 	while (size + 1)
 	{
+		printf("size: %zu\n", size);
 		toks_groups[size] = NULL;
 		size--;
 	}
