@@ -40,10 +40,8 @@ t_tokens		*get_subtypes(t_tokens *toks)
 
 static int		update_quoted_state(int esc, int *quoted, char curr_c)
 {
-	int	tmp;
 	int	ret;
 
-	tmp = *quoted;
 	ret = 1;
 	if (esc != 1 && !(*quoted) && curr_c == '\'')
 		*quoted = S_QUOTE;

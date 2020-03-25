@@ -36,7 +36,6 @@ static t_tokens	**init_tokens_groups(size_t size)
 		exit(EXIT_FAILURE);
 	while (size + 1)
 	{
-		printf("size: %zu\n", size);
 		toks_groups[size] = NULL;
 		size--;
 	}
