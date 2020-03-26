@@ -18,7 +18,7 @@ static int	err_handler(char *err_msg)
 	exit(EXIT_FAILURE);
 }
 
-static void	execute(t_tokens *pnode)
+static void	execute_binary(t_tokens *pnode)
 {
 	char	**full_cmd;
 
@@ -29,10 +29,55 @@ static void	execute(t_tokens *pnode)
 	exit(EXIT_FAILURE);
 }
 
+static void	pipe_and_execute(int p[2], t_tokens *curr)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid < 0)
+		err_handler("fork error: ");
+	else if (pid == 0)
+	{
+		close(p[0]);
+		dup2(p[1], 1);
+		close(p[1]);
+		execute_binary(curr);
+	}
+	else if (pid > 0)
+	{
+		close(p[1]);
+		dup2(p[0], 0);
+		close(p[0]);
+		wait(&pid);
+	}
+}
+
+static int	builtin(t_tokens *pnode)
+{
+	char	**full_cmd;
+
+	full_cmd = gather_cmds_tokens(pnode);
+	if (!ft_strcmp(full_cmd[0], "exit"))
+		return (1);
+	else if (!ft_strcmp(full_cmd[0], "echo"))
+		return (1);
+	else if (!ft_strcmp(full_cmd[0], "cd"))
+		return (1);
+	else if (!ft_strcmp(full_cmd[0], "env"))
+		return (1);
+	else if (!ft_strcmp(full_cmd[0], "setenv"))
+		return (1);
+	else if (!ft_strcmp(full_cmd[0], "unsetenv"))
+		return (1);
+	else if (!ft_strcmp(full_cmd[0], "type"))
+		return (1);
+	else
+		return(0);
+}
+
 static void	execute_pipeline(t_tokens **pseq)
 {
 	int		p[2];
-	pid_t		pid;
 	t_tokens	**curr;
 
 	curr = pseq;
@@ -40,26 +85,14 @@ static void	execute_pipeline(t_tokens **pseq)
 	{
 		if (pipe(p) < 0)
 			err_handler("pipe error: ");
-		pid = fork();
-		if (pid < 0)
-			err_handler("fork error: ");
-		else if (pid == 0)
-		{
-			close(p[0]);
-			dup2(p[1], 1);
-			close(p[1]);
-			execute(*curr);
-		}
-		else if (pid > 0)
-		{
-			close(p[1]);
-			dup2(p[0], 0);
-			close(p[0]);
-			wait(&pid);
-		}
+		if (builtin(*curr))
+			printf("BUILTIN DETECTED \n");
+		pipe_and_execute(p, *curr);
 		curr++;
 	}
-	execute(*curr);
+	if (builtin(*curr))
+		printf("BUILTIN DETECTED \n");
+	execute_binary(*curr);
 }
 
 void		execute_pseq(t_tokens **pseq)
@@ -72,7 +105,7 @@ void		execute_pseq(t_tokens **pseq)
 	if (pid < 0)
 		err_handler("fork error: ");
 	else if (pid == 0)
-			execute_pipeline(pseq);
+		execute_pipeline(pseq);
 	else if (pid > 0)
 		wait(&pid);
 }
