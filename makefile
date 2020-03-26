@@ -20,11 +20,12 @@ SRCS = sources/sh21.c sources/display.c sources/input_main.c \
 	   sources/tokens_main.c sources/util_env.c \
 	   sources/testing.c sources/tokens_split.c \
 	   sources/tokens_gather.c sources/execute_main.c \
-	   sources/redirect.c sources/util_pwd.c
+	   sources/redirect.c sources/util_pwd.c sources/cd.c \
+	   sources/setenv.c
 OBJS = sh21.o display.o input_main.o input_tools.o util_tab.o \
 	   tokens_list.o tokens_tools.o tokens_main.o testing.o \
 	   util_env.o tokens_split.o tokens_gather.o execute_main.o \
-	   redirect.o util_pwd.o
+	   redirect.o util_pwd.o cd.o setenv.o
 
 all: $(NAME)
 

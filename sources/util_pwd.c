@@ -23,7 +23,7 @@ void	update_s_pwd(t_pwd *pwd)
 		exit(EXIT_FAILURE);
 	pwd->current_wd = ft_strdup(tmp);
 }
-/*
+
 int		update_pwd(char ***env, char *var, char *value)
 {
 	char	**roam;
@@ -40,7 +40,7 @@ int		update_pwd(char ***env, char *var, char *value)
 	}
 	return (0);
 }
-*/
+
 int		init_pwd(t_pwd *pwd)
 {
 	char tmp[PATH_MAX + 1];

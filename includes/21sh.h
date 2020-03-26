@@ -119,6 +119,14 @@ void			add_char_to_token(t_tokens *tok, char c);
 char			*add_char_to_string(char *str, char c);
 
 /*
+**
+*/
+char		**set_env(char **cmd, char ***env);
+int		replace_env(char **cmd, char **env);
+int		env_match(char *to_find, char *curr_var);
+char		*set_var(char *to_set, char *name, char *value);
+
+/*
 ** tokens_split.c
 */
 t_tokens	**split_tokens(t_tokens *toks, int splitter);
@@ -168,5 +176,10 @@ void		free_pwd(t_pwd *pwd);
 ** execute.c
 */
 void		execute_pseq(t_tokens **pseq, t_pwd *pwd, char ***env);
+
+/*
+** execute.c
+*/
+void		cd(char **cmd, char ***env, t_pwd *pwd);
 
 #endif
