@@ -18,7 +18,7 @@ static int	err_handler(char *err_msg)
 	exit(EXIT_FAILURE);
 }
 
-static void	execute_binary(t_tokens *pnode)
+static void	execute_binary(t_tokens *pnode, char **env)
 {
 	char	**full_cmd;
 
@@ -29,7 +29,7 @@ static void	execute_binary(t_tokens *pnode)
 	exit(EXIT_FAILURE);
 }
 
-static void	pipe_and_execute(int p[2], t_tokens *curr)
+static void	pipe_and_execute(int p[2], t_tokens *curr, char **env)
 {
 	pid_t	pid;
 
@@ -41,7 +41,7 @@ static void	pipe_and_execute(int p[2], t_tokens *curr)
 		close(p[0]);
 		dup2(p[1], 1);
 		close(p[1]);
-		execute_binary(curr);
+		execute_binary(curr, env);
 	}
 	else if (pid > 0)
 	{
@@ -52,7 +52,7 @@ static void	pipe_and_execute(int p[2], t_tokens *curr)
 	}
 }
 
-static int	builtin(t_tokens *pnode)
+static int	builtin(t_tokens *pnode, char ***env)
 {
 	char	**full_cmd;
 
@@ -75,7 +75,7 @@ static int	builtin(t_tokens *pnode)
 		return(0);
 }
 
-static void	execute_pipeline(t_tokens **pseq)
+static void	execute_pipeline(t_tokens **pseq, char ***env)
 {
 	int		p[2];
 	t_tokens	**curr;
@@ -85,17 +85,17 @@ static void	execute_pipeline(t_tokens **pseq)
 	{
 		if (pipe(p) < 0)
 			err_handler("pipe error: ");
-		if (builtin(*curr))
+		if (builtin(*curr, env))
 			printf("BUILTIN DETECTED \n");
-		pipe_and_execute(p, *curr);
+		pipe_and_execute(p, *curr, *env);
 		curr++;
 	}
-	if (builtin(*curr))
+	if (builtin(*curr, env))
 		printf("BUILTIN DETECTED \n");
-	execute_binary(*curr);
+	execute_binary(*curr, *env);
 }
 
-void		execute_pseq(t_tokens **pseq)
+void		execute_pseq(t_tokens **pseq, t_pwd *pwd, char ***env)
 {
 	pid_t	pid;
 
@@ -105,7 +105,7 @@ void		execute_pseq(t_tokens **pseq)
 	if (pid < 0)
 		err_handler("fork error: ");
 	else if (pid == 0)
-		execute_pipeline(pseq);
+		execute_pipeline(pseq, env);
 	else if (pid > 0)
 		wait(&pid);
 }

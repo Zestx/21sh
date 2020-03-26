@@ -49,6 +49,12 @@ typedef struct	s_tokens
 
 }		t_tokens;
 
+typedef struct	s_pwd
+{
+	char	*current_wd;
+	char	*old_wd;
+}		t_pwd;
+
 /*
 ** display.c
 */
@@ -151,8 +157,16 @@ size_t		get_tab_size(char **tab);
 void		print_tab(char **tab);
 
 /*
+** util_tab.c
+*/
+void		update_s_pwd(t_pwd *pwd);
+int		update_pwd(char ***env, char *var, char *value);
+int		init_pwd(t_pwd *pwd);
+void		free_pwd(t_pwd *pwd);
+
+/*
 ** execute.c
 */
-void		execute_pseq(t_tokens **pseq);
+void		execute_pseq(t_tokens **pseq, t_pwd *pwd, char ***env);
 
 #endif
